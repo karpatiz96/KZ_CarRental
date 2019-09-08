@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using CarRental.Dal;
+using CarRental.Dal.Dtos;
+using CarRental.Dal.Entities;
+using CarRental.Dal.Logging;
+using CarRental.Dal.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using static CarRental.Dal.Entities.Reservation;
+
+namespace CarRental.Web.Pages.Reservations
+{
+    [Authorize]
+    public class CreateConfirmModel : PageModel
+    {
+
+        private readonly CarRentalDbContext _context;
+
+        private readonly UserManager<User> _userManager;
+
+        private readonly IReservationService _reservationService;
+
+        private readonly IVehicleModelService _vehicleModelService;
+
+        private readonly IAddressService _addressService;
+
+        private readonly ICarService _carService;
+
+        private readonly ILogger<CreateConfirmModel> _logger;
+
+        public CreateConfirmModel(CarRentalDbContext context, UserManager<User> userManager, IReservationService reservationService, IVehicleModelService vehicleModelService, IAddressService addressService, ICarService carService, ILogger<CreateConfirmModel> logger)
+        {
+            _context = context;
+            _userManager = userManager;
+            _reservationService = reservationService;
+            _vehicleModelService = vehicleModelService;
+            _addressService = addressService;
+            _carService = carService;
+            _logger = logger;
+        }
+
+        //[BindProperty]
+        public ReservationDto Reservation { get; set; }
+
+        [BindProperty]
+        public InputModel Input { get; private set; }
+
+        public class InputModel
+        {
+            public DateTime PickUpTime { get; set; }
+            public DateTime DropOffTime { get; set; }
+            public int AddressId { get; set; }
+            public int VehicleModelId { get; set; }
+        }
+
+        [BindProperty]
+        public int CarFound { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(int vehicleId, int addressId, DateTime pickUp, DateTime dropOff)
+        {
+            User user = await _userManager.GetUserAsync(HttpContext.User);
+            var vehicle = await _context.VehicleModels.Where(vm => vm.Id == vehicleId).FirstOrDefaultAsync();
+            var address = await _context.Addresses.Where(a => a.Id == addressId).FirstOrDefaultAsync();
+            int days = (dropOff.Date - pickUp.Date).Days;
+
+            if (user == null || vehicle == null || vehicle == null)
+            {
+                return NotFound();
+            }
+
+            ReservationDto reservation = new ReservationDto
+            {
+                User = user.UserName,
+                UserId = user.Id,
+                Address = address.ZipCode + " " + address.City + " " + address.StreetAddress,
+                AddressId = address.Id,
+                PickUpTime = pickUp,
+                DropOffTime = dropOff,
+                VehicleModelId = vehicle.Id,
+                VehicleType = vehicle.VehicleType,
+                Price = days * vehicle.PricePerDay
+            };
+
+            Input = new InputModel
+            {
+                AddressId = address.Id,
+                PickUpTime = pickUp,
+                DropOffTime = dropOff,
+                VehicleModelId = vehicle.Id,
+            };
+
+            Reservation = reservation;
+
+            var cars = await _carService.GetCars(reservation.PickUpTime, reservation.DropOffTime, reservation.VehicleModelId);
+
+            CarFound = cars.Count();
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int vehicleId, int addressId, DateTime pickUp, DateTime dropOff)
+        {
+            User user = await _userManager.GetUserAsync(HttpContext.User);
+            var vehicle = await _context.VehicleModels.Where(vm => vm.Id == vehicleId).Include(vm => vm.Reservations).FirstOrDefaultAsync();
+            var address = await _context.Addresses.Where(a => a.Id == addressId).FirstOrDefaultAsync();
+            int days = (dropOff.Date - pickUp.Date).Days;
+
+            if (user == null || vehicle == null || vehicle == null)
+            {
+                return NotFound();
+            }
+
+            if (days < 1)
+            {
+                return RedirectToPage("./List");
+            }
+
+            if (days > 100)
+            {
+                return RedirectToPage("./List");
+            }
+
+            if (pickUp.Date < DateTime.Now.Date.AddDays(1))
+            {
+                return RedirectToPage("./List");
+            }
+
+            var cars = await _carService.GetCars(pickUp, dropOff, vehicleId);
+
+            CarFound = cars.Count();
+
+            if(CarFound <= 0)
+            {
+                return RedirectToPage("./List");
+            }
+
+            ReservationDto reservationDto = new ReservationDto
+            {
+                User = user.UserName,
+                UserId = user.Id,
+                Address = address.ZipCode + " " + address.City + " " + address.StreetAddress,
+                AddressId = address.Id,
+                PickUpTime = pickUp,
+                DropOffTime = dropOff,
+                VehicleModelId = vehicle.Id,
+                VehicleType = vehicle.VehicleType,
+                Price = days * vehicle.PricePerDay
+            };
+
+            Reservation = reservationDto;
+
+            Reservation reservation = new Reservation()
+            {
+                UserId = Reservation.UserId,
+                AddressId = Reservation.AddressId,
+                VehicleModelId = Reservation.VehicleModelId,
+                PickUpTime = Reservation.PickUpTime,
+                DropOffTime = Reservation.DropOffTime,
+                Price = Reservation.Price,
+                State = ReservationStates.Undecieded
+            };
+
+            _logger.LogInformation(LoggingEvents.InsertItem, "Create Reservation");
+            await _reservationService.CreateReservation(reservation);
+
+            return RedirectToPage("./List");
+        }
+    }
+}

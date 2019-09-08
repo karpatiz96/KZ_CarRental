@@ -1,0 +1,24 @@
+﻿@model IEnumerable<CarRental.Dal.Dtos.VehicleDto>
+@inject PagesLocalizationService PagesLocalizer
+
+<div class="row">
+    @foreach (var (vehicle, i) in Model.Select((vehicle, i) => (vehicle: vehicle, i: i + 1)))
+    {
+    <div class="col-auto">
+        <div class="card" id="vehiclemodelcard">
+            <h5 class="card-header text-success">@vehicle.VehicleType</h5>
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <p class="card-text col-md-6"><b>@PagesLocalizer.GetLocalizedHtmlString("PRICE_PER_DAY")</b> @vehicle.PricePerDay Ft</p>
+                        <a class="col-md-6" asp-page="/VehicleModels/Details" asp-route-id="@vehicle.Id">
+                            <img class="card-img-top" src="~/images/@vehicle.VehicleUrl" title="@vehicle.VehicleType" alt="@vehicle.VehicleType">
+                        </a>
+                    </div>
+                    <a asp-page="/VehicleModels/Details" asp-route-id="@vehicle.Id" class="btn btn-outline-primary">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

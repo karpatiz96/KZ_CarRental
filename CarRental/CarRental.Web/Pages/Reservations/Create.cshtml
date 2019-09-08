@@ -1,0 +1,45 @@
+﻿@page
+@model CarRental.Web.Pages.Reservations.CreateModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h4>@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_RESERVATION")</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.VehicleModelId" class="control-label"></label>
+                <select asp-for="Input.VehicleModelId" class="form-control" asp-items="ViewBag.VehicleModelId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PickUpTime" class="control-label"></label>
+                <input asp-for="Input.PickUpTime" class="form-control" />
+                <span asp-validation-for="Input.PickUpTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.DropOffTime" class="control-label"></label>
+                <input asp-for="Input.DropOffTime" class="form-control" />
+                <span asp-validation-for="Input.DropOffTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.AddressId" class="control-label"></label>
+                <select asp-for="Input.AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success mr-3">@PagesLocalizer.GetLocalizedHtmlString("SEARCH_VEHICLES")</button>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("Administrators"))
+                    {
+                        <a class="ml-3 mt-1" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+                    }
+                    else
+                    {
+                        <a class="ml-3 mt-1" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+                    }
+                }
+            </div>
+        </form>
+    </div>
+</div>

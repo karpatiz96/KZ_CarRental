@@ -1,0 +1,136 @@
+﻿@page
+@model CarRental.Web.Pages.Reservations.ListModel
+@inject PagesLocalizationService PagesLocalizer
+
+<p>
+    <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
+</p>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>
+                <a asp-route-sortOrder="@Model.PickUpSort">
+                    @Html.DisplayNameFor(model => model.Reservation.Results[0].PickUpTime)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.DropOffSort">
+                    @Html.DisplayNameFor(model => model.Reservation.Results[0].DropOffTime)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.AddressSort">
+                    @Html.DisplayNameFor(model => model.Reservation.Results[0].Address)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Reservation.Results[0].Price)
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.VehicleModelSort">
+                    @Html.DisplayNameFor(model => model.Reservation.Results[0].VehicleType)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.StateSort">
+                    @Html.DisplayNameFor(model => model.Reservation.Results[0].State)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Reservation.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PickUpTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DropOffTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price) Ft
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleType)
+                </td>
+                <td>
+                    @if (item.State == Reservation.ReservationStates.Accepted)
+                    {
+                        @PagesLocalizer.GetLocalizedHtmlString("ACCEPTED")
+                    }
+                    else
+                    {
+                        @if (item.State == Reservation.ReservationStates.Cancled)
+                        {
+                            @PagesLocalizer.GetLocalizedHtmlString("CANCELED")
+                        }
+                        else
+                        {
+                            @PagesLocalizer.GetLocalizedHtmlString("UNDECIEDED")
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (@Model.Reservation.Total != null)
+{
+    <div class="card text-center border-0 color-bg-main">
+        <div class="card-body">
+            @if ((Model.Reservation.PageSize ?? 0) != 0)
+            {
+                var totalPages = (int)Math.Ceiling((double)Model.Reservation.Total.Value / (double)Model.Reservation.PageSize.Value);
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        @if (Model.Reservation.PageNumber != 0)
+                        {
+                            <li class="page-item">
+                                <a asp-route-pageNumber="@(Model.Reservation.PageNumber - 1)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <span>&laquo;</span>
+                                </a>
+                            </li>
+                        }
+                        @for (var pageNumber = Math.Max(0, Model.Reservation.PageNumber.Value - 2); pageNumber < Math.Min(totalPages, Model.Reservation.PageNumber.Value + 3); pageNumber++)
+                        {
+                            @if (Model.Reservation.PageNumber == pageNumber)
+                            {
+                                <li class="page-item active">
+                                    <a class="page-link">
+                                        @(pageNumber + 1)
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a asp-route-pageNumber="@(pageNumber)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                        @(pageNumber + 1)
+                                    </a>
+                                </li>
+                            }
+                        }
+                        @if (Model.Reservation.PageNumber < Math.Ceiling((decimal)(Model.Reservation.Total.Value / Model.Reservation.PageSize.Value)) - 1)
+                        {
+                            <li class="page-item">
+                                <a asp-route-pageNumber="@(Model.Reservation.PageNumber + 1)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

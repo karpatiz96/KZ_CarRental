@@ -1,0 +1,652 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="2FA" xml:space="preserve">
+    <value>Két faktorú hitelesítés</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_ADD_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Hitelesítő alkalmazás hozzáadása</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_ADD_SETUP_APP" xml:space="preserve">
+    <value>A hitelesítő alkalmazás beállítása</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_RESET_APP" xml:space="preserve">
+    <value>A hitelesítő alkalmazás visszaállítása</value>
+  </data>
+  <data name="2FA_AUTHENTICATION_TITLE" xml:space="preserve">
+    <value>Kétfaktoros hitelesítés (2FA)</value>
+  </data>
+  <data name="2FA_NO_CODES_LEFT" xml:space="preserve">
+    <value>Nincsenek helyreállítási kódok.</value>
+  </data>
+  <data name="2FA_NO_CODES_LEFT_TEXT" xml:space="preserve">
+    <value>Önnek</value>
+  </data>
+  <data name="2FA_NO_CODES_LEFT_TEXT_2" xml:space="preserve">
+    <value>a helyreállítási kóddal való bejelentkezés előtt.</value>
+  </data>
+  <data name="2FA_NO_CODES_LEFT_TEXT_GENERATE" xml:space="preserve">
+    <value>létre kell hozznia egy új helyreállítási kódot</value>
+  </data>
+  <data name="2FA_N_CODES_LEFT" xml:space="preserve">
+    <value>{0} helyreállítási kódja maradt.</value>
+  </data>
+  <data name="2FA_N_CODES_LEFT_TEXT" xml:space="preserve">
+    <value>Önnek</value>
+  </data>
+  <data name="2FA_ONE_CODES_LEFT" xml:space="preserve">
+    <value>1 helyreállítási kódja maradt.</value>
+  </data>
+  <data name="2FA_ONE_CODES_LEFT_TEXT" xml:space="preserve">
+    <value>Önnek</value>
+  </data>
+  <data name="2FA_STATUS_BROWSER_FORGET" xml:space="preserve">
+    <value>Az aktuális böngésző elfelejtett. Ha ismét bejelentkezik a böngészőből, a rendszer kéri a 2fa kódot.</value>
+  </data>
+  <data name="ACCESS_DENIED" xml:space="preserve">
+    <value>Hozzáférés megtagadva</value>
+  </data>
+  <data name="ACCESS_DENIED_TEXT" xml:space="preserve">
+    <value>Nincs hozzáférésed ehhez az erőforráshoz.</value>
+  </data>
+  <data name="ACCOUNT_LOGIN" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA" xml:space="preserve">
+    <value>Két faktorú hitelesítés</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_NO_AUTHENTICATOR_DEVICE" xml:space="preserve">
+    <value>Nincs hozzáférése a hitelesítő eszközhöz? Be tudsz jelentkezni a </value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_RECOVERY_CODE_TEXT" xml:space="preserve">
+    <value>helyreállítási kóddal</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_2FA_TEXT" xml:space="preserve">
+    <value>Az Ön bejelentkezését hitelesítő alkalmazás védi. Adja meg az alábbi hitelesítő kódot.</value>
+  </data>
+  <data name="ACCOUNT_LOGIN_AUTHENTICATOR_CODE" xml:space="preserve">
+    <value>Hitelesítő kód</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE" xml:space="preserve">
+    <value>Helyreállítási kód</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE_REQUIRED" xml:space="preserve">
+    <value>A helyreállítási kód szükséges</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE_VERIFICATION" xml:space="preserve">
+    <value>Helyreállítási kód ellenőrzése</value>
+  </data>
+  <data name="ACCOUNT_RECOVERY_CODE_VERIFICATION_TEXT" xml:space="preserve">
+    <value>You have requested to log in with a recovery code. This login will not be remembered until you provide an authenticator app code at log in or disable 2FA and log in again.</value>
+  </data>
+  <data name="ACTIVE" xml:space="preserve">
+    <value>Aktív</value>
+  </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Felvétel, és leadás címe</value>
+  </data>
+  <data name="AIR_CONDITIONED" xml:space="preserve">
+    <value>Légkondicionált</value>
+  </data>
+  <data name="AND" xml:space="preserve">
+    <value>és</value>
+  </data>
+  <data name="AUTHENTICATOR_APP" xml:space="preserve">
+    <value>Hitelesítő alkalmazás</value>
+  </data>
+  <data name="AUTOMATIC" xml:space="preserve">
+    <value>Váltó típusa</value>
+  </data>
+  <data name="CAR" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="CHANGE_PASSWORD" xml:space="preserve">
+    <value>Jelszó módosítása</value>
+  </data>
+  <data name="CHANGE_PASSWORD_STATUS" xml:space="preserve">
+    <value>A jelszavad módosítva lett.</value>
+  </data>
+  <data name="CITY" xml:space="preserve">
+    <value>Város</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP" xml:space="preserve">
+    <value>A hitelesítő alkalmazás konfigurálása</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_DOWNLOAD_TEXT" xml:space="preserve">
+    <value>Töltse le a kétfaktoros hitelesítő alkalmazást, mint a Microsoft Authenticator</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_GOOGLE_TEXT" xml:space="preserve">
+    <value>Google hitelesítő a következőhöz:</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN1" xml:space="preserve">
+    <value>Szkennelje be a QR-kódot, vagy írja be ezt a kulcsot</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN2" xml:space="preserve">
+    <value>a két tényező hitelesítő alkalmazásba. A tér és a burkolat nem számít.</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT" xml:space="preserve">
+    <value>A QR-kód generálásának engedélyezéséhez kérjük, olvassa el a</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT_DETAILS" xml:space="preserve">
+    <value>A QR-kód beolvasása vagy a fenti kulcs beírása után a két faktorú hitelesítési alkalmazás egyedi kódot nyújt Önnek. Írja be a kódot az alábbi megerősítő mezőbe.</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_SCAN_ALERT_LINK" xml:space="preserve">
+    <value>dokumentációt</value>
+  </data>
+  <data name="CONFIGURE_AUTHENTICATOR_APP_STEPS" xml:space="preserve">
+    <value>A hitelesítő alkalmazás használatához kövesse az alábbi lépéseket:</value>
+  </data>
+  <data name="CONFIRM_EMAIL" xml:space="preserve">
+    <value>Email megerősítése</value>
+  </data>
+  <data name="CONFIRM_EMAIL_TEXT" xml:space="preserve">
+    <value>Köszönjük email címed megerősítését.</value>
+  </data>
+  <data name="CONFIRM_PASSWORD" xml:space="preserve">
+    <value>Jelszó megerősítés</value>
+  </data>
+  <data name="CONFIRM_PASSWORD_NOT_MATCHING" xml:space="preserve">
+    <value>A jelszavak nem egyeznek meg.</value>
+  </data>
+  <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
+    <value>Új fiók létrehozása.</value>
+  </data>
+  <data name="CURRENT_PASSWORD" xml:space="preserve">
+    <value>Jelenlegi jelszó</value>
+  </data>
+  <data name="CURRENT_PASSWORD_REQUIRED" xml:space="preserve">
+    <value>Jelenlegi jelszó megadása kötelező</value>
+  </data>
+  <data name="DELETE" xml:space="preserve">
+    <value>Töröl</value>
+  </data>
+  <data name="DELETE_PERSONAL_DATA" xml:space="preserve">
+    <value>Személyes adatok törlése</value>
+  </data>
+  <data name="DELETE_PERSONAL_DATA_AND_CLOSE" xml:space="preserve">
+    <value>Adatok törlése és fiókom bezárása</value>
+  </data>
+  <data name="DELETE_PERSONAL_DATA_TEXT" xml:space="preserve">
+    <value>Ezen adatok törlése véglegesen eltávolítja a fiókját, és ezt nem lehet visszaállítani.</value>
+  </data>
+  <data name="DISABLE_2FA" xml:space="preserve">
+    <value>2FA letiltása</value>
+  </data>
+  <data name="DISABLE_2FA_STATUS" xml:space="preserve">
+    <value>A 2fa le van tiltva. A hitelesítőalkalmazás beállításakor újra engedélyezhető a 2fa</value>
+  </data>
+  <data name="DISABLE_2FA_TEXT" xml:space="preserve">
+    <value>A 2FA letiltása nem változtatja meg a hitelesítő alkalmazásokban használt kulcsokat. Ha meg szeretné változtatni a hitelesítő alkalmazásban használt kulcsot </value>
+  </data>
+  <data name="DISABLE_2FA_TEXT_HEADER" xml:space="preserve">
+    <value>Ez a művelet csak letiltja a 2FA-t.</value>
+  </data>
+  <data name="DISABLE_2FA_TEXT_LINK" xml:space="preserve">
+    <value>állítsa vissza a hitelesítési kulcsokat.</value>
+  </data>
+  <data name="DISABLE_2FA_TITLE" xml:space="preserve">
+    <value>Kétfaktoros hitelesítés letiltása (2FA)</value>
+  </data>
+  <data name="DOWNLOAD" xml:space="preserve">
+    <value>Letöltés</value>
+  </data>
+  <data name="DOWNLOAD_YOUR_DATA" xml:space="preserve">
+    <value>Töltse le az adatait</value>
+  </data>
+  <data name="DROP_OFF_TIME" xml:space="preserve">
+    <value>Leadási idő</value>
+  </data>
+  <data name="DROP_OFF_TIME_REQUIRED" xml:space="preserve">
+    <value>Leadási idő megadása kötelező</value>
+  </data>
+  <data name="EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EMAIL_INVALID" xml:space="preserve">
+    <value>érvénytelen email</value>
+  </data>
+  <data name="EMAIL_REQUIRED" xml:space="preserve">
+    <value>e-mail megadása kötelező</value>
+  </data>
+  <data name="ENABLE_AUTHENTICATOR_STATUS" xml:space="preserve">
+    <value>A hitelesítő alkalmazás ellenőrzése megtörtént.</value>
+  </data>
+  <data name="EXTERNAL_LOGINS" xml:space="preserve">
+    <value>Külső Bejelentkezések</value>
+  </data>
+  <data name="EXTERNAL_LOGINS_ANOTHER_LOGIN" xml:space="preserve">
+    <value>Egy másik szolgáltatás hozzáadása a bejelentkezésekhez.</value>
+  </data>
+  <data name="EXTERNAL_LOGINS_REGISTERED_LOGIN" xml:space="preserve">
+    <value>Regisztrált bejelentkezések</value>
+  </data>
+  <data name="EXTERNAL_LOGINS_TITLE" xml:space="preserve">
+    <value>Kezelje külső bejelentkezését</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_ASSOCIATE_ACCOUNT" xml:space="preserve">
+    <value>Associate your {0} account.</value>
+  </data>
+  <data name="EXTERNAL_LOGIN_TEXT" xml:space="preserve">
+    <value>You've successfully authenticated with {0}. Please enter an email address for this site below and click the Register button to finish logging in.</value>
+  </data>
+  <data name="EXTERNAL_PROVIDER_ERROR" xml:space="preserve">
+    <value>Hiba a külső szolgáltatótól: {0}</value>
+  </data>
+  <data name="EXTERNAL_PROVIDER_ERROR_CONFIRMATION" xml:space="preserve">
+    <value>Hiba történt a külső bejelentkezési adatok betöltésekor a megerősítés során.</value>
+  </data>
+  <data name="EXTERNAL_PROVIDER_ERROR_INFO" xml:space="preserve">
+    <value>Hiba történt a külső bejelentkezési adatok betöltésekor.</value>
+  </data>
+  <data name="FORGET_THIS_BROWSER" xml:space="preserve">
+    <value>Felejtse el ezt a böngészőt</value>
+  </data>
+  <data name="FORGOT_PASSWORD_CONFIRMATION" xml:space="preserve">
+    <value>Elfelejtett jelszó megerősítése</value>
+  </data>
+  <data name="FORGOT_PASSWORD_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>kérjük ellenőrizze az email cimét. hogy a jelszavát újra állítítsa.</value>
+  </data>
+  <data name="FORGOT_YOUR_PASSWORD" xml:space="preserve">
+    <value>Elfelejtetted a jelszavadat?</value>
+  </data>
+  <data name="FORGOT_YOUR_PASSWORD_ENTER_EMAIL" xml:space="preserve">
+    <value>Kérjük adja meg a regisztrált email címét.</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES" xml:space="preserve">
+    <value>Kétfaktoros hitelesítési (2FA) helyreállítási kódok létrehozása</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_INFO_LOSE" xml:space="preserve">
+    <value>Ha elveszíti a készüléket, és nem rendelkezik a helyreállítási kódokkal, elveszíti hozzáférését fiókjához.</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_SAFE_PLACE" xml:space="preserve">
+    <value>Tegye ezeket a kódokat biztonságos helyre.</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_TEXT" xml:space="preserve">
+    <value>Az új helyreállítási kódok létrehozása nem változtatja meg a hitelesítő alkalmazásokban használt kulcsokat. Ha meg szeretné változtatni a hitelesítő alkalmazásban használt kulcsot</value>
+  </data>
+  <data name="GENERATE_2FA_RECOVERY_CODES_TEXT_LINK" xml:space="preserve">
+    <value>állítsa vissza a hitelesítési kulcsokat.</value>
+  </data>
+  <data name="GENERATE_RECOVERY_CODES" xml:space="preserve">
+    <value>Helyreállítási kódok generálása</value>
+  </data>
+  <data name="INCORRECT_PASSWORD" xml:space="preserve">
+    <value>A jelszó nem helyes.</value>
+  </data>
+  <data name="INVALID_AUTHENTICATOR_CODE" xml:space="preserve">
+    <value>Érvénytelen hitelesítő kód.</value>
+  </data>
+  <data name="INVALID_LOGIN_ATTEMPT" xml:space="preserve">
+    <value>Hibás bejelentkezési kisérlet.</value>
+  </data>
+  <data name="INVALID_RECOVERY_CODE" xml:space="preserve">
+    <value>Érvénytelen helyreállítási kód bevitele.</value>
+  </data>
+  <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
+    <value>A Igazoló kód érvénytelen.</value>
+  </data>
+  <data name="LOCKED_OUT" xml:space="preserve">
+    <value>Kizárás</value>
+  </data>
+  <data name="LOCKED_OUT_TEXT" xml:space="preserve">
+    <value>Ezt a fiókot kizártuk kérjük próbálkozzon később.</value>
+  </data>
+  <data name="LOGOUT" xml:space="preserve">
+    <value>Kijelentkezés</value>
+  </data>
+  <data name="LOGOUT_TEXT" xml:space="preserve">
+    <value>Sikeresen kijelentkezett az alkalmazásból.</value>
+  </data>
+  <data name="MANAGE_CAHNGE_ACCOUNT_SETTINGS" xml:space="preserve">
+    <value>Váltóztassa meg a fiókja beállításait</value>
+  </data>
+  <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
+    <value>Kezelje a fiókját</value>
+  </data>
+  <data name="NEW_PASSWORD" xml:space="preserve">
+    <value>Új Jelszó</value>
+  </data>
+  <data name="NEW_PASSWORD_REQUIRED" xml:space="preserve">
+    <value>Új jelszó megadása kötelező</value>
+  </data>
+  <data name="NO_EXTERNAL_LOGINS" xml:space="preserve">
+    <value>Nincsenek külső hitelesítési szolgáltatások konfigurálva. Tekintse meg ezt a cikket a https://go.microsoft.com/fwlink/?LinkID=532715&amp;hl=hu az ASP.NET alkalmazás beállításáról a külső szolgáltatásokkal történő bejelentkezés támogatása érdekében.</value>
+  </data>
+  <data name="NUMBER_OF_DOORS" xml:space="preserve">
+    <value>Ajtók száma</value>
+  </data>
+  <data name="NUMBER_OF_DOORS_REQUIRED" xml:space="preserve">
+    <value>Ajtók számának megadása kötelező</value>
+  </data>
+  <data name="NUMBER_OF_DOORS_VALUE" xml:space="preserve">
+    <value>Az ajtók száma nem lehet negatív érték</value>
+  </data>
+  <data name="NUMBER_OF_SEATS" xml:space="preserve">
+    <value>Ülések száma</value>
+  </data>
+  <data name="NUMBER_OF_SEATS_REQUIRED" xml:space="preserve">
+    <value>Ülések számának megadása kötelező</value>
+  </data>
+  <data name="NUMBER_OF_SEATS_VALUE" xml:space="preserve">
+    <value>Az ülések száma nem lehet negatív érték</value>
+  </data>
+  <data name="OR" xml:space="preserve">
+    <value>vagy</value>
+  </data>
+  <data name="PASSWORD" xml:space="preserve">
+    <value>Jelszó</value>
+  </data>
+  <data name="PASSWORD_REQUIRED" xml:space="preserve">
+    <value>jelszó megadása kötelező</value>
+  </data>
+  <data name="PERSONAL_DATA" xml:space="preserve">
+    <value>Személyes adatok</value>
+  </data>
+  <data name="PERSONAL_DATA_DELETEINFO" xml:space="preserve">
+    <value>Ezen adatok törlése véglegesen eltávolítja a fiókját, és ezt nem lehet visszaállítani.</value>
+  </data>
+  <data name="PERSONAL_DATA_INFO" xml:space="preserve">
+    <value>Fiókod tartalmaz olyan személyes adatokat, amelyeket nekünk adott. Ez az oldal lehetővé teszi az adatok letöltését vagy törlését.</value>
+  </data>
+  <data name="PHONE_NUMBER" xml:space="preserve">
+    <value>Telefonszám</value>
+  </data>
+  <data name="PICK_UP_TIME" xml:space="preserve">
+    <value>Felvételi idő</value>
+  </data>
+  <data name="PICK_UP_TIME_REQUIRED" xml:space="preserve">
+    <value>Felvételi idő megadása kötelező</value>
+  </data>
+  <data name="PICTURE" xml:space="preserve">
+    <value>Kép</value>
+  </data>
+  <data name="PICTURE_REQUIRED" xml:space="preserve">
+    <value>Kép megadása kötelező</value>
+  </data>
+  <data name="PLATE_NUMBER" xml:space="preserve">
+    <value>Rendszám</value>
+  </data>
+  <data name="PLATE_NUMBER_LENGTH" xml:space="preserve">
+    <value>A Rendszám 7 karakter hosszu kell, hogy legyen.</value>
+  </data>
+  <data name="PLATE_NUMBER_LOOK" xml:space="preserve">
+    <value>A Rendszám mezőnek meg kell egyeznie a mintázattal.</value>
+  </data>
+  <data name="PLATE_NUMBER_REQUIRED" xml:space="preserve">
+    <value>Rendszám megadása kötelező</value>
+  </data>
+  <data name="PRICE" xml:space="preserve">
+    <value>Ár</value>
+  </data>
+  <data name="PRICE_PER_DAY" xml:space="preserve">
+    <value>Napi ár</value>
+  </data>
+  <data name="PRICE_PER_DAY_REQUIRED" xml:space="preserve">
+    <value>Napi ár megadása kötelező</value>
+  </data>
+  <data name="PRICE_PER_DAY_VALUE" xml:space="preserve">
+    <value>A napi ár nem lehet negatív érték</value>
+  </data>
+  <data name="PROFILE" xml:space="preserve">
+    <value>Profil</value>
+  </data>
+  <data name="REGISTER" xml:space="preserve">
+    <value>Regisztráció</value>
+  </data>
+  <data name="REGISTER_AS_NEW_USER" xml:space="preserve">
+    <value>Regisztrálja mint új felhasználó</value>
+  </data>
+  <data name="REMEMBER_MACHINE" xml:space="preserve">
+    <value>Remember this machine</value>
+  </data>
+  <data name="REMEMBER_ME" xml:space="preserve">
+    <value>Maradjak bejelentkezve?</value>
+  </data>
+  <data name="REMOVE" xml:space="preserve">
+    <value>Eltávolít</value>
+  </data>
+  <data name="RESERVE_MAX" xml:space="preserve">
+    <value>Több mint 100 napra nem foglalhat.</value>
+  </data>
+  <data name="RESERVE_MIN" xml:space="preserve">
+    <value>Minimum egy napot kell foglalnia!</value>
+  </data>
+  <data name="RESERVE_TIME_PLACE" xml:space="preserve">
+    <value>Kérjük, válasszon ki egy auto modelt és egy felvételi - leadási helyet!</value>
+  </data>
+  <data name="RESERVE_TODAY" xml:space="preserve">
+    <value>Nem lehet még ma lefoglalni!</value>
+  </data>
+  <data name="RESET" xml:space="preserve">
+    <value>Megadás</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_INFO" xml:space="preserve">
+    <value>Ha visszaállítja a hitelesítő kulcsát, a hitelesítő alkalmazás nem fog működik addig, amíg újra nem konfigurálja azt.</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_KEY" xml:space="preserve">
+    <value>A hitelesítési kulcs visszaállítása</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_STATUS" xml:space="preserve">
+    <value>A hitelesítő alkalmazás kulcsát visszaállították, az új kulcs használatával konfigurálni kell a hitelesítő alkalmazást.</value>
+  </data>
+  <data name="RESET_AUTHENTICATOR_TEXT" xml:space="preserve">
+    <value>Ez a folyamat letiltja a 2FA-t, amíg nem hitelesíti a hitelesítő alkalmazást.
+Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti hozzáférését fiókjához.</value>
+  </data>
+  <data name="RESET_PASSWORD" xml:space="preserve">
+    <value>Jelszó megadás</value>
+  </data>
+  <data name="RESET_PASSWORD_CONFIRMATION" xml:space="preserve">
+    <value>Megváltoztatott jelszó megerősítése</value>
+  </data>
+  <data name="RESET_PASSWORD_CONFIRMATION_CLICK_HERE" xml:space="preserve">
+    <value>kattintson ide, hogy bejelentkezzen</value>
+  </data>
+  <data name="RESET_PASSWORD_CONFIRMATION_TEXT" xml:space="preserve">
+    <value>A jelszava megváltozott. Kérjük </value>
+  </data>
+  <data name="RESET_RECOVERY_CODES" xml:space="preserve">
+    <value>Állítsa vissza a helyreállítási kódokat</value>
+  </data>
+  <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
+    <value>Adja meg az új jelszavát.</value>
+  </data>
+  <data name="SAVE" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="SEND_VERIFICATION_EMAIL" xml:space="preserve">
+    <value>Küldj megerősítő e-mailt</value>
+  </data>
+  <data name="SET_PASSWORD" xml:space="preserve">
+    <value>Állítsd be a jelszót</value>
+  </data>
+  <data name="SET_PASSWORD_STATUS" xml:space="preserve">
+    <value>A jelszó meg lett adva.</value>
+  </data>
+  <data name="SET_PASSWORD_TEXT" xml:space="preserve">
+    <value>Nincs helyi felhasználónév / jelszó megadva ehhez az oldalhoz. Adjon hozzá egy helyi fiókot, így külső bejelentkezés nélkül is bejelentkezhet.</value>
+  </data>
+  <data name="SET_YOUR_PASSWORD" xml:space="preserve">
+    <value>Állítsd be a jelszavad</value>
+  </data>
+  <data name="STATE" xml:space="preserve">
+    <value>Állapot</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_ADDED" xml:space="preserve">
+    <value>A külső bejelentkezés hozzá lett adva.</value>
+  </data>
+  <data name="STATUS_EXTERNAL_LOGIN_REMOVED" xml:space="preserve">
+    <value>A külső bejelentkezés eltávolításra került.</value>
+  </data>
+  <data name="STATUS_GENERATE_CODES" xml:space="preserve">
+    <value>Új helyreállítási kódot hozott létre.</value>
+  </data>
+  <data name="STATUS_PROFILE_UPDATED" xml:space="preserve">
+    <value>Az Ön profilja frissült</value>
+  </data>
+  <data name="STATUS_UPDATE_PROFILE_EMAIL_SEND" xml:space="preserve">
+    <value>Ellenőrző e-mail elküldve. Kérem nézze meg email-jeit.</value>
+  </data>
+  <data name="STREET_ADDRESS" xml:space="preserve">
+    <value>Utca</value>
+  </data>
+  <data name="SUBMIT" xml:space="preserve">
+    <value>Küldés</value>
+  </data>
+  <data name="The {0} must be at least {2} and at max {1} characters long." xml:space="preserve">
+    <value>A {0} legalább {2} és maximum {1} karakter hosszu lehet.</value>
+  </data>
+  <data name="UPDATE_PASSWORD" xml:space="preserve">
+    <value>Jelszó frissítése</value>
+  </data>
+  <data name="USER" xml:space="preserve">
+    <value>Felhasználó</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>Felhasználó név</value>
+  </data>
+  <data name="USER_NOTFOUND" xml:space="preserve">
+    <value>A '{0}' azonosítóval rendelkező felhasználó nem tölthető be.</value>
+  </data>
+  <data name="USE_ANOTHER_SERVICE_TO_LOG_IN" xml:space="preserve">
+    <value>Használj egy másik szolgáltatás bejelentkezéshez.</value>
+  </data>
+  <data name="USE_LOCAL_ACCOUNT_TO_LOG_IN" xml:space="preserve">
+    <value>Használj egy helyi fiókot bejelentkezéshez.</value>
+  </data>
+  <data name="VEHICLE_MODEL" xml:space="preserve">
+    <value>Auto Model</value>
+  </data>
+  <data name="VEHICLE_MODEL_REQUIRED" xml:space="preserve">
+    <value>Auto Model megadása kötelező</value>
+  </data>
+  <data name="VERIFICATION_CODE" xml:space="preserve">
+    <value>Igazoló kód</value>
+  </data>
+  <data name="VERIFICATION_CODE_REQUIRED" xml:space="preserve">
+    <value>Igazoló kód szükséges</value>
+  </data>
+  <data name="VERIFY" xml:space="preserve">
+    <value>Igazoló</value>
+  </data>
+  <data name="ZIP_CODE" xml:space="preserve">
+    <value>Irányítószám</value>
+  </data>
+</root>

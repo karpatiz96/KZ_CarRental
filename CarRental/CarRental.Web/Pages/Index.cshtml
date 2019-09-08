@@ -1,0 +1,27 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = SharedLocalizer.GetLocalizedHtmlString("HOME_PAGE");
+}
+
+@inject SharedLocalizationService SharedLocalizer
+
+<div class="text-center text-primary">
+    <h4 class="display-4">@SharedLocalizer.GetLocalizedHtmlString("WELCOME")</h4>
+</div>
+
+<div class="row mt-4">
+    <h4>@SharedLocalizer.GetLocalizedHtmlString("BEST_OFFERS")</h4>
+</div>
+
+<div class="row mt-4">
+    <vc:vehicle-list vehicles="@Model.Vehicles"></vc:vehicle-list>
+</div>
+
+<div class="row mt-4">
+    <h4>@SharedLocalizer.GetLocalizedHtmlString("ADDRESS_TITLE"): </h4>
+</div>
+
+<div class="row mt-4">
+    <vc:address-dto address="@Model.Addresses"></vc:address-dto>
+</div>

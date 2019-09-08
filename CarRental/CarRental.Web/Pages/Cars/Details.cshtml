@@ -1,0 +1,55 @@
+﻿@page
+@model CarRental.Web.Pages.Cars.DetailsModel
+@inject PagesLocalizationService PagesLocalizer
+
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("CAR")</h4>
+    <hr />
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Car.PlateNumber)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Car.PlateNumber)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+        <b>
+            @Html.DisplayNameFor(model => model.Car.VehicleType)
+        </b>
+        </label>
+        <div class="col-md-10">
+            <a asp-page="/VehicleModels/Details" asp-route-id="@Model.Car.VehicleModelId">
+                @Html.DisplayFor(model => model.Car.VehicleType)
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+        <b>
+            @Html.DisplayNameFor(model => model.Car.Active)
+        </b>
+        </label>
+        <div class="col-md-10">
+            @if (Model.Car.Active)
+            {
+                <p>@PagesLocalizer.GetLocalizedHtmlString("ACTIVE")</p>
+            }
+            else
+            {
+                <p>@PagesLocalizer.GetLocalizedHtmlString("OUT_OF_ORDER")</p>
+            }
+        </div>
+    </div>
+    <div class="row mt-4">
+        <a class="btn btn-primary mr-3" asp-page="./Edit" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
+        @if (!Model.HasReservation)
+        {
+        <a class="btn btn-danger mr-3" asp-page="./Delete" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
+        }
+        <a class="mt-1" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+    </div>
+</div>

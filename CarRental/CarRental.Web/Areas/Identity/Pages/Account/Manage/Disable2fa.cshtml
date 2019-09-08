@@ -1,0 +1,27 @@
+﻿@page
+@model Disable2faModel
+@{
+    ViewData["Title"] = IdentityLocalizer.GetLocalizedHtmlString("DISABLE_2FA_TITLE");
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+@inject IdentityLocalizationService IdentityLocalizer
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h1>@ViewData["Title"]</h1>
+
+<div class="alert alert-warning" role="alert">
+    <p>
+        <span class="glyphicon glyphicon-warning-sign"></span>
+        <strong>@IdentityLocalizer.GetLocalizedHtmlString("DISABLE_2FA_TEXT_HEADER")</strong>
+    </p>
+    <p>
+        @IdentityLocalizer.GetLocalizedHtmlString("DISABLE_2FA_TEXT")<a asp-page="./ResetAuthenticator">@IdentityLocalizer.GetLocalizedHtmlString("DISABLE_2FA_TEXT_LINK")</a>
+    </p>
+</div>
+
+<div>
+    <form method="post" class="form-group">
+        <button class="btn btn-danger" type="submit">@IdentityLocalizer.GetLocalizedHtmlString("DISABLE_2FA")</button>
+    </form>
+</div>

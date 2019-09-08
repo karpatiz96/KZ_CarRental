@@ -1,0 +1,130 @@
+﻿@page
+@model CarRental.Web.Pages.Cars.IndexModel
+@inject PagesLocalizationService PagesLocalizer
+
+<p>
+    <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
+</p>
+
+<div class="row">
+    <form class="form-inline" asp-page="./Index" method="get" asp-antiforgery="true">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-4">
+            <label for="VehicleType">@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_TYPE")</label>
+            <input name="VehicleType" value="@Model.VehicleType" class="form-control" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="PlateNumber">@PagesLocalizer.GetLocalizedHtmlString("PLATE_NUMBER")</label>
+            <input name="PlateNumber" value="@Model.PlateNumber" class="form-control" />
+        </div>
+        <div class="form-group col-md-2 mt-4">
+            <button type="submit" class="btn btn-outline-primary">@PagesLocalizer.GetLocalizedHtmlString("FILTER")</button>
+        </div>
+    </form>
+</div>
+
+<div class="row mt-3">
+    <h5>@PagesLocalizer.GetLocalizedHtmlString("CAR_FOUND") @Model.Cars.Total</h5>
+</div>
+
+<div class="row">
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>
+                <a asp-route-sortOrder="@Model.PlateSort" asp-route-currentVehicleType="@Model.VehicleType" asp-route-currentPlateNumber="@Model.PlateNumber">
+                    @Html.DisplayNameFor(model => model.Cars.Results[0].PlateNumber)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.ActiveSort" asp-route-currentVehicleType="@Model.VehicleType" asp-route-currentPlateNumber="@Model.PlateNumber">
+                    @Html.DisplayNameFor(model => model.Cars.Results[0].Active)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.TypeSort" asp-route-currentVehicleType="@Model.VehicleType" asp-route-currentPlateNumber="@Model.PlateNumber">
+                    @Html.DisplayNameFor(model => model.Cars.Results[0].VehicleType)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cars.Results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlateNumber)
+                </td>
+                <td>
+                    @if (item.Active)
+                    {
+                        <p>@PagesLocalizer.GetLocalizedHtmlString("ACTIVE")</p>
+                    }
+                    else
+                    {
+                        <p>@PagesLocalizer.GetLocalizedHtmlString("OUT_OF_ORDER")</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleType)
+                </td>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+
+@if (@Model.Cars.Total != null)
+{
+    <div class="card text-center border-0 color-bg-main">
+        <div class="card-body">
+            @if ((Model.Cars.PageSize ?? 0) != 0)
+            {
+                var totalPages = (int)Math.Ceiling((double)Model.Cars.Total.Value / (double)Model.Cars.PageSize.Value);
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        @if (Model.Cars.PageNumber != 0)
+                        {
+                            <li class="page-item">
+                                <a asp-route-pageNumber="@(Model.Cars.PageNumber - 1)" asp-route-currentVehicleType="@Model.VehicleType" asp-route-currentPlateNumber="@Model.PlateNumber" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <span>&laquo;</span>
+                                </a>
+                            </li>
+                        }
+                        @for (var pageNumber = Math.Max(0, Model.Cars.PageNumber.Value - 2); pageNumber < Math.Min(totalPages, Model.Cars.PageNumber.Value + 3); pageNumber++)
+                        {
+                            @if (Model.Cars.PageNumber == pageNumber)
+                            {
+                                <li class="page-item active">
+                                    <a class="page-link">
+                                        @(pageNumber + 1)
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a asp-route-pageNumber="@(pageNumber)" asp-route-currentVehicleType="@Model.VehicleType" asp-route-currentPlateNumber="@Model.PlateNumber" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                        @(pageNumber + 1)
+                                    </a>
+                                </li>
+                            }
+                        }
+                        @if (Model.Cars.PageNumber < Math.Ceiling((decimal)(Model.Cars.Total.Value / Model.Cars.PageSize.Value)) - 1)
+                        {
+                            <li class="page-item">
+                                <a asp-route-pageNumber="@(Model.Cars.PageNumber + 1)" asp-route-currentVehicleType="@Model.VehicleType" asp-route-currentPlateNumber="@Model.PlateNumber" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

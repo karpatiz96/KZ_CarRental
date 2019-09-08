@@ -1,0 +1,125 @@
+﻿@page
+@model CarRental.Web.Pages.VehicleModels.DetailsModel
+@inject PagesLocalizationService PagesLocalizer
+
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_MODEL")</h4>
+    <hr />
+    <div class="media">
+        <img class="mr-3 col-md-4" src="~/images/@Model.VehicleModel.VehicleUrl">
+        <div class="media-body">
+            <div class="container">
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.VehicleType)</b></label>
+                    <div class="col-md-8">
+                        <p>@Html.DisplayFor(model => model.VehicleModel.VehicleType)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.PricePerDay)</b></label>
+                    <div class="col-md-8">
+                        <p>@Model.VehicleModel.PricePerDay Ft</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.NumberOfDoors)</b></label>
+                    <div class="col-md-8">
+                        <p>@Html.DisplayFor(model => model.VehicleModel.NumberOfDoors)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.NumberOfSeats)</b></label>
+                    <div class="col-md-8">
+                        <p>@Html.DisplayFor(model => model.VehicleModel.NumberOfSeats)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.AirConditioning)</b></label>
+                    <div class="col-md-8">
+                        @if (Model.VehicleModel.AirConditioning)
+                        {
+                            <p>@PagesLocalizer.GetLocalizedHtmlString("AIR_CON")</p>
+                        }
+                        else
+                        {
+                            <p>@PagesLocalizer.GetLocalizedHtmlString("NOT_AIR_CON")</p>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.Automatic)</b></label>
+                    <div class="col-md-8">
+                        @if (Model.VehicleModel.Automatic)
+                        {
+                            <p>@PagesLocalizer.GetLocalizedHtmlString("AUTOMATIC")</p>
+                        }
+                        else
+                        {
+                            <p>@PagesLocalizer.GetLocalizedHtmlString("MANUAL")</p>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.Active)</b></label>
+                    <div class="col-md-8">
+                        @if (Model.VehicleModel.Active)
+                        {
+                            <p>@PagesLocalizer.GetLocalizedHtmlString("AVAILABLE")</p>
+                        }
+                        else
+                        {
+                            <p>@PagesLocalizer.GetLocalizedHtmlString("NOT_AVAILABLE")</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Administrators"))
+        {
+            <div class="ml-3">
+                <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
+            </div>
+            if (Model.CarFound == 0)
+            {
+            <div class="ml-3">
+                <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
+            </div>
+            }
+        }
+    }
+    <div class="ml-3">
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Administrators"))
+            {
+            }
+            else
+            {
+                <a class="btn btn-success" asp-page="/Reservations/Create" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</a>
+            }
+        }
+        else
+        {
+            <a class="btn btn-success" asp-page="/Reservations/Create" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</a>
+        }
+    </div>
+    <div class="ml-3 mt-1">
+        <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Administrators"))
+    {
+        <div class="row mt-4">
+            <vc:car-dto cars="@Model.Cars"></vc:car-dto>
+        </div>
+    }
+}

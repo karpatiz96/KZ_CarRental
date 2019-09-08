@@ -1,0 +1,11 @@
+﻿@model CarRental.Dal.Dtos.PagedResult<CarRental.Dal.Dtos.VehicleDto>
+
+
+<div class="row">
+    @foreach (var (vehicle, i) in Model.Results.Select((vehicle, i) => (vehicle: vehicle, i: i + 1)))
+    {
+        <div class="col-auto mt-5">
+            <vc:vehicle-dto vehicle="vehicle"></vc:vehicle-dto>
+        </div>
+    }
+</div>

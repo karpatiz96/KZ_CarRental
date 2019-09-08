@@ -1,0 +1,150 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using CarRental.Dal.SeedInterfaces;
+using CarRental.Dal.SeedServices;
+using CarRental.Dal.Entities;
+using CarRental.Dal.EntityConfigurations;
+using CarRental.Dal;
+using CarRental.Dal.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using CarRental.Web.Resources;
+using System.Reflection;
+using Microsoft.Extensions.Options;
+
+namespace CarRental.Web
+{
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            services.ConfigureApplicationCookie(options => 
+            {
+                options.Cookie.HttpOnly = true;
+            });
+
+            services.AddTransient<IVehicleModelService, VehicleModelService>();
+            services.AddTransient<ICarService, CarService>();
+            services.AddTransient<IAddressService, AddressService>();
+            services.AddTransient<IReservationService, ReservationService>();
+
+            services.AddIdentity<User, IdentityRole<int>>()
+                .AddDefaultUI(UIFramework.Bootstrap4)
+                .AddEntityFrameworkStores<CarRentalDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddDbContext<CarRentalDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString(nameof(CarRentalDbContext))));
+
+            services.AddScoped<IEntityTypeConfiguration<Address>, AddressEntityConfiguration>()
+                .AddScoped(provider => new Lazy<IEntityTypeConfiguration<Address>>(() => provider.GetService<IEntityTypeConfiguration<Address>>()))
+                .AddScoped<IEntityTypeConfiguration<Car>, CarEntityConfiguration>()
+                .AddScoped(provider => new Lazy<IEntityTypeConfiguration<Car>>(() => provider.GetService<IEntityTypeConfiguration<Car>>()))
+                .AddScoped<IEntityTypeConfiguration<VehicleModel>, VehicleModelEntityConfiguration>()
+                .AddScoped(provider => new Lazy<IEntityTypeConfiguration<VehicleModel>>(() => provider.GetService<IEntityTypeConfiguration<VehicleModel>>()));
+
+            services.AddScoped<ISeedService, SeedService>()
+                .AddScoped(provider => new Lazy<ISeedService>(() => provider.GetService<ISeedService>()));
+
+            services.AddScoped<IRoleSeedService, RoleSeedService>();
+            services.AddScoped<IUserSeedService, UserSeedService>();
+
+            services.AddAuthentication()
+              .AddGoogle(googleOptions => 
+              {
+                  googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                  googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+              });
+
+            services.AddTransient<SharedLocalizationService>();
+            services.AddTransient<IdentityLocalizationService>();
+            services.AddTransient<PagesLocalizationService>();
+
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.Configure<RequestLocalizationOptions>(options => 
+            {
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en-US"),
+                    new CultureInfo("hu-HU")
+                };
+
+                options.DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+                options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+            });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization( options => 
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    {
+                        var assemblyName = new AssemblyName(typeof(IdentityResource).GetTypeInfo().Assembly.FullName);
+                        return factory.Create("IdentityResource", assemblyName.Name);
+                    };
+                });
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
+            //app.UseRequestLocalization();
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+
+            app.UseAuthentication();
+
+            //app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+        }
+    }
+}

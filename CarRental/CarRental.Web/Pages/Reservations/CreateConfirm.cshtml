@@ -1,0 +1,99 @@
+﻿@page
+@model CarRental.Web.Pages.Reservations.CreateConfirmModel
+@inject PagesLocalizationService PagesLocalizer
+
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("CONFIRM_RESERVATION")</h4>
+    <hr />
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Reservation.VehicleType)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Reservation.VehicleType)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Reservation.PickUpTime)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Reservation.PickUpTime)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Reservation.DropOffTime)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Reservation.DropOffTime)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Reservation.Address)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Reservation.Address)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Reservation.Price)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Model.Reservation.Price Ft
+        </div>
+    </div>
+    <div class="row mt-4">
+        <p>@Model.CarFound @PagesLocalizer.GetLocalizedHtmlString("CAR_RESERVATION")</p>
+        </br>
+        @if (Model.CarFound > 0)
+        {
+            <form method="post" class="mt-5">
+                <div class="form-group">
+                    <input type="hidden" value="@Model.Input.VehicleModelId" name="vehicleId" />
+                    <input type="hidden" value="@Model.Input.AddressId" name="addressId" />
+                    <input type="hidden" value="@Model.Input.PickUpTime" name="pickUp" />
+                    <input type="hidden" value="@Model.Input.DropOffTime" name="dropOff" />
+                    <button type="submit" class="btn btn-primary">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</button>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Administrators"))
+                        {
+                            <a class="ml-3" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+                        }
+                        else
+                        {
+                            <a class="ml-3" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+                        }
+                    }
+                </div>
+            </form>
+        }
+        else
+        {
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Administrators"))
+                {
+                    <a class="ml-3" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+                }
+                else
+                {
+                    <a class="ml-3" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+                }
+            }
+        }
+    </div>
+</div>

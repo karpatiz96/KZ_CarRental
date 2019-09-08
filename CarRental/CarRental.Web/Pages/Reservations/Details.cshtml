@@ -1,0 +1,86 @@
+﻿@page
+@model CarRental.Web.Pages.Reservations.DetailsModel
+@inject PagesLocalizationService PagesLocalizer
+
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("RESERVATION")</h4>
+    <hr />
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.User)</b></label>
+        <div class="col-md-9">
+            <p>@Html.DisplayFor(model => model.Reservation.User)</p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.PickUpTime)</b></label>
+        <div class="col-md-9">
+            <p>@Html.DisplayFor(model => model.Reservation.PickUpTime)</p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.DropOffTime)</b></label>
+        <div class="col-md-9">
+            <p>@Html.DisplayFor(model => model.Reservation.DropOffTime)</p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.Address)</b></label>
+        <div class="col-md-9">
+            <p>@Html.DisplayFor(model => model.Reservation.Address)</p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.VehicleType)</b></label>
+        <div class="col-md-9">
+            <p>@Html.DisplayFor(model => model.Reservation.VehicleType)</p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.Price)</b></label>
+        <div class="col-md-9">
+            <p>@Model.Reservation.Price Ft</p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.State)</b></label>
+        <div class="col-md-9">
+            <p>
+                @if (Model.Reservation.State == Reservation.ReservationStates.Accepted)
+                {
+                    @PagesLocalizer.GetLocalizedHtmlString("ACCEPTED")
+                }
+                else
+                {
+                    @if (Model.Reservation.State == Reservation.ReservationStates.Cancled)
+                    {
+                        @PagesLocalizer.GetLocalizedHtmlString("CANCELED")
+                    }
+                    else
+                    {
+                        @PagesLocalizer.GetLocalizedHtmlString("UNDECIEDED")
+                    }
+                }
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3"><b>@Html.DisplayNameFor(model => model.Reservation.Car)</b></label>
+        <div class="col-md-9">
+            <p>@Html.DisplayFor(model => model.Reservation.Car)</p>
+        </div>
+    </div>
+    <div class="row mt-4">
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("Administrators"))
+            {
+                <a class="btn btn-primary ml-3" asp-page="./Edit" asp-route-id="@Model.Reservation.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
+                <a class="ml-3" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+            }
+            else
+            {
+                <a class="ml-3" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+            }
+        }
+    </div>
+</div>

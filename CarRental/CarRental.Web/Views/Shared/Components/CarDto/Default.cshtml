@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CarRental.Dal.Dtos.CarDto>
+@inject PagesLocalizationService PagesLocalizer
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PlateNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Active)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlateNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleType)
+            </td>
+            <td>
+                @if (item.Active)
+                {
+                    <p>@PagesLocalizer.GetLocalizedHtmlString("ACTIVE")</p>
+                }
+                else
+                {
+                    <p>@PagesLocalizer.GetLocalizedHtmlString("OUT_OF_ORDER")</p>
+                }
+            </td>
+            <td>
+                <a asp-page="/Cars/Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

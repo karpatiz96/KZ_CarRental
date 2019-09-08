@@ -1,0 +1,36 @@
+﻿@page
+@model CarRental.Web.Pages.Cars.CreateModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h4>@PagesLocalizer.GetLocalizedHtmlString("CREATE_CAR")</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Car.PlateNumber" class="control-label"></label>
+                <input asp-for="Car.PlateNumber" placeholder="AAA-001" class="form-control" />
+                <span asp-validation-for="Car.PlateNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Car.VehicleModelId" class="control-label"></label>
+                <select asp-for="Car.VehicleModelId" class="form-control" asp-items="ViewBag.VehicleModelId"></select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Car.Active" /> @Html.DisplayNameFor(model => model.Car.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success mr-3">@PagesLocalizer.GetLocalizedHtmlString("CREATE")</button>
+                <a asp-page="Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--<div>
+    <a asp-page="Index">Back to List</a>
+</div>-->
+

@@ -1,0 +1,55 @@
+﻿@page
+@model CarRental.Web.Pages.Cars.DeleteModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h3>@PagesLocalizer.GetLocalizedHtmlString("DELETE_ARE_YOU_SURE")</h3>
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("CAR")</h4>
+    <hr />
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Car.PlateNumber)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Car.PlateNumber)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Car.VehicleType)
+            </b>
+        </label>
+        <div class="col-md-10">
+            <a asp-page="/VehicleModels/Details" asp-route-id="@Model.Car.VehicleModelId">
+                @Html.DisplayFor(model => model.Car.VehicleType)
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Car.Active)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @if (Model.Car.Active)
+            {
+                <p>@PagesLocalizer.GetLocalizedHtmlString("ACTIVE")</p>
+            }
+            else
+            {
+                <p>@PagesLocalizer.GetLocalizedHtmlString("OUT_OF_ORDER")</p>
+            }
+        </div>
+    </div>
+
+    <form class="mt-4" method="post">
+        <input type="hidden" asp-for="Car.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="btn btn-danger mr-3">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</button>
+        <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+    </form>
+</div>

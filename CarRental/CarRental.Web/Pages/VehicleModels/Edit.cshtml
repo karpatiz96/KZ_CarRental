@@ -1,0 +1,59 @@
+﻿@page
+@model CarRental.Web.Pages.VehicleModels.EditModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h4>@PagesLocalizer.GetLocalizedHtmlString("EDIT_VEHICLE_MODEL")</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VehicleModel.Id">
+            <div class="form-group">
+                <label asp-for="VehicleModel.VehicleType" class="control-label"></label>
+                <input asp-for="VehicleModel.VehicleType" placeholder="Toyota" class="form-control" />
+                <span asp-validation-for="VehicleModel.VehicleType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleModel.PricePerDay" class="control-label"></label>
+                <input asp-for="VehicleModel.PricePerDay" placeholder="10000 Ft" class="form-control" />
+                <span asp-validation-for="VehicleModel.PricePerDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleModel.Picture" class="control-label"></label>
+                <input asp-for="VehicleModel.Picture" type="file" accept="image/*" class="form-control" style="height:auto" />
+                <span asp-validation-for="VehicleModel.Picture" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleModel.NumberOfDoors" class="control-label"></label>
+                <input asp-for="VehicleModel.NumberOfDoors" placeholder="5 doors" class="form-control" />
+                <span asp-validation-for="VehicleModel.NumberOfDoors" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="VehicleModel.NumberOfSeats" class="control-label"></label>
+                <input asp-for="VehicleModel.NumberOfSeats" placeholder="5 seats" class="form-control" />
+                <span asp-validation-for="VehicleModel.NumberOfSeats" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="VehicleModel.Automatic" /> @Html.DisplayNameFor(model => model.VehicleModel.Automatic)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="VehicleModel.AirConditioning" /> @Html.DisplayNameFor(model => model.VehicleModel.AirConditioning)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="VehicleModel.Active" /> @Html.DisplayNameFor(model => model.VehicleModel.Active)
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary mr-3" >@PagesLocalizer.GetLocalizedHtmlString("SAVE")</button>
+                <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+            </div>
+        </form>
+    </div>
+</div>
+

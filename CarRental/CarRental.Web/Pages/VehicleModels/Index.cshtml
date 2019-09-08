@@ -1,0 +1,68 @@
+﻿@page
+@model CarRental.Web.Pages.VehicleModels.IndexModel
+@inject SignInManager<User> SignInManager
+@inject PagesLocalizationService PagesLocalizer
+
+@if (SignInManager.IsSignedIn(User))
+{
+    if (User.IsInRole("Administrators"))
+    {
+        <p>
+            <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
+        </p>
+    }
+}
+
+<div class="row">
+    <form class="form-inline" asp-page="./Index" method="get" asp-antiforgery="true">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-4">
+            <label for="VehicleType">@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_TYPE")</label>
+            <input name="VehicleType" value="@Model.VehicleType" class="form-control mx-3" placeholder="Toyota" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="MinPrice">@PagesLocalizer.GetLocalizedHtmlString("MIN_PRICE")</label>
+            <input name="MinPrice" value="@Model.MinPrice" class="form-control mx-3" placeholder="5000 (FT)" />
+        </div>
+        <div class="form-group col-md-4">
+            <label for="MaxPrice">@PagesLocalizer.GetLocalizedHtmlString("MAX_PRICE")</label>
+            <input name="MaxPrice" value="@Model.MaxPrice" class="form-control mx-3" placeholder="12000 (FT)" />
+        </div>
+        <div class="form-group offset-md-6 mt-4">
+            <button type="submit" value="Filter" class="btn btn-outline-primary">@PagesLocalizer.GetLocalizedHtmlString("FILTER")</button>
+        </div>
+    </form>
+</div>
+
+<div class="row mt-3">
+    <h5>@PagesLocalizer.GetLocalizedHtmlString("MODEL_FOUND") @Model.Vehicles.Total</h5>
+</div>
+
+<div class="row">
+    <vc:vehicle-model-list vehicles="@Model.Vehicles"></vc:vehicle-model-list>
+</div>
+
+@{
+    var totalPages = (int)Math.Ceiling((double)Model.Vehicles.Total.Value / (double)Model.Vehicles.PageSize.Value);
+    var prevDisabled = Model.Vehicles.PageNumber <= 0 ? "disabled" : "";
+    var nextDisabled = (Model.Vehicles.PageNumber + 1 >= totalPages) ? "disabled" : "";
+}
+
+<div class="row mt-4">
+    <a asp-page="./Index"
+       asp-route-pageNumber="@(Model.Vehicles.PageNumber - 1)"
+       asp-route-currentVehicleType="@Model.VehicleType"
+       asp-route-currentMinPrice="@Model.MinPrice"
+       asp-route-currentMaxPrice="@Model.MaxPrice"
+       class="btn btn-outline-primary mr-3 @prevDisabled">
+        @PagesLocalizer.GetLocalizedHtmlString("PREVIOUS")
+    </a>
+    <a asp-page="./Index"
+       asp-route-pageNumber="@(Model.Vehicles.PageNumber + 1)"
+       asp-route-currentVehicleType="@Model.VehicleType"
+       asp-route-currentMinPrice="@Model.MinPrice"
+       asp-route-currentMaxPrice="@Model.MaxPrice"
+       class="btn btn-outline-primary mr-3 @nextDisabled">
+        @PagesLocalizer.GetLocalizedHtmlString("NEXT")
+    </a>
+</div>

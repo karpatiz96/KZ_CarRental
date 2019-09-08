@@ -1,0 +1,17 @@
+﻿@model CarRental.Dal.Dtos.VehicleDto
+@inject PagesLocalizationService PagesLocalizer
+
+<div class="card h-100" id="vehiclemodelcard">
+    <h5 class="card-header text-success">@Model.VehicleType</h5>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <p class="card-text col-md-6"><b>@PagesLocalizer.GetLocalizedHtmlString("PRICE_PER_DAY")</b> @Model.PricePerDay Ft</p>
+                <a class="col-md-6" asp-page="/VehicleModels/Details" asp-route-id="@Model.Id">
+                    <img class="card-img-top" src="~/images/@Model.VehicleUrl" title="@Model.VehicleType" alt="@Model.VehicleType">
+                </a>
+            </div>
+            <a asp-page="/VehicleModels/Details" asp-route-id="@Model.Id" class="btn btn-outline-primary">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+        </div>
+    </div>
+</div>
