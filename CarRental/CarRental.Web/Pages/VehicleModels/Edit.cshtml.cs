@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using CarRental.Dal;
 using CarRental.Dal.Entities;
 using Microsoft.AspNetCore.Authorization;
-using CarRental.Dal.Dtos;
-using CarRental.Dal.Services;
+using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-using CarRental.Dal.Logging;
+using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.VehicleModels
 {

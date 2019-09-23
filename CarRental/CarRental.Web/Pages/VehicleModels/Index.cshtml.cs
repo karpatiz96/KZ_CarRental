@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarRental.Dal;
 using CarRental.Dal.Entities;
-using CarRental.Dal.Services;
-using CarRental.Dal.Filters;
-using CarRental.Dal.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Filters;
+using CarRental.Bll.Dtos;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using CarRental.Dal.Logging;
+using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.VehicleModels
 {

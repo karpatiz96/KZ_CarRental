@@ -1,28 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Services;
+using CarRental.Dal;
+using CarRental.Dal.Entities;
+using CarRental.Dal.EntityConfigurations;
+using CarRental.Dal.SeedInterfaces;
+using CarRental.Dal.SeedServices;
+using CarRental.Web.Resources;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CarRental.Dal.SeedInterfaces;
-using CarRental.Dal.SeedServices;
-using CarRental.Dal.Entities;
-using CarRental.Dal.EntityConfigurations;
-using CarRental.Dal;
-using CarRental.Dal.Services;
-using System.Globalization;
-using Microsoft.AspNetCore.Localization;
-using CarRental.Web.Resources;
-using System.Reflection;
 using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Reflection;
 
 namespace CarRental.Web
 {
@@ -75,12 +73,12 @@ namespace CarRental.Web
             services.AddScoped<IRoleSeedService, RoleSeedService>();
             services.AddScoped<IUserSeedService, UserSeedService>();
 
-            services.AddAuthentication()
+            /*services.AddAuthentication()
               .AddGoogle(googleOptions => 
               {
                   googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                   googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-              });
+              });*/
 
             services.AddTransient<SharedLocalizationService>();
             services.AddTransient<IdentityLocalizationService>();

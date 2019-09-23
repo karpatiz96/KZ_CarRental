@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using CarRental.Dal;
 using CarRental.Dal.Entities;
 using System.ComponentModel.DataAnnotations;
-using CarRental.Dal.Services;
-using CarRental.Dal.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using CarRental.Dal.Logging;
+using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Reservations
 {

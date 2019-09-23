@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CarRental.Dal.Dtos;
+using CarRental.Bll.Dtos;
 using CarRental.Dal.Entities;
-using CarRental.Dal.Filters;
-using CarRental.Dal.Logging;
-using CarRental.Dal.Services;
+using CarRental.Bll.Filters;
+using CarRental.Bll.Logging;
+using CarRental.Bll.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using static CarRental.Dal.Filters.ReservationListFilter;
+using static CarRental.Bll.Filters.ReservationListFilter;
 
 namespace CarRental.Web.Pages.Reservations
 {

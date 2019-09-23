@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using CarRental.Dal;
 using CarRental.Dal.Entities;
-using CarRental.Dal.Services;
-using CarRental.Dal.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using CarRental.Dal.Logging;
+using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Cars
 {

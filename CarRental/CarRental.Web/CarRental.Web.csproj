@@ -17,12 +17,12 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\CarRental.Dal\CarRental.Dal.csproj" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\" />
+    <ProjectReference Include="..\CarRental.Bll\CarRental.Bll.csproj" />
   </ItemGroup>
 
 </Project>

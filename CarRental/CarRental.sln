@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Web", "CarRental.Web\CarRental.Web.csproj", "{ACDF7132-67A1-406A-A7A0-AFEBC76E1A3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Web", "CarRental.Web\CarRental.Web.csproj", "{ACDF7132-67A1-406A-A7A0-AFEBC76E1A3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Dal", "CarRental.Dal\CarRental.Dal.csproj", "{D0415A14-F114-474F-A4C8-5507C8FAEEDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Bll", "CarRental.Bll\CarRental.Bll.csproj", "{AB877C86-9895-4B68-A05F-ED9132419E9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D0415A14-F114-474F-A4C8-5507C8FAEEDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0415A14-F114-474F-A4C8-5507C8FAEEDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0415A14-F114-474F-A4C8-5507C8FAEEDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB877C86-9895-4B68-A05F-ED9132419E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB877C86-9895-4B68-A05F-ED9132419E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB877C86-9895-4B68-A05F-ED9132419E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB877C86-9895-4B68-A05F-ED9132419E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
