@@ -48,19 +48,50 @@ namespace CarRental.Bll.Services
             Active = vm.Active
         };
 
+        public static Expression<Func<VehicleModel, VehicleModelDetailsDto>> VehicleModelDetailsDtoSelector { get; } = vm => new VehicleModelDetailsDto
+        {
+            Id = vm.Id,
+            VehicleType = vm.VehicleType,
+            PricePerDay = vm.PricePerDay,
+            VehicleUrl = vm.VehicleUrl,
+            NumberOfDoors = vm.NumberOfDoors,
+            NumberOfSeats = vm.NumberOfSeats,
+            Automatic = vm.Automatic,
+            AirConditioning = vm.AirConditioning,
+            Active = vm.Active,
+            Cars = vm.Cars.Select(c => new CarDto
+            {
+                Id = c.Id,
+                PlateNumber = c.PlateNumber,
+                VehicleModelId = c.VehicleModelId,
+                VehicleType = c.VehicleModel.VehicleType,
+                Active = c.Active
+            }).ToList(),
+            CarFound = vm.Cars.Count
+        };
+
         public IEnumerable<VehicleModel> GetVehicles()
         {
-            return _dbContext.VehicleModels.AsEnumerable().ToList();
+            return _dbContext.VehicleModels
+                .AsEnumerable()
+                .ToList();
         }
 
         public IEnumerable<VehicleModel> GetActiveVehicles()
         {
-            return _dbContext.VehicleModels.Where(vm => vm.Active == true).AsEnumerable().ToList();
+            return _dbContext.VehicleModels
+                .Where(vm => vm.Active == true)
+                .AsEnumerable()
+                .ToList();
         }
 
         public async Task<IEnumerable<VehicleDto>> GetBestOffers(int size)
         {
-            var vehicles = await _dbContext.VehicleModels.Where(vm => vm.Active == true).OrderBy(vm => vm.PricePerDay).Take(size).ToListAsync();
+            var vehicles = await _dbContext.VehicleModels
+                .Where(vm => vm.Active == true)
+                .OrderBy(vm => vm.PricePerDay)
+                .Take(size)
+                .ToListAsync();
 
             return vehicles.Select(VehicleDtoSelector.Compile()).ToList();
         }
@@ -100,20 +131,36 @@ namespace CarRental.Bll.Services
                 vehicleModels = vehicleModels.Skip(filter.PageNumber.Value * filter.PageSize.Value).Take(filter.PageSize.Value);
             }
 
-            var results = await vehicleModels.ToListAsync();
+            var results = await vehicleModels
+                .Select(VehicleDtoSelector)
+                .ToListAsync();
 
             return new PagedResult<VehicleDto>
             {
                 Total = Total,
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,
-                Results = results.Select(VehicleDtoSelector.Compile()).ToList()
+                Results = results
             };
         }
 
         public async Task<VehicleModelDto> GetVehicle(int? id)
         {
-            return await _dbContext.VehicleModels.Where(vm => vm.Id == id).Select(VehicleModelDtoSelector).FirstOrDefaultAsync();
+            return await _dbContext.VehicleModels
+                .Where(vm => vm.Id == id)
+                .Select(VehicleModelDtoSelector)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<VehicleModelDetailsDto> GetVehicleModel(int? id)
+        {
+            var vehicleModel = await _dbContext.VehicleModels
+                .Include(v => v.Cars)
+                .Where(vm => vm.Id == id)
+                .Select(VehicleModelDetailsDtoSelector)
+                .SingleOrDefaultAsync();
+
+            return vehicleModel;
         }
 
         public async Task CreateVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture)
@@ -156,7 +203,9 @@ namespace CarRental.Bll.Services
 
         public async Task EditVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture)
         {
-            var vehicleModel = await _dbContext.VehicleModels.Where(vm => vm.Id == vehicleModelDto.Id).FirstOrDefaultAsync();
+            var vehicleModel = await _dbContext.VehicleModels
+                .Where(vm => vm.Id == vehicleModelDto.Id)
+                .SingleOrDefaultAsync();
 
             vehicleModel.VehicleType = vehicleModelDto.VehicleType;
             vehicleModel.PricePerDay = vehicleModelDto.PricePerDay;
@@ -205,8 +254,16 @@ namespace CarRental.Bll.Services
 
         public async Task DeleteVehicle(int? id)
         {
-            var vehicleModel = await _dbContext.VehicleModels.Where(vm => vm.Id == id).Include(vm => vm.Cars).Include(vm => vm.Reservations).FirstOrDefaultAsync();
-            var cars = await _dbContext.Cars.Where(c => c.VehicleModelId == id).Include(c => c.VehicleModel).ToListAsync();
+            var vehicleModel = await _dbContext.VehicleModels
+                .Where(vm => vm.Id == id)
+                .Include(vm => vm.Cars)
+                .Include(vm => vm.Reservations)
+                .SingleOrDefaultAsync();
+
+            var cars = await _dbContext.Cars
+                .Where(c => c.VehicleModelId == id)
+                .Include(c => c.VehicleModel)
+                .ToListAsync();
 
             var filename = vehicleModel.VehicleUrl;
 
@@ -228,7 +285,11 @@ namespace CarRental.Bll.Services
 
         public async Task<bool> VehicleModelHasReservations(int? id)
         {
-            var vehicleModel = await _dbContext.VehicleModels.Where(vm => vm.Id == id).Include(vm => vm.Cars).Include(vm => vm.Reservations).FirstOrDefaultAsync();
+            var vehicleModel = await _dbContext.VehicleModels
+                .Where(vm => vm.Id == id)
+                .Include(vm => vm.Cars)
+                .Include(vm => vm.Reservations)
+                .SingleOrDefaultAsync();
 
             if (vehicleModel.Reservations.Any())
             {
@@ -243,5 +304,27 @@ namespace CarRental.Bll.Services
             return _dbContext.VehicleModels.Any(e => e.Id == id);
         }
 
+        public async Task<VehicleModelDeleteDto> GetVehicleModelDelete(int? id)
+        {
+            var vehicleModel = await _dbContext.VehicleModels
+                .Where(vm => vm.Id == id)
+                .Include(vm => vm.Reservations)
+                .Select(vm => new VehicleModelDeleteDto
+                {
+                    Id = vm.Id,
+                    VehicleType = vm.VehicleType,
+                    PricePerDay = vm.PricePerDay,
+                    VehicleUrl = vm.VehicleUrl,
+                    NumberOfDoors = vm.NumberOfDoors,
+                    NumberOfSeats = vm.NumberOfSeats,
+                    Automatic = vm.Automatic,
+                    AirConditioning = vm.AirConditioning,
+                    Active = vm.Active,
+                    HasReservation = vm.Reservations.Any()
+                })
+                .SingleOrDefaultAsync();
+
+            return vehicleModel;
+        }
     }
 }

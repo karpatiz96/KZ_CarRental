@@ -31,12 +31,17 @@ namespace CarRental.Bll.Services
 
         public async Task<IEnumerable<AddressDto>> GetAddresses()
         {
-            return await _dbContext.Addresses.Select(AddressDtoSelector).ToAsyncEnumerable().ToList();
+            return await _dbContext.Addresses
+                .Select(AddressDtoSelector)
+                .ToListAsync();
         }
 
         public async Task<AddressDto> GetAddress(int? id)
         {
-            return await _dbContext.Addresses.Where(vm => vm.Id == id).Select(AddressDtoSelector).FirstOrDefaultAsync();
+            return await _dbContext.Addresses
+                .Where(vm => vm.Id == id)
+                .Select(AddressDtoSelector)
+                .SingleOrDefaultAsync();
         }
     }
 }

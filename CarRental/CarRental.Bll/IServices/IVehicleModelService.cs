@@ -19,6 +19,8 @@ namespace CarRental.Bll.IServices
 
         Task<VehicleModelDto> GetVehicle(int? id);
 
+        Task<VehicleModelDetailsDto> GetVehicleModel(int? id);
+
         Task CreateVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture);
 
         Task EditVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture);
@@ -28,5 +30,7 @@ namespace CarRental.Bll.IServices
         Task<bool> VehicleModelHasReservations(int? id);
 
         bool VehicleModelExists(int? id);
+        //new
+        Task<VehicleModelDeleteDto> GetVehicleModelDelete(int? id);
     }
 }

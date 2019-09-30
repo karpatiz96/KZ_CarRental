@@ -31,8 +31,11 @@ namespace CarRental.Web.Pages.VehicleModels
             _logger = logger;
         }
 
+        /*[BindProperty]
+        public VehicleModelDto VehicleModel { get; set; }*/
+
         [BindProperty]
-        public VehicleModelDto VehicleModel { get; set; }
+        public VehicleModelDeleteDto VehicleModel { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -42,7 +45,8 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem,"Get VehicleModel {ID}", id);
-            VehicleModel = await _vehicleModelService.GetVehicle(id);
+            //VehicleModel = await _vehicleModelService.GetVehicle(id);
+            VehicleModel = await _vehicleModelService.GetVehicleModelDelete(id);
 
             if (VehicleModel == null)
             {
@@ -60,12 +64,14 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
-            VehicleModel = await _vehicleModelService.GetVehicle(id);
+            //VehicleModel = await _vehicleModelService.GetVehicle(id);
+
+            VehicleModel = await _vehicleModelService.GetVehicleModelDelete(id);
 
             if (VehicleModel != null)
             {
-                bool hasReservation = await _vehicleModelService.VehicleModelHasReservations(id);
-                if (hasReservation)
+                //bool hasReservation = await _vehicleModelService.VehicleModelHasReservations(id);
+                if (VehicleModel.HasReservation)
                 {
                     return RedirectToPage("./Index");
                 }

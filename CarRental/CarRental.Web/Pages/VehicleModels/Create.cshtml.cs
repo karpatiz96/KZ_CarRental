@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using CarRental.Dal;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using CarRental.Bll.IServices;
-using CarRental.Bll.Dtos;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
@@ -44,44 +36,7 @@ namespace CarRental.Web.Pages.VehicleModels
         }
 
         [BindProperty]
-        public InputModel VehicleModel { get; set; }
-
-        public class InputModel
-        {
-            public int Id { get; set; }
-            [Required(ErrorMessage = "VEHICLE_MODEL_REQUIRED")]
-            [Display(Name = "VEHICLE_MODEL")]
-            public string VehicleType { get; set; }
-
-            [Required(ErrorMessage = "PRICE_PER_DAY_REQUIRED")]
-            [DataType(DataType.Currency)]
-            [Display(Name = "PRICE_PER_DAY")]
-            [Range(0, int.MaxValue, ErrorMessage = "PRICE_PER_DAY_VALUE")]
-            public decimal? PricePerDay { get; set; }
-
-            [Required(ErrorMessage = "PICTURE_REQUIRED")]
-            [Display(Name = "PICTURE")]
-            public IFormFile Picture { get; set; }
-
-            [Required(ErrorMessage = "NUMBER_OF_DOORS_REQUIRED")]
-            [Range(0, int.MaxValue, ErrorMessage = "NUMBER_OF_DOORS_VALUE")]
-            [Display(Name = "NUMBER_OF_DOORS")]
-            public int? NumberOfDoors { get; set; }
-
-            [Required(ErrorMessage = "NUMBER_OF_SEATS_REQUIRED")]
-            [Range(0, int.MaxValue, ErrorMessage = "NUMBER_OF_SEATS_VALUE")]
-            [Display(Name = "NUMBER_OF_SEATS")]
-            public int? NumberOfSeats { get; set; }
-
-            [Display(Name = "AUTOMATIC")]
-            public bool Automatic { get; set; }
-
-            [Display(Name = "AIR_CONDITIONED")]
-            public bool AirConditioning { get; set; }
-
-            [Display(Name = "ACTIVE")]
-            public bool Active { get; set; }
-        }
+        public VehicleModelInputDto VehicleModel { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {

@@ -26,5 +26,7 @@ namespace CarRental.Bll.IServices
         Task<bool> CarHasReservations(int? id);
 
         bool CarExists(int? id);
+
+        Task<CarDetailsDto>  GetCarDetailsDto(int? id);
     }
 }

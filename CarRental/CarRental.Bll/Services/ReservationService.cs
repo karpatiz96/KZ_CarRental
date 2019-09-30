@@ -77,8 +77,19 @@ namespace CarRental.Bll.Services
 
         public async Task EditReservation(int? id, int? carid)
         {
-            var car = await _dbContext.Cars.Include(c => c.VehicleModel).Include(c => c.Reservations).Where(c => c.Id == carid).FirstOrDefaultAsync();
-            var reservation = await _dbContext.Reservations.Where(r => r.Id == id).Include(r => r.Car).Include(r => r.Address).Include(r => r.User).Include(r => r.VehicleModel).FirstOrDefaultAsync();
+            var car = await _dbContext.Cars
+                .Include(c => c.VehicleModel)
+                .Include(c => c.Reservations)
+                .Where(c => c.Id == carid)
+                .SingleOrDefaultAsync();
+
+            var reservation = await _dbContext.Reservations
+                .Where(r => r.Id == id)
+                .Include(r => r.Car)
+                .Include(r => r.Address)
+                .Include(r => r.User)
+                .Include(r => r.VehicleModel)
+                .SingleOrDefaultAsync();
 
             if (reservation.Car != null)
             {
@@ -101,7 +112,15 @@ namespace CarRental.Bll.Services
 
         public async Task CancelReservation(int? id)
         {
-            var reservation = await _dbContext.Reservations.Where(r => r.Id == id).Include(r => r.Car).ThenInclude(c => c.Reservations).Include(r => r.Address).Include(r => r.User).Include(r => r.VehicleModel).FirstOrDefaultAsync();
+            var reservation = await _dbContext.Reservations
+                .Where(r => r.Id == id)
+                .Include(r => r.Car)
+                    .ThenInclude(c => c.Reservations)
+                .Include(r => r.Address)
+                .Include(r => r.User)
+                .Include(r => r.VehicleModel)
+                .SingleOrDefaultAsync();
+
             var car = reservation.Car;
             if (car != null)
             {
@@ -119,7 +138,17 @@ namespace CarRental.Bll.Services
 
         public async Task DeleteReservation(int? id)
         {
-            var reservation = await _dbContext.Reservations.Where(r => r.Id == id).Include(r => r.Car).ThenInclude(c => c.Reservations).Include(r => r.Address).ThenInclude(c => c.Reservations).Include(r => r.User).ThenInclude(c => c.Reservations).Include(r => r.VehicleModel).ThenInclude(c => c.Reservations).FirstOrDefaultAsync();
+            var reservation = await _dbContext.Reservations
+                .Where(r => r.Id == id)
+                .Include(r => r.Car)
+                    .ThenInclude(c => c.Reservations)
+                .Include(r => r.Address)
+                    .ThenInclude(c => c.Reservations)
+                .Include(r => r.User)
+                    .ThenInclude(c => c.Reservations)
+                .Include(r => r.VehicleModel)
+                    .ThenInclude(c => c.Reservations)
+                .SingleOrDefaultAsync();
 
             var user = reservation.User;
             if (user != null)
@@ -164,7 +193,11 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<Reservation> reservations = _dbContext.Reservations.Include(c => c.VehicleModel).Include(c => c.Car).Include(c => c.Address).Include(c => c.User);
+            IQueryable<Reservation> reservations = _dbContext.Reservations
+                .Include(c => c.VehicleModel)
+                .Include(c => c.Car)
+                .Include(c => c.Address)
+                .Include(c => c.User);
 
             if (!string.IsNullOrEmpty(filter?.VehicleType))
                 reservations = reservations.Where(r => r.VehicleModel.VehicleType.Contains(filter.VehicleType));
@@ -243,7 +276,11 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<Reservation> reservations = _dbContext.Reservations.Include(c => c.VehicleModel).Include(c => c.Car).Include(c => c.Address).Include(c => c.User);
+            IQueryable<Reservation> reservations = _dbContext.Reservations
+                .Include(c => c.VehicleModel)
+                .Include(c => c.Car)
+                .Include(c => c.Address)
+                .Include(c => c.User);
 
             reservations = reservations.Where(r => r.UserId == userid);
 
@@ -309,7 +346,9 @@ namespace CarRental.Bll.Services
                 .Include(r => r.VehicleModel)
                 .Include(r => r.Car)
                 .Include(r => r.Address)
-                .Include(r => r.User).Where(r => r.Id == id.Value).FirstOrDefaultAsync();
+                .Include(r => r.User)
+                .Where(r => r.Id == id.Value)
+                .SingleOrDefaultAsync();
 
             ReservationHeader reservationHeader = new ReservationHeader
             {
@@ -333,14 +372,26 @@ namespace CarRental.Bll.Services
 
         public IEnumerable<Reservation> GetReservations(int? userid)
         {
-            return _dbContext.Reservations.Include(r => r.User).Where(r => r.UserId == userid).AsEnumerable().ToList();
+            return _dbContext.Reservations
+                .Include(r => r.User)
+                .Where(r => r.UserId == userid)
+                .AsEnumerable()
+                .ToList();
         }
 
         public async Task DeletedUserReservations(int? userid)
         {
-            var reservations = _dbContext.Reservations.Include(r => r.User).Include(r => r.Car).Where(r => r.UserId == userid).AsEnumerable().ToList();
+            var reservations = _dbContext.Reservations
+                .Include(r => r.User)
+                .Include(r => r.Car)
+                .Where(r => r.UserId == userid)
+                .AsEnumerable()
+                .ToList();
 
-            var user = await _dbContext.Users.Include(u => u.Reservations).Where(u => u.Id == userid).FirstOrDefaultAsync();
+            var user = await _dbContext.Users
+                .Include(u => u.Reservations)
+                .Where(u => u.Id == userid)
+                .SingleOrDefaultAsync();
 
             foreach (var item in reservations)
             {
@@ -353,7 +404,7 @@ namespace CarRental.Bll.Services
 
                 if (item.State == Reservation.ReservationStates.Accepted && item.PickUpTime.Date >= DateTime.Now.Date)
                 {
-                    var car = await _dbContext.Cars.Where(c => c.Id == item.CarId).Include(c => c.Reservations).FirstOrDefaultAsync();
+                    var car = await _dbContext.Cars.Where(c => c.Id == item.CarId).Include(c => c.Reservations).SingleOrDefaultAsync();
                     if (car != null)
                     {
                         car.Reservations.Remove(item);

@@ -84,25 +84,32 @@ namespace CarRental.Bll.Services
                 cars = cars.Skip(filter.PageNumber.Value * filter.PageSize.Value).Take(filter.PageSize.Value);
             }
 
-            var results = await cars.ToListAsync();
+            var results = await cars
+                .Select(CarDtoSelector)
+                .ToListAsync();
 
             return new PagedResult<CarDto>
             {
                 Total = Total,
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,
-                Results = results.Select(CarDtoSelector.Compile()).ToList()
+                Results = results
             };
         }
 
         public async Task<CarDto> GetCar(int? id)
         {
-            return await _dbContext.Cars.Where(c => c.Id == id.Value).Select(CarDtoSelector).FirstOrDefaultAsync();
+            return await _dbContext.Cars
+                .Where(c => c.Id == id.Value)
+                .Select(CarDtoSelector)
+                .SingleOrDefaultAsync();
         }
 
         public async Task CreateCar(CarDto carDto)
         {
-            VehicleModel vehicleModel = await _dbContext.VehicleModels.Where(vm => vm.Id == carDto.VehicleModelId).FirstOrDefaultAsync();
+            VehicleModel vehicleModel = await _dbContext.VehicleModels
+                .Where(vm => vm.Id == carDto.VehicleModelId)
+                .SingleOrDefaultAsync();
 
             Car car = new Car
             {
@@ -118,8 +125,17 @@ namespace CarRental.Bll.Services
 
         public async Task EditCar(CarDto carDto)
         {
-            var car = await _dbContext.Cars.Include(c => c.VehicleModel).ThenInclude(vm => vm.Cars).Include(c => c.Reservations).Where(c => c.Id == carDto.Id).FirstOrDefaultAsync();
-            var vehicleModel = await _dbContext.VehicleModels.Include(vm => vm.Cars).Where(vm => vm.Id == carDto.VehicleModelId).FirstOrDefaultAsync();
+            var car = await _dbContext.Cars
+                .Include(c => c.VehicleModel)
+                    .ThenInclude(vm => vm.Cars)
+                .Include(c => c.Reservations)
+                .Where(c => c.Id == carDto.Id)
+                .SingleOrDefaultAsync();
+
+            var vehicleModel = await _dbContext.VehicleModels
+                .Include(vm => vm.Cars)
+                .Where(vm => vm.Id == carDto.VehicleModelId)
+                .SingleOrDefaultAsync();
 
             car.Active = carDto.Active;
             car.PlateNumber = carDto.PlateNumber;
@@ -138,9 +154,17 @@ namespace CarRental.Bll.Services
 
         public async Task DeleteCar(int? id)
         {
-            Car car = await _dbContext.Cars.Include(c => c.VehicleModel).Include(c => c.Reservations).Where(c => c.Id == id).FirstOrDefaultAsync();
+            Car car = await _dbContext.Cars
+                .Include(c => c.VehicleModel)
+                .Include(c => c.Reservations)
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
 
-            VehicleModel vehicleModel = await _dbContext.VehicleModels.Include(vm => vm.Cars).Where(vm => vm.Id == car.VehicleModelId).FirstOrDefaultAsync();
+            VehicleModel vehicleModel = await _dbContext.VehicleModels
+                .Include(vm => vm.Cars)
+                .Where(vm => vm.Id == car.VehicleModelId)
+                .SingleOrDefaultAsync();
+
             vehicleModel.Cars.Remove(car);
             _dbContext.Cars.Remove(car);
             await _dbContext.SaveChangesAsync();
@@ -148,8 +172,15 @@ namespace CarRental.Bll.Services
 
         public async Task<IEnumerable<Car>> GetCars(DateTime start, DateTime end, int? id)
         {
-            IQueryable<Car> cars = _dbContext.Cars.Include(c => c.Reservations).Include(c => c.VehicleModel).Where(c => c.Active == true);
-            var carList = await cars.Where(c => c.VehicleModel.Active == true && c.VehicleModelId == id).ToListAsync();
+            IQueryable<Car> cars = _dbContext.Cars
+                .Include(c => c.Reservations)
+                .Include(c => c.VehicleModel)
+                .Where(c => c.Active == true);
+
+            var carList = await cars
+                .Where(c => c.VehicleModel.Active == true && c.VehicleModelId == id)
+                .ToListAsync();
+
             IList<Car> freeCars = new List<Car>();
             foreach (var car in carList)
             {
@@ -163,12 +194,20 @@ namespace CarRental.Bll.Services
 
         public async Task<IEnumerable<CarDto>> GetCarList(int? vehicleModelId)
         {
-            return await _dbContext.Cars.Include(c => c.VehicleModel).Where(c => c.VehicleModelId == vehicleModelId).Select(CarDtoSelector).ToAsyncEnumerable().ToList();
+            return await _dbContext.Cars
+                .Include(c => c.VehicleModel)
+                .Where(c => c.VehicleModelId == vehicleModelId)
+                .Select(CarDtoSelector)
+                .ToAsyncEnumerable()
+                .ToList();
         }
 
         public async Task<bool> CarHasReservations(int? id)
         {
-            var car = await _dbContext.Cars.Include(c => c.Reservations).Where(c => c.Id == id).FirstOrDefaultAsync();
+            var car = await _dbContext.Cars
+                .Include(c => c.Reservations)
+                .Where(c => c.Id == id)
+                .SingleOrDefaultAsync();
 
             if (car.Reservations.Any())
             {
@@ -181,6 +220,23 @@ namespace CarRental.Bll.Services
         public bool CarExists(int? id)
         {
             return _dbContext.Cars.Any(e => e.Id == id);
+        }
+
+        public async Task<CarDetailsDto> GetCarDetailsDto(int? id)
+        {
+            return await _dbContext.Cars
+                .Include(c => c.Reservations)
+                .Where(c => c.Id == id.Value)
+                .Select(c => new CarDetailsDto
+                {
+                    Id = c.Id,
+                    PlateNumber = c.PlateNumber,
+                    VehicleModelId = c.VehicleModelId,
+                    VehicleType = c.VehicleModel.VehicleType,
+                    Active = c.Active,
+                    HasReservation = c.Reservations.Any()
+                })
+                .SingleOrDefaultAsync();
         }
     }
 }

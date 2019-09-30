@@ -29,11 +29,13 @@ namespace CarRental.Web.Pages.VehicleModels
             _logger = logger;
         }
 
-        public VehicleModelDto VehicleModel { get; set; }
+        public VehicleModelDetailsDto VehicleModel { get; set; }
+
+        /*public VehicleModelDto VehicleModel { get; set; }
 
         public IEnumerable<CarDto> Cars { get; set; }
 
-        public int CarFound { get; set; }
+        public int CarFound { get; set; }*/
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -43,7 +45,8 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
-            VehicleModel = await _vehicleModelService.GetVehicle(id.Value);
+            //VehicleModel = await _vehicleModelService.GetVehicle(id.Value);
+            VehicleModel = await _vehicleModelService.GetVehicleModel(id.Value);
 
             if (VehicleModel == null)
             {
@@ -51,9 +54,9 @@ namespace CarRental.Web.Pages.VehicleModels
                 return NotFound();
             }
 
-            Cars = await _carService.GetCarList(VehicleModel.Id);
+            //Cars = await _carService.GetCarList(VehicleModel.Id);
 
-            CarFound = Cars.Count();
+            //CarFound = Cars.Count();
             return Page();
         }
     }

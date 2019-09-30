@@ -85,7 +85,7 @@
             <div class="ml-3">
                 <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
             </div>
-            if (Model.CarFound == 0)
+            if (Model.VehicleModel.CarFound == 0)
             {
             <div class="ml-3">
                 <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
@@ -119,7 +119,7 @@
     if (User.IsInRole("Administrators"))
     {
         <div class="row mt-4">
-            <vc:car-dto cars="@Model.Cars"></vc:car-dto>
+            <vc:car-dto cars="@Model.VehicleModel.Cars"></vc:car-dto>
         </div>
     }
 }
