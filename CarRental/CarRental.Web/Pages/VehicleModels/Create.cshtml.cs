@@ -3,7 +3,6 @@ using CarRental.Bll.IServices;
 using CarRental.Bll.Logging;
 using CarRental.Dal;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -18,15 +17,12 @@ namespace CarRental.Web.Pages.VehicleModels
 
         private readonly CarRentalDbContext _dbContext;
 
-        private readonly IHostingEnvironment _hosting;
-
         private readonly ILogger<CreateModel> _logger;
 
-        public CreateModel(CarRentalDbContext dbContext,IVehicleModelService vehicleModelService, IHostingEnvironment hosting, ILogger<CreateModel> logger)
+        public CreateModel(CarRentalDbContext dbContext,IVehicleModelService vehicleModelService, ILogger<CreateModel> logger)
         {
             _dbContext = dbContext;
             _vehicleModelService = vehicleModelService;
-            _hosting = hosting;
             _logger = logger;
         }
 
@@ -45,19 +41,7 @@ namespace CarRental.Web.Pages.VehicleModels
                 return Page();
             }
 
-            VehicleModelDto vehicle = new VehicleModelDto
-            {
-               VehicleType = VehicleModel.VehicleType,
-               PricePerDay = VehicleModel.PricePerDay.Value,
-               NumberOfDoors = VehicleModel.NumberOfDoors.Value,
-               NumberOfSeats = VehicleModel.NumberOfSeats.Value,
-               Active = VehicleModel.Active,
-               AirConditioning = VehicleModel.AirConditioning,
-               Automatic = VehicleModel.Automatic,
-               VehicleUrl = string.Empty
-            };
-
-            await _vehicleModelService.CreateVehicle(vehicle, VehicleModel.Picture);
+            await _vehicleModelService.CreateVehicleModel(VehicleModel);
             _logger.LogInformation(LoggingEvents.InsertItem, "Admin created new VehicleModel");
 
             return RedirectToPage("./Index");

@@ -18,15 +18,12 @@ namespace CarRental.Web.Pages.Reservations
     [Authorize]
     public class DetailsModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly IReservationService _reservationService;
 
         private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(CarRentalDbContext context, IReservationService reservationService, ILogger<DetailsModel> logger)
+        public DetailsModel(IReservationService reservationService, ILogger<DetailsModel> logger)
         {
-            _context = context;
             _reservationService = reservationService;
             _logger = logger;
         }

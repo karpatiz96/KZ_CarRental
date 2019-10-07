@@ -11,7 +11,11 @@ namespace CarRental.Bll.IServices
     {
         IEnumerable<VehicleModel> GetVehicles();
 
+        Task<IEnumerable<VehicleModel>> GetVehicleModels();
+
         IEnumerable<VehicleModel> GetActiveVehicles();
+
+        Task<IEnumerable<VehicleModel>> GetActiveVehicleModels();
 
         Task<IEnumerable<VehicleDto>> GetBestOffers(int size);
 
@@ -23,7 +27,11 @@ namespace CarRental.Bll.IServices
 
         Task CreateVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture);
 
+        Task CreateVehicleModel(VehicleModelInputDto vehicleModelDto);
+
         Task EditVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture);
+
+        Task EditVehicleModel(VehicleModelEditDto vehicleModelDto);
 
         Task DeleteVehicle(int? id);
 

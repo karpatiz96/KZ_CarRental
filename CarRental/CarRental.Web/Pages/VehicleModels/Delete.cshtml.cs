@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using CarRental.Dal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using CarRental.Bll.Dtos;
-using CarRental.Bll.IServices;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
@@ -31,9 +26,6 @@ namespace CarRental.Web.Pages.VehicleModels
             _logger = logger;
         }
 
-        /*[BindProperty]
-        public VehicleModelDto VehicleModel { get; set; }*/
-
         [BindProperty]
         public VehicleModelDeleteDto VehicleModel { get; set; }
 
@@ -45,7 +37,6 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem,"Get VehicleModel {ID}", id);
-            //VehicleModel = await _vehicleModelService.GetVehicle(id);
             VehicleModel = await _vehicleModelService.GetVehicleModelDelete(id);
 
             if (VehicleModel == null)
@@ -64,13 +55,11 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
-            //VehicleModel = await _vehicleModelService.GetVehicle(id);
 
             VehicleModel = await _vehicleModelService.GetVehicleModelDelete(id);
 
             if (VehicleModel != null)
             {
-                //bool hasReservation = await _vehicleModelService.VehicleModelHasReservations(id);
                 if (VehicleModel.HasReservation)
                 {
                     return RedirectToPage("./Index");

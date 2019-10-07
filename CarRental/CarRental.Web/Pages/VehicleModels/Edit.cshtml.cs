@@ -1,41 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using Microsoft.AspNetCore.Authorization;
-using CarRental.Bll.Dtos;
-using CarRental.Bll.IServices;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
     [Authorize(Roles = "Administrators")]
     public class EditModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ILogger<EditModel> _logger;
 
         private readonly IVehicleModelService _vehicleModelService;
 
-        private readonly IHostingEnvironment _hosting;
-
-        public EditModel(CarRentalDbContext context, IHostingEnvironment hosting, IVehicleModelService vehicleModelService, ILogger<EditModel> logger)
+        public EditModel(IVehicleModelService vehicleModelService, ILogger<EditModel> logger)
         {
-            _context = context;
             _vehicleModelService = vehicleModelService;
-            _hosting = hosting;
             _logger = logger;
         }
 
@@ -116,10 +101,5 @@ namespace CarRental.Web.Pages.VehicleModels
 
             return RedirectToPage("./Index");
         }
-
-        /*private bool VehicleModelExists(int id)
-        {
-            return _context.VehicleModels.Any(e => e.Id == id);
-        }*/
     }
 }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using CarRental.Dal.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using CarRental.Bll.IServices;
-using CarRental.Bll.Dtos;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
@@ -18,24 +15,20 @@ namespace CarRental.Web.Pages.VehicleModels
     {
         private readonly IVehicleModelService _vehicleModelService;
 
+        private readonly ICommentService _commentService;
+
         private readonly ILogger<DetailsModel> _logger;
 
-        private readonly ICarService _carService;
-
-        public DetailsModel(IVehicleModelService vehicleModelService, ICarService carService, ILogger<DetailsModel> logger)
+        public DetailsModel(IVehicleModelService vehicleModelService, ICommentService commentService, ILogger<DetailsModel> logger)
         {
             _vehicleModelService = vehicleModelService;
-            _carService = carService;
+            _commentService = commentService;
             _logger = logger;
         }
 
         public VehicleModelDetailsDto VehicleModel { get; set; }
 
-        /*public VehicleModelDto VehicleModel { get; set; }
-
-        public IEnumerable<CarDto> Cars { get; set; }
-
-        public int CarFound { get; set; }*/
+        public IEnumerable<CommentDto> Comments { get; private set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -45,7 +38,6 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
-            //VehicleModel = await _vehicleModelService.GetVehicle(id.Value);
             VehicleModel = await _vehicleModelService.GetVehicleModel(id.Value);
 
             if (VehicleModel == null)
@@ -54,10 +46,9 @@ namespace CarRental.Web.Pages.VehicleModels
                 return NotFound();
             }
 
-            //Cars = await _carService.GetCarList(VehicleModel.Id);
+            Comments = _commentService.GetComments();
 
-            //CarFound = Cars.Count();
             return Page();
-        }
+        }
     }
 }

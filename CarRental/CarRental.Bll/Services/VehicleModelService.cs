@@ -77,12 +77,27 @@ namespace CarRental.Bll.Services
                 .ToList();
         }
 
+        public async Task<IEnumerable<VehicleModel>> GetVehicleModels()
+        {
+            return await _dbContext.VehicleModels
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public IEnumerable<VehicleModel> GetActiveVehicles()
         {
             return _dbContext.VehicleModels
                 .Where(vm => vm.Active == true)
                 .AsEnumerable()
                 .ToList();
+        }
+
+        public async Task<IEnumerable<VehicleModel>> GetActiveVehicleModels()
+        {
+            return await _dbContext.VehicleModels
+                .Where(vm => vm.Active == true)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<VehicleDto>> GetBestOffers(int size)
@@ -201,6 +216,44 @@ namespace CarRental.Bll.Services
             }
         }
 
+        public async Task CreateVehicleModel(VehicleModelInputDto vehicleModelDto)
+        {
+            var vehicle = new VehicleModel
+            {
+                VehicleType = vehicleModelDto.VehicleType,
+                PricePerDay = vehicleModelDto.PricePerDay ?? 0,
+                NumberOfDoors = vehicleModelDto.NumberOfDoors ?? 0,
+                NumberOfSeats = vehicleModelDto.NumberOfSeats ?? 0,
+                Active = vehicleModelDto.Active,
+                AirConditioning = vehicleModelDto.AirConditioning,
+                Automatic = vehicleModelDto.Automatic,
+                VehicleUrl = string.Empty
+            };
+
+            _dbContext.Add(vehicle);
+            await _dbContext.SaveChangesAsync();
+
+            if (vehicleModelDto.Picture != null || vehicleModelDto.Picture.Length > 0)
+            {
+                var file = vehicleModelDto.Picture;
+                var upload = Path.Combine(_hosting.WebRootPath, "images");
+                var extension = Path.GetExtension(file.FileName);
+                var fileName = Path.GetFileName(file.FileName);
+                if (file.Length > 0)
+                {
+
+                    string name = Path.GetFileNameWithoutExtension(fileName);
+                    string myfileName = name + '_' + vehicle.Id + extension;
+                    using (var filestream = new FileStream(Path.Combine(upload, myfileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(filestream);
+                        vehicle.VehicleUrl = myfileName;
+                        await _dbContext.SaveChangesAsync();
+                    }
+                }
+            }
+        }
+
         public async Task EditVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture)
         {
             var vehicleModel = await _dbContext.VehicleModels
@@ -218,6 +271,57 @@ namespace CarRental.Bll.Services
             if (Picture != null && Picture.Length > 0)
             {
                 var file = Picture;
+                var upload = Path.Combine(_hosting.WebRootPath, "images");
+                var extension = Path.GetExtension(file.FileName);
+                string fileName = Path.GetFileName(file.FileName);
+                string currentName = vehicleModel.VehicleUrl;
+
+                if (currentName != null && currentName.Length > 0)
+                {
+                    string libary = Path.Combine(_hosting.WebRootPath, "images");
+                    string fullPath = Path.Combine(libary, currentName);
+
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+
+                if (file.Length > 0)
+                {
+                    string name = Path.GetFileNameWithoutExtension(fileName);
+                    string myfileName = name + '_' + vehicleModel.Id + extension;
+
+                    using (var fileStream = new FileStream(Path.Combine(upload, myfileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                        vehicleModel.VehicleUrl = myfileName;
+                    }
+                }
+            }
+
+            _dbContext.Attach(vehicleModel).State = EntityState.Modified;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task EditVehicleModel(VehicleModelEditDto vehicleModelDto)
+        {
+            var vehicleModel = await _dbContext.VehicleModels
+                .Where(vm => vm.Id == vehicleModelDto.Id)
+                .SingleOrDefaultAsync();
+
+            vehicleModel.VehicleType = vehicleModelDto.VehicleType;
+            vehicleModel.PricePerDay = vehicleModelDto.PricePerDay ?? 0;
+            vehicleModel.NumberOfDoors = vehicleModelDto.NumberOfDoors ?? 0;
+            vehicleModel.NumberOfSeats = vehicleModelDto.NumberOfSeats ?? 0;
+            vehicleModel.Active = vehicleModelDto.Active;
+            vehicleModel.AirConditioning = vehicleModelDto.AirConditioning;
+            vehicleModel.Automatic = vehicleModelDto.Automatic;
+
+            if (vehicleModelDto.Picture != null && vehicleModelDto.Picture.Length > 0)
+            {
+                var file = vehicleModelDto.Picture;
                 var upload = Path.Combine(_hosting.WebRootPath, "images");
                 var extension = Path.GetExtension(file.FileName);
                 string fileName = Path.GetFileName(file.FileName);
@@ -287,7 +391,6 @@ namespace CarRental.Bll.Services
         {
             var vehicleModel = await _dbContext.VehicleModels
                 .Where(vm => vm.Id == id)
-                .Include(vm => vm.Cars)
                 .Include(vm => vm.Reservations)
                 .SingleOrDefaultAsync();
 
@@ -307,8 +410,8 @@ namespace CarRental.Bll.Services
         public async Task<VehicleModelDeleteDto> GetVehicleModelDelete(int? id)
         {
             var vehicleModel = await _dbContext.VehicleModels
-                .Where(vm => vm.Id == id)
                 .Include(vm => vm.Reservations)
+                .Where(vm => vm.Id == id)
                 .Select(vm => new VehicleModelDeleteDto
                 {
                     Id = vm.Id,

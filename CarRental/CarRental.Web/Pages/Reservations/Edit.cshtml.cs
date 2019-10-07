@@ -20,17 +20,14 @@ namespace CarRental.Web.Pages.Reservations
     [Authorize(Roles = "Administrators")]
     public class EditModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ICarService _carService;
 
         private readonly IReservationService _reservationService;
 
         private readonly ILogger<EditModel> _logger;
 
-        public EditModel(CarRentalDbContext context, ICarService carService, IReservationService reservationService, ILogger<EditModel> logger)
+        public EditModel(ICarService carService, IReservationService reservationService, ILogger<EditModel> logger)
         {
-            _context = context;
             _carService = carService;
             _reservationService = reservationService;
             _logger = logger;
@@ -56,8 +53,8 @@ namespace CarRental.Web.Pages.Reservations
                 return NotFound();
             }
 
-            var cars = _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
-            ViewData["CarId"] = new SelectList(cars.Result, "Id", "PlateNumber");
+            var cars = await _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
+            ViewData["CarId"] = new SelectList(cars, "Id", "PlateNumber");
             return Page();
         }
 
@@ -65,8 +62,8 @@ namespace CarRental.Web.Pages.Reservations
         {
             if (!ModelState.IsValid)
             {
-                var cars = _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
-                ViewData["CarId"] = new SelectList(cars.Result, "Id", "PlateNumber");
+                var cars = await _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
+                ViewData["CarId"] = new SelectList(cars, "Id", "PlateNumber");
                 return Page();
             }
 
@@ -110,8 +107,8 @@ namespace CarRental.Web.Pages.Reservations
         {
             if (!ModelState.IsValid)
             {
-                var cars = _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
-                ViewData["CarId"] = new SelectList(cars.Result, "Id", "PlateNumber");
+                var cars = await _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
+                ViewData["CarId"] = new SelectList(cars, "Id", "PlateNumber");
                 return Page();
             }
 
@@ -142,9 +139,5 @@ namespace CarRental.Web.Pages.Reservations
             return RedirectToPage("./Index");
         }
 
-        /*private bool ReservationExists(int id)
-        {
-            return _context.Reservations.Any(e => e.Id == id);
-        }*/
     }
 }

@@ -19,17 +19,14 @@ namespace CarRental.Web.Pages.Cars
     [Authorize(Roles = "Administrators")]
     public class EditModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ICarService _carService;
 
         private readonly IVehicleModelService _vehicleModelService;
 
         private readonly ILogger<EditModel> _logger;
 
-        public EditModel(CarRentalDbContext context, ICarService carService, IVehicleModelService vehicleModelService, ILogger<EditModel> logger)
+        public EditModel(ICarService carService, IVehicleModelService vehicleModelService, ILogger<EditModel> logger)
         {
-            _context = context;
             _carService = carService;
             _vehicleModelService = vehicleModelService;
             _logger = logger;
@@ -54,7 +51,7 @@ namespace CarRental.Web.Pages.Cars
                 return NotFound();
             }
 
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType", Car.VehicleModelId);
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
             return Page();
         }
 
@@ -62,7 +59,7 @@ namespace CarRental.Web.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
-                ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType", Car.VehicleModelId);
+                ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
                 return Page();
             }
 
@@ -101,9 +98,5 @@ namespace CarRental.Web.Pages.Cars
             return RedirectToPage("./Index");
         }
 
-        private bool CarExists(int id)
-        {
-            return _context.Cars.Any(e => e.Id == id);
-        }
     }
 }

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using CarRental.Bll.IServices;
-using CarRental.Bll.Dtos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.Cars
 {
@@ -31,9 +26,9 @@ namespace CarRental.Web.Pages.Cars
             _logger = logger;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetVehicles(), "Id", "VehicleType");
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType");
             return Page();
         }
 
@@ -44,7 +39,7 @@ namespace CarRental.Web.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
-                ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetVehicles(), "Id", "VehicleType");
+                ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType");
                 return Page();
             }
 

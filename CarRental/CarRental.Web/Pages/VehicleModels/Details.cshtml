@@ -87,9 +87,9 @@
             </div>
             if (Model.VehicleModel.CarFound == 0)
             {
-            <div class="ml-3">
-                <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
-            </div>
+                <div class="ml-3">
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
+                </div>
             }
         }
     }
@@ -122,4 +122,72 @@
             <vc:car-dto cars="@Model.VehicleModel.Cars"></vc:car-dto>
         </div>
     }
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-body my-3">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="text-center">Hozzászólás írásához <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">jelentkezzen be</a>!</div>
+            }
+            else
+            {
+                <form id="new-comment-form" method="post" asp-page-handler="Comment">
+                    <textarea name="text" class="html-editor"></textarea>
+                    <div class="text-right mt-2">
+                        <button class="btn btn-default" value="@Model.VehicleModel.Id" name="vehicleModelId">Hozzászólás</button>
+                    </div>
+                </form>
+            }
+        </div>
+        <div id="comments">
+        @foreach (var comment in Model.Comments)
+        {
+            <partial name="~/Pages/Shared/_CommentPartial.cshtml" model="comment" />
+        }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+
+    <script>
+        tinymce.init({ selector: '.html-editor' });
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("/vehiclemodelshub")
+            .build();
+
+        connection.start().then(function ()
+        {
+            connection.send('JoinVehicleModelPage', @Model.VehicleModel.Id).then(function () { });
+        });
+
+        connection.on('CommentPosted', function (htmlString)
+        {
+            $("#comments").prepend(htmlString);
+        });
+
+        $('#new-comment-form').submit(function (e)
+        {
+            e.preventDefault();
+            console.log(e);
+            connection.send('PostComment', @Model.VehicleModel.Id, tinymce.activeEditor.getContent()).then(function () { });
+        });
+
+        connection.on('CommentDeleted', function (commentId)
+        {
+            $("#comment-" + commentId).remove();
+        });
+        $('.delete-comment').click(function (e)
+        {
+            var commentId = e.target.attributes['data-comment-id'].value;
+            console.log(e);
+            connection.send('DeleteComment', commentId).then();
+        });
+
+    </script>
 }

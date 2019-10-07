@@ -51,7 +51,7 @@ namespace CarRental.Web.Pages.Reservations
         public async Task<IActionResult> OnGet(int? id)
         {
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType", id);
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", id);
             return Page();
         }
 
@@ -77,7 +77,7 @@ namespace CarRental.Web.Pages.Reservations
         public async Task<IActionResult> OnPostAsync()
         {
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType");
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType");
 
             if (!ModelState.IsValid)
             {

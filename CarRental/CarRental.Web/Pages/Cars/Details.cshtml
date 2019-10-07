@@ -46,7 +46,7 @@
     </div>
     <div class="row mt-4">
         <a class="btn btn-primary mr-3" asp-page="./Edit" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
-        @if (!Model.HasReservation)
+        @if (!Model.Car.HasReservation)
         {
         <a class="btn btn-danger mr-3" asp-page="./Delete" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
         }

@@ -179,17 +179,23 @@ namespace CarRental.Bll.Services
 
             var carList = await cars
                 .Where(c => c.VehicleModel.Active == true && c.VehicleModelId == id)
+                .Where(c => c.Reservations
+                .Where(r => (r.PickUpTime.Date <= start.Date && r.DropOffTime.Date >= start.Date)
+                || (end.Date <= r.DropOffTime.Date && end.Date >= r.PickUpTime.Date))
+                .Any(r => r.State == Reservation.ReservationStates.Accepted) == false)
                 .ToListAsync();
 
-            IList<Car> freeCars = new List<Car>();
+            /*IList<Car> freeCars = new List<Car>();
             foreach (var car in carList)
             {
                 if (!car.Reservations.Where(r => (r.PickUpTime.Date <= start.Date && r.DropOffTime.Date >= start.Date) || (end.Date <= r.DropOffTime.Date && end.Date >= r.PickUpTime.Date)).Where(r => r.State == Reservation.ReservationStates.Accepted).Any())
                 {
                     freeCars.Add(car);
                 }
-            }
-            return freeCars.AsEnumerable().ToList();
+            }*/
+
+            //return freeCars.ToList();
+            return carList;
         }
 
         public async Task<IEnumerable<CarDto>> GetCarList(int? vehicleModelId)
@@ -198,8 +204,7 @@ namespace CarRental.Bll.Services
                 .Include(c => c.VehicleModel)
                 .Where(c => c.VehicleModelId == vehicleModelId)
                 .Select(CarDtoSelector)
-                .ToAsyncEnumerable()
-                .ToList();
+                .ToListAsync();
         }
 
         public async Task<bool> CarHasReservations(int? id)

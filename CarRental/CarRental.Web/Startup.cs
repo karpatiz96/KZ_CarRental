@@ -1,3 +1,4 @@
+using CarRental.Bll.Configurations;
 using CarRental.Bll.IServices;
 using CarRental.Bll.Services;
 using CarRental.Dal;
@@ -5,12 +6,15 @@ using CarRental.Dal.Entities;
 using CarRental.Dal.EntityConfigurations;
 using CarRental.Dal.SeedInterfaces;
 using CarRental.Dal.SeedServices;
+using CarRental.Web.Hubs;
 using CarRental.Web.Resources;
+using CarRental.Web.ViewRender;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -52,6 +56,13 @@ namespace CarRental.Web
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IAddressService, AddressService>();
             services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddScoped<IViewRender, ViewRender.ViewRender>();
+
+            services.AddTransient<ICommentService, CommentService>();
+
+            services.Configure<AuthMessageSenderOptions>(Configuration);
 
             services.AddIdentity<User, IdentityRole<int>>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
@@ -99,6 +110,8 @@ namespace CarRental.Web
                 options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
             });
 
+            services.AddSignalR();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization( options => 
@@ -135,6 +148,11 @@ namespace CarRental.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseSignalR(routes => 
+            {
+                routes.MapHub<VehicleModelsHub>("/vehiclemodelshub"); 
+            });
 
             //app.UseMvc();
             app.UseMvc(routes =>

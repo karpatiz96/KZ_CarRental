@@ -18,15 +18,12 @@ namespace CarRental.Web.Pages.Reservations
     [Authorize(Roles = "Administrators")]
     public class DeleteModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly IReservationService _reservationService;
 
         private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(CarRentalDbContext context, IReservationService reservationService, ILogger<DeleteModel> logger)
+        public DeleteModel(IReservationService reservationService, ILogger<DeleteModel> logger)
         {
-            _context = context;
             _reservationService = reservationService;
             _logger = logger;
         }
