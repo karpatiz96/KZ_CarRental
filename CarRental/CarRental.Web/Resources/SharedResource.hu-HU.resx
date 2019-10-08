@@ -132,11 +132,23 @@
   <data name="CAR_RENTAL_WEB" xml:space="preserve">
     <value>Car Rental</value>
   </data>
+  <data name="COMMENT" xml:space="preserve">
+    <value>Comment</value>
+  </data>
+  <data name="COMMENTLOGIN" xml:space="preserve">
+    <value>jelentkezzen be</value>
+  </data>
   <data name="COOKIE_CONSENT_LINK" xml:space="preserve">
     <value>Tudj meg többet</value>
   </data>
   <data name="COOKIE_CONSENT_TEXT" xml:space="preserve">
     <value>Ez az oldal sütiket használ. Az elfodagra kattintva elfogadja használatukat. További információkért lásd itt: </value>
+  </data>
+  <data name="CURRENTRESERVATIONS" xml:space="preserve">
+    <value>Jelenlegi Foglalások</value>
+  </data>
+  <data name="DELETECOMMENT" xml:space="preserve">
+    <value>Hozzászólás törlése</value>
   </data>
   <data name="HELLO" xml:space="preserve">
     <value>Hello</value>
@@ -156,6 +168,9 @@
   <data name="LOGOUT" xml:space="preserve">
     <value>Kijelentkezés</value>
   </data>
+  <data name="MAKECOMMENT" xml:space="preserve">
+    <value>Hozzászólás írásához </value>
+  </data>
   <data name="PREVIOUS_RESERVATIONS" xml:space="preserve">
     <value>Korábbi Foglalások</value>
   </data>
@@ -167,6 +182,9 @@
   </data>
   <data name="PRIVACY_TITLE" xml:space="preserve">
     <value>Adatvédelmi irányelvek</value>
+  </data>
+  <data name="RATE" xml:space="preserve">
+    <value>Értékel</value>
   </data>
   <data name="REGISTER" xml:space="preserve">
     <value>Regisztráció</value>

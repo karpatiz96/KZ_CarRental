@@ -17,18 +17,23 @@ namespace CarRental.Web.Pages.VehicleModels
 
         private readonly ICommentService _commentService;
 
+        private readonly IRatingService _ratingService;
+
         private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(IVehicleModelService vehicleModelService, ICommentService commentService, ILogger<DetailsModel> logger)
+        public DetailsModel(IVehicleModelService vehicleModelService, ICommentService commentService, IRatingService ratingService,ILogger<DetailsModel> logger)
         {
             _vehicleModelService = vehicleModelService;
             _commentService = commentService;
+            _ratingService = ratingService;
             _logger = logger;
         }
 
         public VehicleModelDetailsDto VehicleModel { get; set; }
 
         public IEnumerable<CommentDto> Comments { get; private set; }
+
+        public bool IsRated { get; private set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -38,6 +43,26 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
+            VehicleModel = await _vehicleModelService.GetVehicleModel(id.Value);
+
+            if (VehicleModel == null)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, "VehicleModel {ID} NOT FOUND", id);
+                return NotFound();
+            }
+
+            Comments = _commentService.GetComments();
+
+            //IsRated = await _ratingService.IsRated(VehicleModel.Id, );
+
+            return Page();
+        }        public async Task<IActionResult> OnPostRating(int? id)
+        {
+            if(id == null)
+            {
+                return RedirectToPage("./Index");
+            }
+
             VehicleModel = await _vehicleModelService.GetVehicleModel(id.Value);
 
             if (VehicleModel == null)

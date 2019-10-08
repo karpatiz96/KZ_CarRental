@@ -106,9 +106,10 @@ namespace CarRental.Bll.Services
                 .Where(vm => vm.Active == true)
                 .OrderBy(vm => vm.PricePerDay)
                 .Take(size)
+                .Select(VehicleDtoSelector)
                 .ToListAsync();
 
-            return vehicles.Select(VehicleDtoSelector.Compile()).ToList();
+            return vehicles;
         }
 
         public async Task<PagedResult<VehicleDto>> GetVehicles(VehicleModelFilter filter = null)
@@ -171,6 +172,7 @@ namespace CarRental.Bll.Services
         {
             var vehicleModel = await _dbContext.VehicleModels
                 .Include(v => v.Cars)
+                .Include(r => r.Ratings)
                 .Where(vm => vm.Id == id)
                 .Select(VehicleModelDetailsDtoSelector)
                 .SingleOrDefaultAsync();

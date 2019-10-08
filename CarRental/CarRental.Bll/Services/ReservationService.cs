@@ -422,5 +422,17 @@ namespace CarRental.Bll.Services
             return _dbContext.Reservations.Any(e => e.Id == id);
         }
 
+        public async Task<IEnumerable<ReservationListHeader>> GetReservationListHeaders(int? userid)
+        {
+            var reservations = await _dbContext.Reservations
+                .Where(r => r.UserId == userid.Value)
+                .Where(r => r.DropOffTime > DateTime.Now)
+                .Select(ReservationListHeaderSelector)
+                .ToAsyncEnumerable()
+                .ToList();
+
+            return reservations;
+        }
+
     }
 }

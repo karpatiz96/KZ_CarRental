@@ -1,6 +1,7 @@
 ﻿@page
 @model CarRental.Web.Pages.VehicleModels.DetailsModel
 @inject PagesLocalizationService PagesLocalizer
+@inject SharedLocalizationService SharedLocalizer
 
 <div class="container">
     <h4>@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_MODEL")</h4>
@@ -125,19 +126,19 @@
 }
 
 
-<div class="row">
+<div class="row mt-4">
     <div class="col-12">
         <div class="card card-body my-3">
             @if (!User.Identity.IsAuthenticated)
             {
-                <div class="text-center">Hozzászólás írásához <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">jelentkezzen be</a>!</div>
+                <div class="text-center">@SharedLocalizer.GetLocalizedHtmlString("MAKECOMMENT")<a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">@SharedLocalizer.GetLocalizedHtmlString("COMMENTLOGIN")</a>!</div>
             }
             else
             {
                 <form id="new-comment-form" method="post" asp-page-handler="Comment">
                     <textarea name="text" class="html-editor"></textarea>
                     <div class="text-right mt-2">
-                        <button class="btn btn-default" value="@Model.VehicleModel.Id" name="vehicleModelId">Hozzászólás</button>
+                        <button class="btn btn-outline-primary" value="@Model.VehicleModel.Id" name="vehicleModelId">@SharedLocalizer.GetLocalizedHtmlString("COMMENT")</button>
                     </div>
                 </form>
             }
@@ -155,7 +156,7 @@
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 
-    <script>
+    <script type="text/javascript">
         tinymce.init({ selector: '.html-editor' });
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("/vehiclemodelshub")

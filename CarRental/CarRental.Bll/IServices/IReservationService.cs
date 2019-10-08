@@ -27,5 +27,7 @@ namespace CarRental.Bll.IServices
         Task<ReservationHeader> GetReservation(int? id);
 
         bool ReservationExists(int? id);
+
+        Task<IEnumerable<ReservationListHeader>> GetReservationListHeaders(int? userid);
     }
 }
