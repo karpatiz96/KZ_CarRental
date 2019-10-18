@@ -96,7 +96,7 @@ namespace CarRental.Web.Pages.Reservations
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
             }
 
@@ -132,7 +132,7 @@ namespace CarRental.Web.Pages.Reservations
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
             }
 

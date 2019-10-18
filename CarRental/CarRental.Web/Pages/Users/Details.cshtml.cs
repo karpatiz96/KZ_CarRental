@@ -7,28 +7,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CarRental.Dal;
 using CarRental.Dal.Entities;
-using CarRental.Bll.Dtos;
-using CarRental.Bll.IServices;
 using Microsoft.AspNetCore.Authorization;
+using CarRental.Bll.IServices;
 using Microsoft.Extensions.Logging;
+using CarRental.Bll.Dtos;
 using CarRental.Bll.Logging;
+using Microsoft.AspNetCore.Identity;
 
-namespace CarRental.Web.Pages.Cars
+namespace CarRental.Web.Pages.Users
 {
     [Authorize(Roles = "Administrators")]
     public class DetailsModel : PageModel
     {
-        private readonly ICarService _carService;
+        private readonly IUserService _userService;
 
         private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(ICarService carService, ILogger<DetailsModel> logger)
+        public DetailsModel(IUserService userService, ILogger<DetailsModel> logger)
         {
-            _carService = carService;
+            _userService = userService;
             _logger = logger;
         }
 
-        public CarDetailsDto Car { get; set; }
+        public UserDetailsDto UserDto { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,12 +37,13 @@ namespace CarRental.Web.Pages.Cars
             {
                 return NotFound();
             }
-            _logger.LogInformation(LoggingEvents.GetItem, "Get Car {ID}", id);
-            Car = await _carService.GetCarDetailsDto(id);
 
-            if (Car == null)
+            _logger.LogInformation(LoggingEvents.GetItem, "Get User {ID}", id);
+            UserDto = await _userService.GetUserDetails(id);
+
+            if (User == null)
             {
-                _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get Car {ID} NOT FOUND", id);
+                _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get User {ID} NOT FOUND", id);
                 return NotFound();
             }
 

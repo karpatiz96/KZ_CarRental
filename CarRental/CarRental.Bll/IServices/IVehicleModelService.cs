@@ -9,11 +9,7 @@ namespace CarRental.Bll.IServices
 {
     public interface IVehicleModelService
     {
-        IEnumerable<VehicleModel> GetVehicles();
-
         Task<IEnumerable<VehicleModel>> GetVehicleModels();
-
-        IEnumerable<VehicleModel> GetActiveVehicles();
 
         Task<IEnumerable<VehicleModel>> GetActiveVehicleModels();
 
@@ -24,8 +20,6 @@ namespace CarRental.Bll.IServices
         Task<VehicleModelDto> GetVehicle(int? id);
 
         Task<VehicleModelDetailsDto> GetVehicleModel(int? id);
-
-        Task CreateVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture);
 
         Task CreateVehicleModel(VehicleModelInputDto vehicleModelDto);
 

@@ -17,6 +17,43 @@
                     </div>
                 </div>
                 <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.StarRating)</b></label>
+                    <div class="col-md-8">
+                        @for (int s = 0; s < Math.Round(Model.VehicleModel.StarRating); s++)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                        @for (int s = 0; s < ( 5 - Math.Round(Model.VehicleModel.StarRating)); s++)
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    </div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @if (!Model.IsRated)
+                        {
+                        <form method="post" asp-page-handler="Rating">
+                            <input type="hidden" asp-for="@Model.Rating.VehicleModelId">
+                            <span class="rating">
+                                @for(int i = 0; i <= 4 ; i++)
+                                {
+                                    var star = "star";
+                                    if (Model.Rating.Rating == (5 - i))
+                                    {
+                                        star += "active";
+                                    }
+                                    <span data-value="@(5 - i)" class="@star fa fa-star"></span>
+                                }
+                            </span>
+                            <input type="hidden" asp-for="@Model.Rating.Rating" id="Rating" />
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">@PagesLocalizer.GetLocalizedHtmlString("RATING")</button>
+                            </div>
+                        </form>
+                        }
+                    }
+                </div>
+                <div class="row">
                     <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.PricePerDay)</b></label>
                     <div class="col-md-8">
                         <p>@Model.VehicleModel.PricePerDay Ft</p>
@@ -155,6 +192,7 @@
 @section Scripts {
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/rating.js"></script>
 
     <script type="text/javascript">
         tinymce.init({ selector: '.html-editor' });

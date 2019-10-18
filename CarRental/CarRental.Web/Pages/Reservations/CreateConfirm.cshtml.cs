@@ -70,7 +70,7 @@ namespace CarRental.Web.Pages.Reservations
             var address = await _context.Addresses.Where(a => a.Id == addressId).FirstOrDefaultAsync();
             int days = (dropOff.Date - pickUp.Date).Days;
 
-            if (user == null || vehicle == null || vehicle == null)
+            if (user == null || vehicle == null || address == null)
             {
                 return NotFound();
             }
@@ -112,7 +112,7 @@ namespace CarRental.Web.Pages.Reservations
             var address = await _context.Addresses.Where(a => a.Id == addressId).FirstOrDefaultAsync();
             int days = (dropOff.Date - pickUp.Date).Days;
 
-            if (user == null || vehicle == null || vehicle == null)
+            if (user == null || vehicle == null || address == null)
             {
                 return NotFound();
             }
@@ -156,7 +156,7 @@ namespace CarRental.Web.Pages.Reservations
 
             Reservation = reservationDto;
 
-            Reservation reservation = new Reservation()
+            /*Reservation reservation = new Reservation()
             {
                 UserId = Reservation.UserId,
                 AddressId = Reservation.AddressId,
@@ -165,10 +165,10 @@ namespace CarRental.Web.Pages.Reservations
                 DropOffTime = Reservation.DropOffTime,
                 Price = Reservation.Price,
                 State = ReservationStates.Undecieded
-            };
+            };*/
 
             _logger.LogInformation(LoggingEvents.InsertItem, "Create Reservation");
-            await _reservationService.CreateReservation(reservation);
+            await _reservationService.CreateReservation(reservationDto);
 
             return RedirectToPage("./List");
         }

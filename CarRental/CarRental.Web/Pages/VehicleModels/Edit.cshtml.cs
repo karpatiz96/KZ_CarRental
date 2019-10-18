@@ -73,18 +73,10 @@ namespace CarRental.Web.Pages.VehicleModels
                 return NotFound();
             }
 
-            vehicleModel.VehicleType = VehicleModel.VehicleType;
-            vehicleModel.PricePerDay = VehicleModel.PricePerDay.Value;
-            vehicleModel.NumberOfDoors = VehicleModel.NumberOfDoors.Value;
-            vehicleModel.NumberOfSeats = VehicleModel.NumberOfSeats.Value;
-            vehicleModel.Active = VehicleModel.Active;
-            vehicleModel.AirConditioning = VehicleModel.AirConditioning;
-            vehicleModel.Automatic = VehicleModel.Automatic;
-
             try
             {
                 _logger.LogInformation(LoggingEvents.UpdateItem, "Update VehicleModel {ID}", vehicleModel.Id);
-                await _vehicleModelService.EditVehicle(vehicleModel, VehicleModel.Picture);
+                await _vehicleModelService.EditVehicleModel(VehicleModel);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -95,7 +87,7 @@ namespace CarRental.Web.Pages.VehicleModels
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
             }
 

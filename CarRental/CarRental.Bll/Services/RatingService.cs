@@ -25,7 +25,7 @@ namespace CarRental.Bll.Services
             {
                 UserId = currentUserId,
                 Value = ratingValue,
-                VehicleModelId = currentUserId
+                VehicleModelId = vehicleModelId
             };
 
             _dbContext.Ratings.Add(rating);

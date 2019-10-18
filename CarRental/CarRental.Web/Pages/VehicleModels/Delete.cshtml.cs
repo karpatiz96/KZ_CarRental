@@ -13,15 +13,12 @@ namespace CarRental.Web.Pages.VehicleModels
     [Authorize(Roles = "Administrators")]
     public class DeleteModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ILogger<DeleteModel> _logger;
 
         private readonly IVehicleModelService _vehicleModelService;
 
-        public DeleteModel(CarRentalDbContext context, IVehicleModelService vehicleModelService, ILogger<DeleteModel> logger)
+        public DeleteModel(IVehicleModelService vehicleModelService, ILogger<DeleteModel> logger)
         {
-            _context = context;
             _vehicleModelService = vehicleModelService;
             _logger = logger;
         }

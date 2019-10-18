@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using static CarRental.Bll.Filters.ReservationListFilter;
 
@@ -42,21 +43,21 @@ namespace CarRental.Bll.Services
             VehicleType = r.VehicleModel?.VehicleType
         };
 
-        public static Func<Reservation, ReservationIndexHeader> ReservationIndexHeaderSelector { get; } = r => new ReservationIndexHeader
+        public static Expression<Func<Reservation, ReservationIndexHeader>> ReservationIndexHeaderSelector { get; } = r => new ReservationIndexHeader
         {
             Id = r.Id,
             AddressId = r.AddressId,
             Address = r.Address.ZipCode + " " + r.Address.City + " " + r.Address.StreetAddress,
             CarId = r.CarId,
-            Car = r.Car?.PlateNumber,
+            Car = r.Car.PlateNumber ?? "",
             DropOffTime = r.DropOffTime,
             PickUpTime = r.PickUpTime,
             State = r.State,
             VehicleModelId = r.VehicleModelId,
-            VehicleType = r.VehicleModel?.VehicleType
+            VehicleType = r.VehicleModel.VehicleType ?? ""
         };
 
-        public static Func<Reservation, ReservationListHeader> ReservationListHeaderSelector { get; } = r => new ReservationListHeader
+        public static Expression<Func<Reservation, ReservationListHeader>> ReservationListHeaderSelector { get; } = r => new ReservationListHeader
         {
             Id = r.Id,
             AddressId = r.AddressId,
@@ -65,13 +66,24 @@ namespace CarRental.Bll.Services
             PickUpTime = r.PickUpTime,
             Price = r.Price,
             State = r.State,
-            VehicleModelId = r.VehicleModelId,
-            VehicleType = r.VehicleModel?.VehicleType
+            VehicleModelId = r.VehicleModelId.Value,
+            VehicleType = r.VehicleModel.VehicleType ?? ""
         };
 
-        public async Task CreateReservation(Reservation reservation)
+        public async Task CreateReservation(ReservationDto reservationDto)
         {
-            _dbContext.Add(reservation);
+            var reservation = new Reservation
+            {
+                UserId = reservationDto.UserId,
+                AddressId = reservationDto.AddressId,
+                VehicleModelId = reservationDto.VehicleModelId,
+                PickUpTime = reservationDto.PickUpTime,
+                DropOffTime = reservationDto.DropOffTime,
+                Price = reservationDto.Price,
+                State = Reservation.ReservationStates.Undecieded
+            };
+
+            _dbContext.Reservations.Add(reservation);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -253,14 +265,14 @@ namespace CarRental.Bll.Services
                 reservations = reservations.Skip(filter.PageNumber.Value * filter.PageSize.Value).Take(filter.PageSize.Value);
             }
 
-            var results = await reservations.ToListAsync();
+            var results = await reservations.Select(ReservationIndexHeaderSelector).ToListAsync();
 
             return new PagedResult<ReservationIndexHeader>
             {
                 Total = Total,
                 PageNumber = filter?.PageNumber,
                 PageSize = filter?.PageSize,
-                Results = results.Select(ReservationIndexHeaderSelector).ToList()
+                Results = results
             };
         }
 
@@ -329,14 +341,14 @@ namespace CarRental.Bll.Services
                 reservations = reservations.Skip(filter.PageNumber.Value * filter.PageSize.Value).Take(filter.PageSize.Value);
             }
 
-            var results = await reservations.ToListAsync();
+            var results = await reservations.Select(ReservationListHeaderSelector).ToListAsync();
 
             return new PagedResult<ReservationListHeader>
             {
                 Total = Total,
                 PageNumber = filter?.PageNumber,
                 PageSize = filter?.PageSize,
-                Results = results.Select(ReservationListHeaderSelector).ToList()
+                Results = results
             };
         }
 
@@ -368,15 +380,6 @@ namespace CarRental.Bll.Services
             };
 
             return reservationHeader;
-        }
-
-        public IEnumerable<Reservation> GetReservations(int? userid)
-        {
-            return _dbContext.Reservations
-                .Include(r => r.User)
-                .Where(r => r.UserId == userid)
-                .AsEnumerable()
-                .ToList();
         }
 
         public async Task DeletedUserReservations(int? userid)
@@ -428,8 +431,7 @@ namespace CarRental.Bll.Services
                 .Where(r => r.UserId == userid.Value)
                 .Where(r => r.DropOffTime > DateTime.Now)
                 .Select(ReservationListHeaderSelector)
-                .ToAsyncEnumerable()
-                .ToList();
+                .ToListAsync();
 
             return reservations;
         }

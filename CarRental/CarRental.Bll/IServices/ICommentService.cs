@@ -6,7 +6,7 @@ namespace CarRental.Bll.IServices
 {
     public interface ICommentService
     {
-        IEnumerable<CommentDto> GetComments();
+        Task<IEnumerable<CommentDto>> GetComments();
 
         CommentDto PostComment(int vehicleModelId, string text, int currentUserId);
 

@@ -13,6 +13,7 @@ using CarRental.Bll.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using CarRental.Bll.Logging;
+using System.Net;
 
 namespace CarRental.Web.Pages.Cars
 {
@@ -91,7 +92,7 @@ namespace CarRental.Web.Pages.Cars
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
             }
 

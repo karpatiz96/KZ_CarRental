@@ -15,13 +15,10 @@ namespace CarRental.Web.Pages.VehicleModels
     {
         private readonly IVehicleModelService _vehicleModelService;
 
-        private readonly CarRentalDbContext _dbContext;
-
         private readonly ILogger<CreateModel> _logger;
 
-        public CreateModel(CarRentalDbContext dbContext,IVehicleModelService vehicleModelService, ILogger<CreateModel> logger)
+        public CreateModel(IVehicleModelService vehicleModelService, ILogger<CreateModel> logger)
         {
-            _dbContext = dbContext;
             _vehicleModelService = vehicleModelService;
             _logger = logger;
         }

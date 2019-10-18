@@ -1,0 +1,51 @@
+﻿@page
+@model CarRental.Web.Pages.Users.EditModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h4>User</h4>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Input.Name)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Input.Name)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-3">
+            <b>
+                @Html.DisplayNameFor(model => model.Input.Email)
+            </b>
+        </label>
+        <div class="col-md-9">
+            @Html.DisplayFor(model => model.Input.Email)
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <form method="post" class="mt-5">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Input.Id">
+                <div class="form-group">
+                    <label asp-for="Input.RoleId" class="control-label"></label>
+                    <select asp-for="Input.RoleId" class="form-control" asp-items="ViewBag.RoleId">
+                        <option value=""></option>
+                    </select>
+                    <span asp-validation-for="Input.RoleId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" value="Accept Reservation" class="btn btn-success">@PagesLocalizer.GetLocalizedHtmlString("ACCEPT_RESERVATION")</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+    </div>
+</div>

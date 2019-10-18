@@ -58,6 +58,7 @@ namespace CarRental.Web
             services.AddTransient<IReservationService, ReservationService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddScoped<IViewRender, ViewRender.ViewRender>();
 

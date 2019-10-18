@@ -21,8 +21,6 @@ namespace CarRental.Bll.IServices
 
         Task<IEnumerable<Car>> GetCars(DateTime start, DateTime end, int? id);
 
-        Task<IEnumerable<CarDto>> GetCarList(int? vehicleModelId);
-
         Task<bool> CarHasReservations(int? id);
 
         bool CarExists(int? id);

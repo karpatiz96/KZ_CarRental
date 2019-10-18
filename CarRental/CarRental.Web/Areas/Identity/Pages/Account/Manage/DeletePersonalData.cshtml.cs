@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Threading.Tasks;
 using CarRental.Dal.Entities;
-using CarRental.Dal.Services;
+using CarRental.Bll.Services;
 using CarRental.Web.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +13,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using CarRental.Bll.IServices;
 
 namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
 {

@@ -73,3 +73,38 @@ body {
 .color-title{
     color: lightgreen;
 }
+
+/* Star styles
+-------------------------------------------------- */
+.checked{
+    color: yellow;
+}
+
+.rating {
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    font-size: 30px;
+}
+  
+.rating span.star {
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+}
+  
+.rating span.star:hover {
+    cursor: pointer;
+}
+  
+.rating span.star:before {
+    padding-right: 5px;
+}
+  
+.rating span.star:hover:before, .rating span.star:hover ~ span.star:before {
+    color: yellow;
+}
+  
+.rating span.star.active::before, .rating span.star.active ~ span.star::before {
+    color: yellow;
+}

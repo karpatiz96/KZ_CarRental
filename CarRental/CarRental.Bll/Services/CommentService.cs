@@ -30,9 +30,12 @@ namespace CarRental.Bll.Services
             VehicleModelId = c.VehicleModelId
         };
 
-        public IEnumerable<CommentDto> GetComments()
+        public async Task<IEnumerable<CommentDto>> GetComments()
         {
-            return _dbContext.Comments.OrderByDescending(c => c.CreationDate).Select(CommentDtoSelector).ToList();
+            return await _dbContext.Comments
+                .OrderByDescending(c => c.CreationDate)
+                .Select(CommentDtoSelector)
+                .ToListAsync();
         }
 
         public CommentDto PostComment(int vehicleModelId, string text, int currentUserId)

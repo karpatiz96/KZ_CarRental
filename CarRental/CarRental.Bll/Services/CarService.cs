@@ -198,15 +198,6 @@ namespace CarRental.Bll.Services
             return carList;
         }
 
-        public async Task<IEnumerable<CarDto>> GetCarList(int? vehicleModelId)
-        {
-            return await _dbContext.Cars
-                .Include(c => c.VehicleModel)
-                .Where(c => c.VehicleModelId == vehicleModelId)
-                .Select(CarDtoSelector)
-                .ToListAsync();
-        }
-
         public async Task<bool> CarHasReservations(int? id)
         {
             var car = await _dbContext.Cars

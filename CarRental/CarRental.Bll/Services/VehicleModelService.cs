@@ -67,29 +67,16 @@ namespace CarRental.Bll.Services
                 VehicleType = c.VehicleModel.VehicleType,
                 Active = c.Active
             }).ToList(),
-            CarFound = vm.Cars.Count
+            CarFound = vm.Cars.Count,
+            StarRating = vm.Ratings.Any() ? (vm.Ratings.Sum(r => (float) r.Value) / (float) vm.Ratings.Count()) : 0,
+            Reviewers = vm.Ratings.Count()
         };
-
-        public IEnumerable<VehicleModel> GetVehicles()
-        {
-            return _dbContext.VehicleModels
-                .AsEnumerable()
-                .ToList();
-        }
 
         public async Task<IEnumerable<VehicleModel>> GetVehicleModels()
         {
             return await _dbContext.VehicleModels
                 .AsNoTracking()
                 .ToListAsync();
-        }
-
-        public IEnumerable<VehicleModel> GetActiveVehicles()
-        {
-            return _dbContext.VehicleModels
-                .Where(vm => vm.Active == true)
-                .AsEnumerable()
-                .ToList();
         }
 
         public async Task<IEnumerable<VehicleModel>> GetActiveVehicleModels()
@@ -178,44 +165,6 @@ namespace CarRental.Bll.Services
                 .SingleOrDefaultAsync();
 
             return vehicleModel;
-        }
-
-        public async Task CreateVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture)
-        {
-            var vehicle = new VehicleModel
-            {
-                VehicleType = vehicleModelDto.VehicleType,
-                PricePerDay = vehicleModelDto.PricePerDay,
-                NumberOfDoors = vehicleModelDto.NumberOfDoors,
-                NumberOfSeats = vehicleModelDto.NumberOfSeats,
-                Active = vehicleModelDto.Active,
-                AirConditioning = vehicleModelDto.AirConditioning,
-                Automatic = vehicleModelDto.Automatic,
-                VehicleUrl = string.Empty
-            };
-
-            _dbContext.Add(vehicle);
-            await _dbContext.SaveChangesAsync();
-
-            if (Picture != null || Picture.Length > 0)
-            {
-                var file = Picture;
-                var upload = Path.Combine(_hosting.WebRootPath, "images");
-                var extension = Path.GetExtension(file.FileName);
-                var fileName = Path.GetFileName(file.FileName);
-                if (file.Length > 0)
-                {
-
-                    string name = Path.GetFileNameWithoutExtension(fileName);
-                    string myfileName = name + '_' + vehicle.Id + extension;
-                    using (var filestream = new FileStream(Path.Combine(upload, myfileName), FileMode.Create))
-                    {
-                        await file.CopyToAsync(filestream);
-                        vehicle.VehicleUrl = myfileName;
-                        await _dbContext.SaveChangesAsync();
-                    }
-                }
-            }
         }
 
         public async Task CreateVehicleModel(VehicleModelInputDto vehicleModelDto)
@@ -314,9 +263,9 @@ namespace CarRental.Bll.Services
                 .SingleOrDefaultAsync();
 
             vehicleModel.VehicleType = vehicleModelDto.VehicleType;
-            vehicleModel.PricePerDay = vehicleModelDto.PricePerDay ?? 0;
-            vehicleModel.NumberOfDoors = vehicleModelDto.NumberOfDoors ?? 0;
-            vehicleModel.NumberOfSeats = vehicleModelDto.NumberOfSeats ?? 0;
+            vehicleModel.PricePerDay = vehicleModelDto.PricePerDay.Value;
+            vehicleModel.NumberOfDoors = vehicleModelDto.NumberOfDoors.Value;
+            vehicleModel.NumberOfSeats = vehicleModelDto.NumberOfSeats.Value;
             vehicleModel.Active = vehicleModelDto.Active;
             vehicleModel.AirConditioning = vehicleModelDto.AirConditioning;
             vehicleModel.Automatic = vehicleModelDto.Automatic;

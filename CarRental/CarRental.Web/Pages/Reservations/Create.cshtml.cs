@@ -56,9 +56,9 @@ namespace CarRental.Web.Pages.Reservations
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public ReservationInputDto Input { get; set; }
 
-        public class InputModel
+        /*public class InputModel
         {
             [Required(ErrorMessage = "PICK_UP_TIME_REQUIRED")]
             [DataType(DataType.DateTime)]
@@ -72,7 +72,7 @@ namespace CarRental.Web.Pages.Reservations
             public int AddressId { get; set; }
             [Display(Name = "VEHICLE_MODEL")]
             public int VehicleModelId { get; set; }
-        }
+        }*/
 
         public async Task<IActionResult> OnPostAsync()
         {
