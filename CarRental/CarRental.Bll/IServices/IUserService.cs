@@ -14,5 +14,7 @@ namespace CarRental.Bll.IServices
         Task<UserDto> GetUser(int? id);
 
         Task<UserDetailsDto> GetUserDetails(int? id);
+
+        Task DeleteUser(int? userId);
     }
 }

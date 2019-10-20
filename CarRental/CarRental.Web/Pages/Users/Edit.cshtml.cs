@@ -55,7 +55,7 @@ namespace CarRental.Web.Pages.Users
                 Email = user.Email,
                 Name = user.Name,
                 Roles = roles,
-                RoleId = roleId.Id
+                RoleName = roles.FirstOrDefault()
             };
 
             if (User == null)
@@ -64,7 +64,7 @@ namespace CarRental.Web.Pages.Users
                 return NotFound();
             }
 
-            ViewData["RoleId"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Id", "Name");
+            ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
             return Page();
         }
 
@@ -72,7 +72,7 @@ namespace CarRental.Web.Pages.Users
         {
             if (!ModelState.IsValid)
             {
-                ViewData["RoleId"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Id", "Name");
+                ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
                 return Page();
             }
             var user = await _userManager.Users.Where(u => u.Id == Input.Id).FirstOrDefaultAsync();
@@ -80,8 +80,10 @@ namespace CarRental.Web.Pages.Users
 
             await _userManager.RemoveFromRolesAsync(user, roles);
 
-            var role = await _roleManager.Roles.Where(r => r.Id == Input.RoleId).FirstOrDefaultAsync();
-            await _userManager.AddToRoleAsync(user, role.Name);
+            if (await _roleManager.RoleExistsAsync(Input.RoleName))
+            {
+                await _userManager.AddToRoleAsync(user, Input.RoleName);
+            }
 
             return RedirectToPage("./Index");
         }

@@ -9,21 +9,42 @@ using CarRental.Dal;
 using CarRental.Dal.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using Microsoft.Extensions.Logging;
+using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Users
 {
     [Authorize(Roles = "Administrators")]
     public class DeleteModel : PageModel
     {
+        private readonly IUserService _userService;
+
+        private readonly IReservationService _reservationService;
+
+        private readonly ICommentService _commentService;
+
+        private readonly IRatingService _ratingService;
+
+        private readonly ILogger<DeleteModel> _logger;
+
         private readonly UserManager<User> _userManager;
 
-        public DeleteModel(UserManager<User> userManager)
+        public DeleteModel(IUserService userService, IReservationService reservationService, 
+            ICommentService commentService, IRatingService ratingService,
+            ILogger<DeleteModel> logger, UserManager<User> userManager)
         {
+            _userService = userService;
+            _reservationService = reservationService;
+            _commentService = commentService;
+            _ratingService = ratingService;
+            _logger = logger;
             _userManager = userManager;
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public UserDetailsDto UserDto { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,10 +53,12 @@ namespace CarRental.Web.Pages.Users
                 return NotFound();
             }
 
-            User = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            _logger.LogInformation(LoggingEvents.GetItem, "Get User {ID}", id);
+            UserDto = await _userService.GetUserDetails(id);
 
-            if (User == null)
+            if (UserDto == null)
             {
+                _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get User {ID} NOT FOUND", id);
                 return NotFound();
             }
             return Page();
@@ -48,7 +71,26 @@ namespace CarRental.Web.Pages.Users
                 return NotFound();
             }
 
-            User = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+            _logger.LogInformation(LoggingEvents.GetItem, "Get User {ID}", id);
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get User {ID} NOT FOUND", id);
+                return NotFound();
+            }
+
+            await _reservationService.DeletedUserReservations(user.Id);
+
+            await _ratingService.DeleteUserRatings(user.Id);
+
+            await _commentService.DeleteUserComments(user.Id);
+
+            var result = await _userManager.DeleteAsync(user);
+
+            var userId = await _userManager.GetUserIdAsync(user);
+
+            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
             return RedirectToPage("./Index");
         }

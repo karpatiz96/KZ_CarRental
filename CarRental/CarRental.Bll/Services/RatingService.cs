@@ -41,5 +41,26 @@ namespace CarRental.Bll.Services
 
             return isRated;
         }
+
+        public async Task DeleteUserRatings(int userId)
+        {
+            var ratings = await _dbContext.Ratings
+                .Include(c => c.User)
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            var user = await _dbContext.Users
+                .Include(u => u.Ratings)
+                .Where(u => u.Id == userId)
+                .SingleOrDefaultAsync();
+
+            foreach (var item in ratings)
+            {
+                item.User = null;
+                user.Ratings.Remove(item);
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -124,5 +124,66 @@ namespace CarRental.Bll.Services
 
             return null;
         }
+
+        public async Task DeleteUser(int? userId)
+        {
+            var reservations = await _dbContext.Reservations
+                .Include(r => r.User)
+                .Include(r => r.Car)
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+
+            var comments = await _dbContext.Comments
+                .Include(c => c.User)
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            var ratings = await _dbContext.Ratings
+                .Include(c => c.User)
+                .Where(c => c.UserId == userId)
+                .ToListAsync();
+
+            var user = await _dbContext.Users
+                .Include(u => u.Reservations)
+                .Include(u => u.Comments)
+                .Include(u => u.Ratings)
+                .Where(u => u.Id == userId)
+                .SingleOrDefaultAsync();
+
+            foreach (var item in reservations)
+            {
+                item.User = null;
+                user.Reservations.Remove(item);
+                if (item.State == Reservation.ReservationStates.Undecieded)
+                {
+                    item.State = Reservation.ReservationStates.Cancled;
+                }
+
+                if (item.State == Reservation.ReservationStates.Accepted && item.PickUpTime.Date >= DateTime.Now.Date)
+                {
+                    var car = await _dbContext.Cars.Where(c => c.Id == item.CarId).Include(c => c.Reservations).SingleOrDefaultAsync();
+                    if (car != null)
+                    {
+                        car.Reservations.Remove(item);
+                        item.Car = null;
+                        item.State = Reservation.ReservationStates.Cancled;
+                    }
+                }
+            }
+
+            foreach (var item in comments)
+            {
+                item.User = null;
+                user.Comments.Remove(item);
+            }
+
+            foreach (var item in ratings)
+            {
+                item.User = null;
+                user.Ratings.Remove(item);
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

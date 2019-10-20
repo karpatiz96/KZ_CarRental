@@ -14,7 +14,7 @@ namespace CarRental.Bll.Dtos
         public string Name { get; set; }
 
         [Display(Name = "Role")]
-        public int? RoleId { get; set; }
+        public string RoleName { get; set; }
 
         [Required(ErrorMessage = "EMAIL_REQUIRED")]
         [EmailAddress(ErrorMessage = "EMAIL_INVALID")]

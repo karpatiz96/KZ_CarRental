@@ -36,7 +36,7 @@ namespace CarRental.Web.Pages.Users
 
         public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["RoleId"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Id", "Name");
+            ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
             return Page();
         }
 
@@ -45,7 +45,7 @@ namespace CarRental.Web.Pages.Users
 
         public async Task<IActionResult> OnPostAsync()
         {
-            ViewData["RoleId"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Id", "Name");
+            ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
 
             if (!ModelState.IsValid)
             {
@@ -66,13 +66,9 @@ namespace CarRental.Web.Pages.Users
             {
                 _logger.LogInformation("User created a new account with password.");
 
-                if (Input.RoleId != null)
+                if(await _roleManager.RoleExistsAsync(Input.RoleName))
                 {
-                    var role = await _roleManager.Roles.Where(r => r.Id == Input.RoleId).FirstOrDefaultAsync();
-                    if (role != null)
-                    {
-                        var addToRole = await UserManager.AddToRoleAsync(user, role.Name);
-                    }
+                    var addToRole = await UserManager.AddToRoleAsync(user, Input.RoleName);
                 }
             }
 

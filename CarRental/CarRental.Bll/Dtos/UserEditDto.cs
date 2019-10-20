@@ -15,6 +15,6 @@ namespace CarRental.Bll.Dtos
         [Display(Name = "ROLE")]
         public ICollection<string> Roles { get; set; }
         [Display(Name = "ROLE")]
-        public int? RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }
