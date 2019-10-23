@@ -195,6 +195,9 @@
   <data name="SAVE" xml:space="preserve">
     <value>Mentés</value>
   </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Felhasználók</value>
+  </data>
   <data name="VEHICLE_MODELS" xml:space="preserve">
     <value>Auto Modellek</value>
   </data>

@@ -61,6 +61,7 @@ namespace CarRental.Web
             services.AddTransient<IUserService, UserService>();
 
             services.AddScoped<IViewRender, ViewRender.ViewRender>();
+            services.AddScoped<IRazorViewToStringRender, RazorViewToStringRender>();
 
             services.AddTransient<ICommentService, CommentService>();
 

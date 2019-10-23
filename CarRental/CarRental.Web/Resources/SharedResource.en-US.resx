@@ -195,6 +195,9 @@
   <data name="SAVE" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Users</value>
+  </data>
   <data name="VEHICLE_MODELS" xml:space="preserve">
     <value>Vehicle Models</value>
   </data>
