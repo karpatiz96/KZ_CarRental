@@ -5,20 +5,20 @@
 
 @{
     Layout = "_EmailLayoutHtml";
-    ViewContext.ViewData["Title"] = "Reservation";
+    ViewContext.ViewData["Title"] = IdentityLocalizer.GetLocalizedHtmlString("EMAIL_CONFIRM_ACCOUNT_TITLE");
 }
 
-<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_DEAR")!</p>
+<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_DEAR") @Model.Name!</p>
 
 <br />
 
-<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_ACCEPTED_TEXT")</p>
+<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_CONFIRM_ACCOUNT")</p>
 
 <br />
 
-<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_ACCEPTED_TEXT_TWO")</p>
+@Html.PartialAsync("_EmailButtonHtml", new ButtonConfirmationDto(IdentityLocalizer.GetLocalizedHtmlString("CONFIRM_ACCOUNT_BUTTON") , Model.Url));
 
-<br />
+<br/>
 
 <p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_BEST_REGARDS")</p>
 

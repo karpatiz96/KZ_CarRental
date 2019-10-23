@@ -7,7 +7,7 @@
 
 @{
     Layout = "_EmailLayoutHtml";
-    ViewContext.ViewData["Title"] = "Reservation";
+    ViewContext.ViewData["Title"] = IdentityLocalizer.GetLocalizedHtmlString("RESERVATION_TITLE");
 }
 
 <p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_DEAR") @Model.UserName!</p>
