@@ -14,6 +14,9 @@ using CarRental.Bll.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using CarRental.Bll.Logging;
+using CarRental.Web.ViewRender;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Web.Pages.Reservations
 {
@@ -26,11 +29,22 @@ namespace CarRental.Web.Pages.Reservations
 
         private readonly ILogger<EditModel> _logger;
 
-        public EditModel(ICarService carService, IReservationService reservationService, ILogger<EditModel> logger)
+        private readonly IEmailSender _emailSender;
+
+        private readonly IRazorViewToStringRender _render;
+
+        private readonly UserManager<User> _userManager;
+
+        public EditModel(ICarService carService, IReservationService reservationService, 
+            ILogger<EditModel> logger, IEmailSender emailSender,
+            IRazorViewToStringRender render, UserManager<User> userManager)
         {
             _carService = carService;
             _reservationService = reservationService;
             _logger = logger;
+            _emailSender = emailSender;
+            _render = render;
+            _userManager = userManager;
         }
 
 
@@ -100,6 +114,36 @@ namespace CarRental.Web.Pages.Reservations
                 }
             }
 
+            const string view = "/Views/Emails/ReservationEmailAccepted";
+
+            var user = await _userManager.Users
+                .Where(u => u.Id == Reservation.UserId)
+                .SingleOrDefaultAsync();
+
+            var model = new EmailReservationDto
+            {
+                UserName = user.Name ?? user.Email,
+                Email = user.Email,
+                VehicleType = Reservation.VehicleType,
+                Address = Reservation.Address,
+                PickUpTime = Reservation.PickUpTime,
+                DropOffTime = Reservation.DropOffTime,
+                Price = Reservation.Price,
+                State = Dal.Entities.Reservation.ReservationStates.Accepted
+            };
+
+            try
+            {
+                var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+
+            }
+            catch
+            (InvalidOperationException)
+            {
+                return RedirectToPage("./Index");
+            }
+
             return RedirectToPage("./Index");
         }
 
@@ -134,6 +178,36 @@ namespace CarRental.Web.Pages.Reservations
                 {
                     return StatusCode(409);
                 }
+            }
+
+            const string view = "/Views/Emails/ReservationEmailCanceled";
+
+            var user = await _userManager.Users
+                .Where(u => u.Id == Reservation.UserId)
+                .SingleOrDefaultAsync();
+
+            var model = new EmailReservationDto
+            {
+                UserName = user.Name ?? user.Email,
+                Email = user.Email,
+                VehicleType = Reservation.VehicleType,
+                Address = Reservation.Address,
+                PickUpTime = Reservation.PickUpTime,
+                DropOffTime = Reservation.DropOffTime,
+                Price = Reservation.Price,
+                State = Dal.Entities.Reservation.ReservationStates.Cancled
+            };
+
+            try
+            {
+                var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+
+            }
+            catch 
+            (InvalidOperationException)
+            {
+                return RedirectToPage("./Index");
             }
 
             return RedirectToPage("./Index");

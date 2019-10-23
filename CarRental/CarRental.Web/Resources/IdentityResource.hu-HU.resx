@@ -216,6 +216,9 @@
   <data name="CAR" xml:space="preserve">
     <value>Auto</value>
   </data>
+  <data name="CAR_RENTAL_TEAM" xml:space="preserve">
+    <value>Car Rental Csapat</value>
+  </data>
   <data name="CHANGE_PASSWORD" xml:space="preserve">
     <value>Jelszó módosítása</value>
   </data>
@@ -323,6 +326,24 @@
   </data>
   <data name="EMAIL_REQUIRED" xml:space="preserve">
     <value>e-mail megadása kötelező</value>
+  </data>
+  <data name="EMAIL_RESERVATION_ACCEPTED_TEXT" xml:space="preserve">
+    <value>Köszönjük a foglalását</value>
+  </data>
+  <data name="EMAIL_RESERVATION_ACCEPTED_TEXT_TWO" xml:space="preserve">
+    <value>A lefoglalt járművet a fenti címen, és időben átveheti.</value>
+  </data>
+  <data name="EMAIL_RESERVATION_BEST_REGARDS" xml:space="preserve">
+    <value>Üdvözlettel:</value>
+  </data>
+  <data name="EMAIL_RESERVATION_CANCEL_TEXT" xml:space="preserve">
+    <value>Köszönjük a foglalását. Sajnos jelenleg nem áll rendelkezésünkre ilyen típusú jármű.</value>
+  </data>
+  <data name="EMAIL_RESERVATION_DEAR" xml:space="preserve">
+    <value>Tisztelt </value>
+  </data>
+  <data name="EMAIL_RESERVATION_TEXT" xml:space="preserve">
+    <value>Köszönjük a foglalását. Munkatársaink értesíteni fogják foglalásával kapcsolatban.</value>
   </data>
   <data name="ENABLE_AUTHENTICATOR_STATUS" xml:space="preserve">
     <value>A hitelesítő alkalmazás ellenőrzése megtörtént.</value>

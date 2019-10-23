@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static CarRental.Dal.Entities.Reservation;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using CarRental.Web.ViewRender;
 
 namespace CarRental.Web.Pages.Reservations
 {
@@ -35,7 +37,15 @@ namespace CarRental.Web.Pages.Reservations
 
         private readonly ILogger<CreateConfirmModel> _logger;
 
-        public CreateConfirmModel(CarRentalDbContext context, UserManager<User> userManager, IReservationService reservationService, IVehicleModelService vehicleModelService, IAddressService addressService, ICarService carService, ILogger<CreateConfirmModel> logger)
+        private readonly IEmailSender _emailSender;
+
+        private readonly IRazorViewToStringRender _render;
+
+        public CreateConfirmModel(CarRentalDbContext context, UserManager<User> userManager, 
+            IReservationService reservationService, IVehicleModelService vehicleModelService, 
+            IAddressService addressService, ICarService carService, 
+            ILogger<CreateConfirmModel> logger, IEmailSender emailSender,
+            IRazorViewToStringRender render)
         {
             _context = context;
             _userManager = userManager;
@@ -44,6 +54,8 @@ namespace CarRental.Web.Pages.Reservations
             _addressService = addressService;
             _carService = carService;
             _logger = logger;
+            _emailSender = emailSender;
+            _render = render;
         }
 
         //[BindProperty]
@@ -169,6 +181,33 @@ namespace CarRental.Web.Pages.Reservations
 
             _logger.LogInformation(LoggingEvents.InsertItem, "Create Reservation");
             await _reservationService.CreateReservation(reservationDto);
+
+            var model = new EmailReservationDto
+            {
+                UserName = user.Name ?? user.Email,
+                Email = user.Email,
+                VehicleType = reservationDto.VehicleType,
+                Address = reservationDto.Address,
+                PickUpTime = reservationDto.PickUpTime,
+                DropOffTime = reservationDto.DropOffTime,
+                Price = reservationDto.Price,
+                State = ReservationStates.Undecieded
+            };
+
+            const string view = "/Views/Emails/ReservationEmail";
+
+            try
+            {
+
+                var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+
+            }
+            catch
+            (InvalidOperationException)
+            {
+                return RedirectToPage("./Index");
+            }
 
             return RedirectToPage("./List");
         }

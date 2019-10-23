@@ -217,6 +217,9 @@
   <data name="CAR" xml:space="preserve">
     <value>Car</value>
   </data>
+  <data name="CAR_RENTAL_TEAM" xml:space="preserve">
+    <value>Car Rental Team</value>
+  </data>
   <data name="CHANGE_PASSWORD" xml:space="preserve">
     <value>Change password</value>
   </data>
@@ -324,6 +327,24 @@
   </data>
   <data name="EMAIL_REQUIRED" xml:space="preserve">
     <value>Email required</value>
+  </data>
+  <data name="EMAIL_RESERVATION_ACCEPTED_TEXT" xml:space="preserve">
+    <value>Thank you for your reservation</value>
+  </data>
+  <data name="EMAIL_RESERVATION_ACCEPTED_TEXT_TWO" xml:space="preserve">
+    <value>You can pick up the vehicle at the address above.</value>
+  </data>
+  <data name="EMAIL_RESERVATION_BEST_REGARDS" xml:space="preserve">
+    <value>Best regards,</value>
+  </data>
+  <data name="EMAIL_RESERVATION_CANCEL_TEXT" xml:space="preserve">
+    <value>Thank you for your reservation. Unfortunately, we do not have any available vehicles currently.</value>
+  </data>
+  <data name="EMAIL_RESERVATION_DEAR" xml:space="preserve">
+    <value>Dear </value>
+  </data>
+  <data name="EMAIL_RESERVATION_TEXT" xml:space="preserve">
+    <value>Thank you for your reservation. Our staff will notify you of your reservation.</value>
   </data>
   <data name="ENABLE_AUTHENTICATOR_STATUS" xml:space="preserve">
     <value>Your authenticator app has been verified.</value>
