@@ -322,6 +322,15 @@
   <data name="EMAIL" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EMAIL_CONFIRM_ACCOUNT" xml:space="preserve">
+    <value>Please confirm your account with the link bellow.</value>
+  </data>
+  <data name="EMAIL_CONFIRM_ACCOUNT_BUTTON" xml:space="preserve">
+    <value>Confim email.</value>
+  </data>
+  <data name="EMAIL_CONFIRM_ACCOUNT_TITLE" xml:space="preserve">
+    <value>Account Confirmation</value>
+  </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>invalide Email</value>
   </data>
@@ -345,6 +354,15 @@
   </data>
   <data name="EMAIL_RESERVATION_TEXT" xml:space="preserve">
     <value>Thank you for your reservation. Our staff will notify you of your reservation.</value>
+  </data>
+  <data name="EMAIL_RESET_PASSWORD_BUTTON" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="EMAIL_RESET_PASSWORD_TEXT" xml:space="preserve">
+    <value>Please reset your password with the link bellow.</value>
+  </data>
+  <data name="EMAIL_RESET_PASSWORD_TITLE" xml:space="preserve">
+    <value>Reset Password</value>
   </data>
   <data name="ENABLE_AUTHENTICATOR_STATUS" xml:space="preserve">
     <value>Your authenticator app has been verified.</value>
@@ -543,6 +561,9 @@
   </data>
   <data name="REMOVE" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="RESERVATION_TITLE" xml:space="preserve">
+    <value>Reservation</value>
   </data>
   <data name="RESERVE_MAX" xml:space="preserve">
     <value>You can't book for more than a 100 days.</value>

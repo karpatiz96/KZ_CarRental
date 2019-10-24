@@ -90,8 +90,11 @@ namespace CarRental.Web
             services.AddAuthentication()
               .AddGoogle(googleOptions => 
               {
-                  googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                  googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                  IConfigurationSection googleSection =
+                    Configuration.GetSection("Authentication:Google");
+
+                  googleOptions.ClientId = googleSection["ClientId"];
+                  googleOptions.ClientSecret = googleSection["ClientSecret"];
               });
 
             services.AddTransient<SharedLocalizationService>();

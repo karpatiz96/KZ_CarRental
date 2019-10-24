@@ -321,6 +321,15 @@
   <data name="EMAIL" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EMAIL_CONFIRM_ACCOUNT" xml:space="preserve">
+    <value>Kérjük igazólja a fiókját, az alábbi link által.</value>
+  </data>
+  <data name="EMAIL_CONFIRM_ACCOUNT_BUTTON" xml:space="preserve">
+    <value>Igazólás</value>
+  </data>
+  <data name="EMAIL_CONFIRM_ACCOUNT_TITLE" xml:space="preserve">
+    <value>Fiók Igazólás</value>
+  </data>
   <data name="EMAIL_INVALID" xml:space="preserve">
     <value>érvénytelen email</value>
   </data>
@@ -328,7 +337,7 @@
     <value>e-mail megadása kötelező</value>
   </data>
   <data name="EMAIL_RESERVATION_ACCEPTED_TEXT" xml:space="preserve">
-    <value>Köszönjük a foglalását</value>
+    <value>Köszönjük a foglalását.</value>
   </data>
   <data name="EMAIL_RESERVATION_ACCEPTED_TEXT_TWO" xml:space="preserve">
     <value>A lefoglalt járművet a fenti címen, és időben átveheti.</value>
@@ -344,6 +353,15 @@
   </data>
   <data name="EMAIL_RESERVATION_TEXT" xml:space="preserve">
     <value>Köszönjük a foglalását. Munkatársaink értesíteni fogják foglalásával kapcsolatban.</value>
+  </data>
+  <data name="EMAIL_RESET_PASSWORD_BUTTON" xml:space="preserve">
+    <value>Jelszó megváltoztatás</value>
+  </data>
+  <data name="EMAIL_RESET_PASSWORD_TEXT" xml:space="preserve">
+    <value>Kérjük állítsa újra a jelszavát az alábbi link által.</value>
+  </data>
+  <data name="EMAIL_RESET_PASSWORD_TITLE" xml:space="preserve">
+    <value>Jelszó Emlékesztető</value>
   </data>
   <data name="ENABLE_AUTHENTICATOR_STATUS" xml:space="preserve">
     <value>A hitelesítő alkalmazás ellenőrzése megtörtént.</value>
@@ -542,6 +560,9 @@
   </data>
   <data name="REMOVE" xml:space="preserve">
     <value>Eltávolít</value>
+  </data>
+  <data name="RESERVATION_TITLE" xml:space="preserve">
+    <value>Gépjármű Foglalás</value>
   </data>
   <data name="RESERVE_MAX" xml:space="preserve">
     <value>Több mint 100 napra nem foglalhat.</value>
