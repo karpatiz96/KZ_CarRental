@@ -87,12 +87,12 @@ namespace CarRental.Web
             services.AddScoped<IRoleSeedService, RoleSeedService>();
             services.AddScoped<IUserSeedService, UserSeedService>();
 
-            /*services.AddAuthentication()
+            services.AddAuthentication()
               .AddGoogle(googleOptions => 
               {
                   googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
                   googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-              });*/
+              });
 
             services.AddTransient<SharedLocalizationService>();
             services.AddTransient<IdentityLocalizationService>();
