@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assisstant")]
     public class EditModel : PageModel
     {
         private readonly ICarService _carService;

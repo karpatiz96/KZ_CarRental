@@ -17,7 +17,7 @@ using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Cars
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assisstant")]
     public class IndexModel : PageModel
     {
         private readonly ICarService _carService;

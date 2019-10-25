@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assisstant")]
     public class CreateModel : PageModel
     {
         private readonly IVehicleModelService _vehicleModelService;

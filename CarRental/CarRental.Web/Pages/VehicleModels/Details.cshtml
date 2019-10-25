@@ -28,7 +28,7 @@
                             <span class="fa fa-star"></span>
                         }
                     </div>
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && !(User.IsInRole("Administrators") || User.IsInRole("Assisstant")) )
                     {
                         @if (!Model.IsRated)
                         {
@@ -118,7 +118,7 @@
 <div class="row mt-4">
     @if (User.Identity.IsAuthenticated)
     {
-        if (User.IsInRole("Administrators"))
+        if (User.IsInRole("Administrators") || User.IsInRole("Assisstant"))
         {
             <div class="ml-3">
                 <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
@@ -134,7 +134,7 @@
     <div class="ml-3">
         @if (User.Identity.IsAuthenticated)
         {
-            if (User.IsInRole("Administrators"))
+            if (User.IsInRole("Administrators") || User.IsInRole("Assisstant"))
             {
             }
             else
@@ -154,7 +154,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    if (User.IsInRole("Administrators"))
+    if (User.IsInRole("Administrators") || User.IsInRole("Assisstant"))
     {
         <div class="row mt-4">
             <vc:car-dto cars="@Model.VehicleModel.Cars"></vc:car-dto>

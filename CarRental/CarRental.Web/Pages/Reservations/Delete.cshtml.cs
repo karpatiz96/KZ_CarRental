@@ -15,7 +15,7 @@ using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assisstant")]
     public class DeleteModel : PageModel
     {
         private readonly IReservationService _reservationService;
