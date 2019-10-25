@@ -460,6 +460,9 @@
   <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
     <value>Manage your account</value>
   </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="NEW_PASSWORD" xml:space="preserve">
     <value>New password</value>
   </data>
@@ -610,6 +613,9 @@
   </data>
   <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
     <value>Reset your password.</value>
+  </data>
+  <data name="ROLE" xml:space="preserve">
+    <value>Role</value>
   </data>
   <data name="SAVE" xml:space="preserve">
     <value>Save</value>

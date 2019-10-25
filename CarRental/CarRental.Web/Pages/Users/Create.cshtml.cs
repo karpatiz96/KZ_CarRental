@@ -23,13 +23,13 @@ namespace CarRental.Web.Pages.Users
     [Authorize(Roles = "Administrators")]
     public class CreateModel : PageModel
     {
-        private readonly UserManager<User> UserManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly ILogger<CreateModel> _logger;
 
         public CreateModel(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager, ILogger<CreateModel> logger)
         {
-            UserManager = userManager;
+            _userManager = userManager;
             _roleManager = roleManager;
             _logger = logger;
         }
@@ -60,16 +60,23 @@ namespace CarRental.Web.Pages.Users
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
 
-            var result = await UserManager.CreateAsync(user, Input.Password);
+            var result = await _userManager.CreateAsync(user, Input.Password);
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User created a new account with password.");
+                _logger.LogInformation("Administrator created a new account with password.");
 
                 if(await _roleManager.RoleExistsAsync(Input.RoleName))
                 {
-                    var addToRole = await UserManager.AddToRoleAsync(user, Input.RoleName);
+                    var addToRole = await _userManager.AddToRoleAsync(user, Input.RoleName);
+
+                    if (addToRole.Succeeded)
+                    {
+                        _logger.LogInformation($"User {0} added to role {1}.", user.Id, Input.RoleName);
+                    }
                 }
+
+                return RedirectToPage("./Index");
             }
 
             foreach (var error in result.Errors)

@@ -44,10 +44,9 @@ namespace CarRental.Web.Pages.Users
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get User {ID}", id);
+
             var user = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
             var roles = await _userManager.GetRolesAsync(user);
-
-            var roleId = _roleManager.Roles.Where(r => r.Name == roles.FirstOrDefault()).FirstOrDefault();
 
             Input = new UserEditDto
             {
@@ -75,6 +74,7 @@ namespace CarRental.Web.Pages.Users
                 ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
                 return Page();
             }
+
             var user = await _userManager.Users.Where(u => u.Id == Input.Id).FirstOrDefaultAsync();
             var roles = await _userManager.GetRolesAsync(user);
 

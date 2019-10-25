@@ -5,7 +5,7 @@
 <div class="container">
     <h4>@PagesLocalizer.GetLocalizedHtmlString("USER")</h4>
     <hr />
-    <div class="row">
+    <div class="row mt-1">
         <label class="col-md-2">
             <b>
                 @Html.DisplayNameFor(model => model.UserDto.Name)
@@ -15,7 +15,7 @@
             @Html.DisplayFor(model => model.UserDto.Name)
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-1">
         <label class="col-md-2">
             <b>
                 @Html.DisplayNameFor(model => model.UserDto.Email)
@@ -25,23 +25,24 @@
             @Html.DisplayFor(model => model.UserDto.Email)
         </div>
     </div>
-    <div class="row">
+    <div class="row mt-1">
         <label class="col-md-2">
             <b>
                 @Html.DisplayNameFor(model => model.UserDto.Roles)
             </b>
         </label>
         <div class="col-md-10">
-            <ul>
+            <div>
             @foreach(var role in Model.UserDto.Roles)
             {
-                <li>@role.ToString()</li>
+                <p>@role</p>
             }
-            </ul>
+            </div>
         </div>
     </div>
     <div class="row mt-4">
         <a class="btn btn-primary mr-3" asp-page="./Edit" asp-route-id="@Model.UserDto.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
+        <a class="btn btn-danger mr-3" asp-page="./Delete" asp-route-id="@Model.UserDto.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
         <a class="mt-1" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
     </div>
 </div>

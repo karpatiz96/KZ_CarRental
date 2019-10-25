@@ -1,18 +1,14 @@
 ﻿@page
 @model CarRental.Web.Pages.Users.CreateModel
-@{
-    ViewData["Title"] = IdentityLocalizer.GetLocalizedHtmlString("REGISTER");
-}
 
 @inject IdentityLocalizationService IdentityLocalizer
+@inject PagesLocalizationService PagesLocalizer
 
-<h1>@ViewData["Title"]</h1>
-
+<h4>@IdentityLocalizer.GetLocalizedHtmlString("CREATE_A_NEW_ACCOUNT")</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <h4>@IdentityLocalizer.GetLocalizedHtmlString("CREATE_A_NEW_ACCOUNT")</h4>
-            <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Name">@IdentityLocalizer.GetLocalizedHtmlString("NAME")</label>
@@ -41,13 +37,10 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">@IdentityLocalizer.GetLocalizedHtmlString("REGISTER")</button>
+            <button type="submit" class="btn btn-success mr-3">@PagesLocalizer.GetLocalizedHtmlString("CREATE")</button>
+            <a asp-page="Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-page="Index">Back to List</a>
 </div>
 
 @section Scripts {

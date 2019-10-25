@@ -240,6 +240,12 @@
   <data name="UNDECIEDED" xml:space="preserve">
     <value>Undecieded</value>
   </data>
+  <data name="USER" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="USER_FOUND" xml:space="preserve">
+    <value>User Found:</value>
+  </data>
   <data name="VEHICLE_MODEL" xml:space="preserve">
     <value>Vehicle Model</value>
   </data>

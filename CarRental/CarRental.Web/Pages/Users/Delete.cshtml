@@ -33,12 +33,12 @@
             </b>
         </label>
         <div class="col-md-10">
-            <ul>
+            <div>
                 @foreach (var role in Model.UserDto.Roles)
                 {
-                    <li>@role.ToString()</li>
+                    <p>@role.ToString()</p>
                 }
-            </ul>
+            </div>
         </div>
     </div>
 

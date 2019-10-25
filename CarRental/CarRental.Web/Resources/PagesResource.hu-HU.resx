@@ -240,6 +240,12 @@
   <data name="UNDECIEDED" xml:space="preserve">
     <value>Visszaigazolatlan</value>
   </data>
+  <data name="USER" xml:space="preserve">
+    <value>Felhasználó</value>
+  </data>
+  <data name="USER_FOUND" xml:space="preserve">
+    <value>Talált felhasználók:</value>
+  </data>
   <data name="VEHICLE_MODEL" xml:space="preserve">
     <value>Auto Model</value>
   </data>

@@ -62,10 +62,17 @@
         {
             <form method="post" class="mt-5">
                 <div class="form-group">
-                    <input type="hidden" value="@Model.Input.VehicleModelId" name="vehicleId" />
-                    <input type="hidden" value="@Model.Input.AddressId" name="addressId" />
-                    <input type="hidden" value="@Model.Input.PickUpTime" name="pickUp" />
-                    <input type="hidden" value="@Model.Input.DropOffTime" name="dropOff" />
+                    <input type="hidden" asp-for="Input.VehicleModelId" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="Input.AddressId" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="Input.PickUpTime" />
+                </div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="Input.DropOffTime" />
+                </div>
                     <button type="submit" class="btn btn-primary">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</button>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -78,7 +85,6 @@
                             <a class="ml-3" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
                         }
                     }
-                </div>
             </form>
         }
         else

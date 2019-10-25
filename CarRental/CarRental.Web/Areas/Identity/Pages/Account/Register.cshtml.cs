@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 using CarRental.Web.Resources;
 using System.Reflection;
+using CarRental.Web.ViewRender;
+using CarRental.Bll.Dtos;
 
 namespace CarRental.Web.Areas.Identity.Pages.Account
 {
@@ -23,6 +25,7 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IRazorViewToStringRender _render;
         private readonly IStringLocalizer _localizer;
 
         public RegisterModel(
@@ -30,12 +33,14 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
+            IRazorViewToStringRender render,
             IStringLocalizerFactory factory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _render = render;
             var type = typeof(IdentityResource);
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
             _localizer = factory.Create("IdentityResource", assemblyName.Name);
@@ -93,8 +98,15 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
                         values: new { userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    /*await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
+
+                    var model = new EmailConfirmationDto(user.Name ?? user.UserName, HtmlEncoder.Default.Encode(callbackUrl));
+
+                    const string view = "/Views/Emails/ConfirmAccountEmail";
+                    var body = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", body);
+
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);

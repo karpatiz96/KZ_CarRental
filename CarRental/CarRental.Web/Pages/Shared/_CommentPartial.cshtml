@@ -8,7 +8,7 @@
         <span class="text-muted">
             @Model.CreationDate.ToLocalTime().ToString("yyyy. MMM dd.hh:mm:ss")
         </span>
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
         {
             <i class="fas fa-trash-alt delete-comment interactive" data-comment-id="@Model.Id" >@SharedLocalizer.GetLocalizedHtmlString("DELETECOMMENT")</i>
         }

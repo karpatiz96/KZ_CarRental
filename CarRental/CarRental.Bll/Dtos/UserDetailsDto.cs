@@ -12,7 +12,7 @@ namespace CarRental.Bll.Dtos
         public string Name { get; set; }
         [Display(Name = "EMAIL")]
         public string Email { get; set; }
-        [Display(Name = "ROLES")]
+        [Display(Name = "ROLE")]
         public ICollection<string> Roles { get; set; }
     }
 }

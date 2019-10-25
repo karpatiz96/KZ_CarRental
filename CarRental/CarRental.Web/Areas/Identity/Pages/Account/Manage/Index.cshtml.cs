@@ -5,8 +5,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using CarRental.Bll.Dtos;
 using CarRental.Dal.Entities;
 using CarRental.Web.Resources;
+using CarRental.Web.ViewRender;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -20,17 +22,20 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IRazorViewToStringRender _render;
         private readonly IStringLocalizer _localizer;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
+            IRazorViewToStringRender render,
             IStringLocalizerFactory factory)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _render = render;
             //_localizer = localizer;
             var type = typeof(IdentityResource);
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
@@ -49,10 +54,10 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            /*[Required]
+            
             [DataType(DataType.Text)]
             [Display(Name = "NAME")]
-            public string Name { get; set; }*/
+            public string Name { get; set; }
 
             [Required(ErrorMessage = "EMAIL_REQUIRED")]
             [EmailAddress(ErrorMessage = "EMAIL_INVALID")]
@@ -80,7 +85,7 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-               // Name = user.Name,
+                Name = user.Name,
                 Email = email,
                 PhoneNumber = phoneNumber
             };
@@ -115,10 +120,10 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            /*if(Input.Name != user.Name)
+            if(Input.Name != user.Name)
             {
                 user.Name = Input.Name;
-            }*/
+            }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             if (Input.PhoneNumber != phoneNumber)
@@ -131,7 +136,7 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            //await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             //StatusMessage = "Your profile has been updated";
@@ -162,10 +167,15 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+            /*await _emailSender.SendEmailAsync(email, "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
+
+            var model = new EmailConfirmationDto(user.Name ?? user.UserName, HtmlEncoder.Default.Encode(callbackUrl));
+
+            const string view = "/Views/Emails/ConfirmAccountEmail";
+            var body = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+            await _emailSender.SendEmailAsync(Input.Email, "Reset Password", body);
 
             //StatusMessage = "Verification email sent. Please check your email.";
             StatusMessage = _localizer["STATUS_UPDATE_PROFILE_EMAIL_SEND"];

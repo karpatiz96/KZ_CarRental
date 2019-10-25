@@ -58,11 +58,10 @@ namespace CarRental.Web.Pages.Reservations
             _render = render;
         }
 
-        //[BindProperty]
         public ReservationDto Reservation { get; set; }
 
         [BindProperty]
-        public InputModel Input { get; private set; }
+        public InputModel Input { get; set; }
 
         public class InputModel
         {
@@ -72,14 +71,13 @@ namespace CarRental.Web.Pages.Reservations
             public int VehicleModelId { get; set; }
         }
 
-        [BindProperty]
         public int CarFound { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int vehicleId, int addressId, DateTime pickUp, DateTime dropOff)
         {
             User user = await _userManager.GetUserAsync(HttpContext.User);
-            var vehicle = await _context.VehicleModels.Where(vm => vm.Id == vehicleId).FirstOrDefaultAsync();
-            var address = await _context.Addresses.Where(a => a.Id == addressId).FirstOrDefaultAsync();
+            var vehicle = await _vehicleModelService.GetVehicle(vehicleId);
+            var address = await _addressService.GetAddress(addressId);
             int days = (dropOff.Date - pickUp.Date).Days;
 
             if (user == null || vehicle == null || address == null)
@@ -117,12 +115,12 @@ namespace CarRental.Web.Pages.Reservations
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int vehicleId, int addressId, DateTime pickUp, DateTime dropOff)
+        public async Task<IActionResult> OnPostAsync()
         {
             User user = await _userManager.GetUserAsync(HttpContext.User);
-            var vehicle = await _context.VehicleModels.Where(vm => vm.Id == vehicleId).Include(vm => vm.Reservations).FirstOrDefaultAsync();
-            var address = await _context.Addresses.Where(a => a.Id == addressId).FirstOrDefaultAsync();
-            int days = (dropOff.Date - pickUp.Date).Days;
+            var vehicle = await _vehicleModelService.GetVehicle(Input.VehicleModelId);
+            var address = await _addressService.GetAddress(Input.AddressId);
+            int days = (Input.DropOffTime.Date - Input.PickUpTime.Date).Days;
 
             if (user == null || vehicle == null || address == null)
             {
@@ -139,12 +137,12 @@ namespace CarRental.Web.Pages.Reservations
                 return RedirectToPage("./List");
             }
 
-            if (pickUp.Date < DateTime.Now.Date.AddDays(1))
+            if (Input.PickUpTime.Date < DateTime.Now.Date.AddDays(1))
             {
                 return RedirectToPage("./List");
             }
 
-            var cars = await _carService.GetCars(pickUp, dropOff, vehicleId);
+            var cars = await _carService.GetCars(Input.PickUpTime, Input.DropOffTime, Input.VehicleModelId);
 
             CarFound = cars.Count();
 
@@ -159,8 +157,8 @@ namespace CarRental.Web.Pages.Reservations
                 UserId = user.Id,
                 Address = address.ZipCode + " " + address.City + " " + address.StreetAddress,
                 AddressId = address.Id,
-                PickUpTime = pickUp,
-                DropOffTime = dropOff,
+                PickUpTime = Input.PickUpTime,
+                DropOffTime = Input.DropOffTime,
                 VehicleModelId = vehicle.Id,
                 VehicleType = vehicle.VehicleType,
                 Price = days * vehicle.PricePerDay
@@ -168,21 +166,10 @@ namespace CarRental.Web.Pages.Reservations
 
             Reservation = reservationDto;
 
-            /*Reservation reservation = new Reservation()
-            {
-                UserId = Reservation.UserId,
-                AddressId = Reservation.AddressId,
-                VehicleModelId = Reservation.VehicleModelId,
-                PickUpTime = Reservation.PickUpTime,
-                DropOffTime = Reservation.DropOffTime,
-                Price = Reservation.Price,
-                State = ReservationStates.Undecieded
-            };*/
-
             _logger.LogInformation(LoggingEvents.InsertItem, "Create Reservation");
             await _reservationService.CreateReservation(reservationDto);
 
-            var model = new EmailReservationDto
+            /*var model = new EmailReservationDto
             {
                 UserName = user.Name ?? user.Email,
                 Email = user.Email,
@@ -195,19 +182,8 @@ namespace CarRental.Web.Pages.Reservations
             };
 
             const string view = "/Views/Emails/ReservationEmail";
-
-            try
-            {
-
-                var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
-
-            }
-            catch
-            (InvalidOperationException)
-            {
-                return RedirectToPage("./Index");
-            }
+            var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+            await _emailSender.SendEmailAsync(user.Email, "Reservation", message);*/
 
             return RedirectToPage("./List");
         }

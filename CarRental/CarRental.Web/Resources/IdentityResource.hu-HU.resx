@@ -459,6 +459,9 @@
   <data name="MANAGE_YOUR_ACCOUNT" xml:space="preserve">
     <value>Kezelje a fiókját</value>
   </data>
+  <data name="NAME" xml:space="preserve">
+    <value>Megszólítási név</value>
+  </data>
   <data name="NEW_PASSWORD" xml:space="preserve">
     <value>Új Jelszó</value>
   </data>
@@ -609,6 +612,9 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
   </data>
   <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
     <value>Adja meg az új jelszavát.</value>
+  </data>
+  <data name="ROLE" xml:space="preserve">
+    <value>Szerepkör</value>
   </data>
   <data name="SAVE" xml:space="preserve">
     <value>Mentés</value>

@@ -50,15 +50,17 @@ namespace CarRental.Web
             services.ConfigureApplicationCookie(options => 
             {
                 options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromDays(5);
+                options.SlidingExpiration = true;
             });
 
-            services.AddTransient<IVehicleModelService, VehicleModelService>();
-            services.AddTransient<ICarService, CarService>();
-            services.AddTransient<IAddressService, AddressService>();
-            services.AddTransient<IReservationService, ReservationService>();
+            services.AddScoped<IVehicleModelService, VehicleModelService>();
+            services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IReservationService, ReservationService>();
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<IRatingService, RatingService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IRatingService, RatingService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<IViewRender, ViewRender.ViewRender>();
             services.AddScoped<IRazorViewToStringRender, RazorViewToStringRender>();

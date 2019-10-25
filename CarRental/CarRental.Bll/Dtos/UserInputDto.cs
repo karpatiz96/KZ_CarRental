@@ -13,7 +13,7 @@ namespace CarRental.Bll.Dtos
         [Display(Name = "NAME")]
         public string Name { get; set; }
 
-        [Display(Name = "Role")]
+        [Display(Name = "ROLE")]
         public string RoleName { get; set; }
 
         [Required(ErrorMessage = "EMAIL_REQUIRED")]

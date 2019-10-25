@@ -7,6 +7,7 @@ namespace CarRental.Dal.Entities
 {
     public class User : IdentityUser<int>
     {
+        [PersonalData]
         public string Name { get; set; }
         public string Password { get; set; }
         public ICollection<Reservation> Reservations { get; set; }

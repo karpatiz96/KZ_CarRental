@@ -2,9 +2,9 @@
 @model CarRental.Web.Pages.Users.IndexModel
 @inject PagesLocalizationService PagesLocalizer
 
-<p>
-    <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
-</p>
+<div class="row mt-3">
+    <h5>@PagesLocalizer.GetLocalizedHtmlString("USER_FOUND") @Model.Users.Total</h5>
+</div>
 
 <div class="row">
     <table class="table mt-3">
@@ -25,7 +25,9 @@
                         @Html.DisplayNameFor(model => model.Users.Results[0].Email)
                     </a>
                 </th>
-                <th></th>
+                <th>
+                    <a class="btn btn-success ml-1" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
+                </th>
             </tr>
         </thead>
         <tbody>

@@ -21,24 +21,13 @@ namespace CarRental.Web.Pages.Users
     {
         private readonly IUserService _userService;
 
-        private readonly IReservationService _reservationService;
-
-        private readonly ICommentService _commentService;
-
-        private readonly IRatingService _ratingService;
-
         private readonly ILogger<DeleteModel> _logger;
 
         private readonly UserManager<User> _userManager;
 
-        public DeleteModel(IUserService userService, IReservationService reservationService, 
-            ICommentService commentService, IRatingService ratingService,
-            ILogger<DeleteModel> logger, UserManager<User> userManager)
+        public DeleteModel(IUserService userService, ILogger<DeleteModel> logger, UserManager<User> userManager)
         {
             _userService = userService;
-            _reservationService = reservationService;
-            _commentService = commentService;
-            _ratingService = ratingService;
             _logger = logger;
             _userManager = userManager;
         }
@@ -80,11 +69,7 @@ namespace CarRental.Web.Pages.Users
                 return NotFound();
             }
 
-            await _reservationService.DeletedUserReservations(user.Id);
-
-            await _ratingService.DeleteUserRatings(user.Id);
-
-            await _commentService.DeleteUserComments(user.Id);
+            await _userService.DeleteUser(user.Id);
 
             var result = await _userManager.DeleteAsync(user);
 

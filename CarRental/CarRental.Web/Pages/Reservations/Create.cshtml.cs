@@ -58,22 +58,6 @@ namespace CarRental.Web.Pages.Reservations
         [BindProperty]
         public ReservationInputDto Input { get; set; }
 
-        /*public class InputModel
-        {
-            [Required(ErrorMessage = "PICK_UP_TIME_REQUIRED")]
-            [DataType(DataType.DateTime)]
-            [Display(Name = "PICK_UP_TIME")]
-            public DateTime? PickUpTime { get; set; }
-            [Required( ErrorMessage = "DROP_OFF_TIME_REQUIRED")]
-            [DataType(DataType.DateTime)]
-            [Display(Name = "DROP_OFF_TIME")]
-            public DateTime? DropOffTime { get; set; }
-            [Display(Name = "ADDRESS")]
-            public int AddressId { get; set; }
-            [Display(Name = "VEHICLE_MODEL")]
-            public int VehicleModelId { get; set; }
-        }*/
-
         public async Task<IActionResult> OnPostAsync()
         {
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");

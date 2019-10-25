@@ -56,6 +56,15 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">@SharedLocalizer.GetLocalizedHtmlString("USERS")</a>
                                 </li>
                             }
+                            else if (User.IsInRole("Assisstant"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Cars/Index">@SharedLocalizer.GetLocalizedHtmlString("CARS")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Reservations/Index">@SharedLocalizer.GetLocalizedHtmlString("RESERVATIONS")</a>
+                                </li>
+                            }
                             else
                             {
                                 <li class="nav-item">
