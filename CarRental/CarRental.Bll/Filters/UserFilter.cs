@@ -9,6 +9,7 @@ namespace CarRental.Bll.Filters
         public int? PageNumber { get; set; }
         public int? PageSize { get; set; } = 10;
 
+        public string RoleName { get; set; }
         public UserOrder userOrder { get; set; }
 
         public enum UserOrder

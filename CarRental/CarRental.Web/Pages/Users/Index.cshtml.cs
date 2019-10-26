@@ -3,9 +3,13 @@ using CarRental.Bll.Filters;
 using CarRental.Bll.IServices;
 using CarRental.Bll.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.Users
@@ -15,23 +19,32 @@ namespace CarRental.Web.Pages.Users
     {
         private readonly IUserService _userService;
 
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
+
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(IUserService userService, ILogger<IndexModel> logger)
+        public IndexModel(IUserService userService, RoleManager<IdentityRole<int>> roleManager, ILogger<IndexModel> logger)
         {
             _userService = userService;
+            _roleManager = roleManager;
             _logger = logger;
         }
 
         public PagedResult<UserDto> Users { get; private set; }
+
+        [BindProperty(SupportsGet = true)]
+        [RegularExpression(@"^[A-Z]+[a-zA-Z0-9""'\s-]*$")]
+        public string RoleName { get; set; }
 
         public string IdSort { get; set; }
         public string NameSort { get; set; }
         public string EmailSort { get; set; }
         public string CurrentSort { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(string sortOrder, int? pageNumber)
+        public async Task<IActionResult> OnGetAsync(string sortOrder, int? pageNumber, string roleName)
         {
+            ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
+
             UserFilter filter = new UserFilter();
             CurrentSort = sortOrder;
             IdSort = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -39,6 +52,7 @@ namespace CarRental.Web.Pages.Users
             EmailSort = sortOrder == "Email" ? "email_desc" : "Email";
 
             filter.PageNumber = pageNumber ?? 0;
+            filter.RoleName = RoleName ?? "";
 
             switch (sortOrder)
             {

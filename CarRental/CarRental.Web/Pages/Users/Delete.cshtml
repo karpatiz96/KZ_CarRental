@@ -9,6 +9,16 @@
     <div class="row">
         <label class="col-md-2">
             <b>
+                @Html.DisplayNameFor(model => model.UserDto.UserName)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.UserName)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
                 @Html.DisplayNameFor(model => model.UserDto.Name)
             </b>
         </label>
@@ -24,6 +34,16 @@
         </label>
         <div class="col-md-10">
             @Html.DisplayFor(model => model.UserDto.Email)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.UserDto.PhoneNumber)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.PhoneNumber)
         </div>
     </div>
     <div class="row">

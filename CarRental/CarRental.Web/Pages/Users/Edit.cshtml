@@ -8,11 +8,11 @@
     <div class="row mt-1">
         <label class="col-md-3">
             <b>
-                @Html.DisplayNameFor(model => model.Input.Name)
+                @Html.DisplayNameFor(model => model.Input.UserName)
             </b>
         </label>
         <div class="col-md-9">
-            @Html.DisplayFor(model => model.Input.Name)
+            @Html.DisplayFor(model => model.Input.UserName)
         </div>
     </div>
     <div class="row mt-1">
@@ -31,14 +31,24 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Input.Id">
                 <div class="form-group">
-                    <label asp-for="Input.RoleName" class="control-label"></label>
+                    <b><label asp-for="Input.Name"></label></b>
+                    <input asp-for="Input.Name" class="form-control" />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <b><label asp-for="Input.PhoneNumber"></label></b>
+                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <b><label asp-for="Input.RoleName" class="control-label"></label></b>
                     <select asp-for="Input.RoleName" class="form-control" asp-items="ViewBag.RoleName">
                         <option value=""></option>
                     </select>
                     <span asp-validation-for="Input.RoleName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <button type="submit" value="Accept Reservation" class="btn btn-success mr-3">@PagesLocalizer.GetLocalizedHtmlString("ACCEPT_RESERVATION")</button>
+                    <button type="submit" value="Accept Reservation" class="btn btn-success mr-3">@PagesLocalizer.GetLocalizedHtmlString("SAVE")</button>
                     <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
                 </div>
             </form>

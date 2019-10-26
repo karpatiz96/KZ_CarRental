@@ -2,6 +2,24 @@
 @model CarRental.Web.Pages.Users.IndexModel
 @inject PagesLocalizationService PagesLocalizer
 
+<div class="row d-flex justify-content-center">
+    <form asp-page="./Index" method="get" asp-antiforgery="true">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <label for="roleName" class="col-4 col-form-label">@Html.DisplayNameFor(model => model.RoleName):</label>
+            <div class="col-8">
+                <select asp-for="RoleName" class="form-control" id="roleName" asp-items="ViewBag.RoleName">
+                    <option value=""></option>
+                </select>
+            </div>
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-primary">@PagesLocalizer.GetLocalizedHtmlString("FILTER")</button>
+        </div>
+    </form>
+</div>
+
 <div class="row mt-3">
     <h5>@PagesLocalizer.GetLocalizedHtmlString("USER_FOUND") @Model.Users.Total</h5>
 </div>
@@ -11,17 +29,17 @@
         <thead>
             <tr>
                 <th>
-                    <a asp-route-sortOrder="@Model.IdSort">
+                    <a asp-route-sortOrder="@Model.IdSort" asp-route-roleName="@Model.RoleName" >
                         @Html.DisplayNameFor(model => model.Users.Results[0].Id)
                     </a>
                 </th>
                 <th>
-                    <a asp-route-sortOrder="@Model.NameSort">
+                    <a asp-route-sortOrder="@Model.NameSort" asp-route-roleName="@Model.RoleName">
                         @Html.DisplayNameFor(model => model.Users.Results[0].Name)
                     </a>
                 </th>
                 <th>
-                    <a asp-route-sortOrder="@Model.EmailSort">
+                    <a asp-route-sortOrder="@Model.EmailSort" asp-route-roleName="@Model.RoleName">
                         @Html.DisplayNameFor(model => model.Users.Results[0].Email)
                     </a>
                 </th>
@@ -64,7 +82,7 @@
                         @if (Model.Users.PageNumber != 0)
                         {
                             <li class="page-item">
-                                <a asp-route-pageNumber="@(Model.Users.PageNumber - 1)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                <a asp-route-pageNumber="@(Model.Users.PageNumber - 1)" asp-route-sortOrder="@Model.CurrentSort" asp-route-roleName="@Model.RoleName" class="page-link">
                                     <span>&laquo;</span>
                                 </a>
                             </li>
@@ -82,7 +100,7 @@
                             else
                             {
                                 <li class="page-item">
-                                    <a asp-route-pageNumber="@(pageNumber)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <a asp-route-pageNumber="@(pageNumber)" asp-route-sortOrder="@Model.CurrentSort" asp-route-roleName="@Model.RoleName" class="page-link">
                                         @(pageNumber + 1)
                                     </a>
                                 </li>
@@ -91,7 +109,7 @@
                         @if (Model.Users.PageNumber < Math.Ceiling((decimal)(Model.Users.Total.Value / Model.Users.PageSize.Value)) - 1)
                         {
                             <li class="page-item">
-                                <a asp-route-pageNumber="@(Model.Users.PageNumber + 1)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                <a asp-route-pageNumber="@(Model.Users.PageNumber + 1)" asp-route-sortOrder="@Model.CurrentSort" asp-route-roleName="@Model.RoleName" class="page-link">
                                     <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>

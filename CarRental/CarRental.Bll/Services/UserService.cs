@@ -20,10 +20,13 @@ namespace CarRental.Bll.Services
 
         private readonly UserManager<User> _userManager;
 
-        public UserService(CarRentalDbContext dbContext, UserManager<User> userManager)
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
+
+        public UserService(CarRentalDbContext dbContext, UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public Expression<Func<User, UserDto>> UserDtoSelector = u => new UserDto
@@ -45,7 +48,17 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<User> users = _userManager.Users;
+            IQueryable<User> users;
+
+            if (!await _roleManager.RoleExistsAsync(filter.RoleName))
+            {
+                users = _userManager.Users;
+            }
+            else
+            {
+                var userList = await _userManager.GetUsersInRoleAsync(filter.RoleName);
+                users = userList.AsQueryable();
+            }
 
             switch (filter.userOrder)
             {
@@ -80,7 +93,7 @@ namespace CarRental.Bll.Services
                 users = users.Skip(filter.PageNumber.Value * filter.PageSize.Value).Take(filter.PageSize.Value);
             }
 
-            var results = await users.Select(UserDtoSelector).ToListAsync();
+            var results = users.Select(UserDtoSelector).ToList();
 
             return new PagedResult<UserDto>
             {
@@ -115,7 +128,9 @@ namespace CarRental.Bll.Services
                 {
                     Id = user.Id,
                     Name = user.Name,
+                    UserName = user.UserName,
                     Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
                     Roles = roles
                 };
 

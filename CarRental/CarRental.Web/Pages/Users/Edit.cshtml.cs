@@ -46,6 +46,13 @@ namespace CarRental.Web.Pages.Users
             _logger.LogInformation(LoggingEvents.GetItem, "Get User {ID}", id);
 
             var user = await _userManager.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, "User {ID} NOT FOUND", id);
+                return NotFound();
+            }
+
             var roles = await _userManager.GetRolesAsync(user);
 
             Input = new UserEditDto
@@ -53,15 +60,11 @@ namespace CarRental.Web.Pages.Users
                 Id = user.Id,
                 Email = user.Email,
                 Name = user.Name,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
                 Roles = roles,
                 RoleName = roles.FirstOrDefault()
             };
-
-            if (User == null)
-            {
-                _logger.LogWarning(LoggingEvents.GetItemNotFound, "User {ID} NOT FOUND", id);
-                return NotFound();
-            }
 
             ViewData["RoleName"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
             return Page();
@@ -76,6 +79,20 @@ namespace CarRental.Web.Pages.Users
             }
 
             var user = await _userManager.Users.Where(u => u.Id == Input.Id).FirstOrDefaultAsync();
+
+            if (Input.Name != user.Name)
+            {
+                user.Name = Input.Name;
+            }
+
+            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            if (Input.PhoneNumber != phoneNumber)
+            {
+                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            }
+
+            await _userManager.UpdateAsync(user);
+
             var roles = await _userManager.GetRolesAsync(user);
 
             await _userManager.RemoveFromRolesAsync(user, roles);

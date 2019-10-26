@@ -8,6 +8,16 @@
     <div class="row mt-1">
         <label class="col-md-2">
             <b>
+                @Html.DisplayNameFor(model => model.UserDto.UserName)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.UserName)
+        </div>
+    </div>
+    <div class="row mt-1">
+        <label class="col-md-2">
+            <b>
                 @Html.DisplayNameFor(model => model.UserDto.Name)
             </b>
         </label>
@@ -28,15 +38,25 @@
     <div class="row mt-1">
         <label class="col-md-2">
             <b>
+                @Html.DisplayNameFor(model => model.UserDto.PhoneNumber)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.PhoneNumber)
+        </div>
+    </div>
+    <div class="row mt-1">
+        <label class="col-md-2">
+            <b>
                 @Html.DisplayNameFor(model => model.UserDto.Roles)
             </b>
         </label>
         <div class="col-md-10">
             <div>
-            @foreach(var role in Model.UserDto.Roles)
-            {
-                <p>@role</p>
-            }
+                @foreach (var role in Model.UserDto.Roles)
+                {
+                    <p>@role</p>
+                }
             </div>
         </div>
     </div>
