@@ -4,13 +4,13 @@
 
 <div class="card mb-2" id="comment-@Model.Id">
     <div class="card-header">
-        <h3 class="card-title">@Model.User </h3>
+        <h5 class="card-title">@Model.User </h5>
         <span class="text-muted">
-            @Model.CreationDate.ToLocalTime().ToString("yyyy. MMM dd.hh:mm:ss")
+            @Model.CreationDate.ToLocalTime().ToString("yyyy. MMM dd")
         </span>
-        @if (User.Identity.IsAuthenticated && User.IsInRole("Administrator"))
+        @if (User.Identity.IsAuthenticated)
         {
-            <i class="fas fa-trash-alt delete-comment interactive" data-comment-id="@Model.Id" >@SharedLocalizer.GetLocalizedHtmlString("DELETECOMMENT")</i>
+            <i class="fa fa-trash delete-comment interactive" data-comment-id="@Model.Id" ></i>
         }
     </div>
     <div class="card-body">@Html.Raw(Model.Text)</div>

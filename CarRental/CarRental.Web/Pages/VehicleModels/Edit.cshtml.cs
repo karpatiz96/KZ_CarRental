@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
-    [Authorize(Roles = "Administrators, Assisstant")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class EditModel : PageModel
     {
         private readonly ILogger<EditModel> _logger;

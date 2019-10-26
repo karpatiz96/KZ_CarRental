@@ -28,7 +28,7 @@
                             <span class="fa fa-star"></span>
                         }
                     </div>
-                    @if (User.Identity.IsAuthenticated && !(User.IsInRole("Administrators") || User.IsInRole("Assisstant")) )
+                    @if (User.Identity.IsAuthenticated && !(User.IsInRole("Administrators") || User.IsInRole("Assistant")) )
                     {
                         @if (!Model.IsRated)
                         {
@@ -118,7 +118,7 @@
 <div class="row mt-4">
     @if (User.Identity.IsAuthenticated)
     {
-        if (User.IsInRole("Administrators") || User.IsInRole("Assisstant"))
+        if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
         {
             <div class="ml-3">
                 <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
@@ -134,7 +134,7 @@
     <div class="ml-3">
         @if (User.Identity.IsAuthenticated)
         {
-            if (User.IsInRole("Administrators") || User.IsInRole("Assisstant"))
+            if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
             {
             }
             else
@@ -154,7 +154,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    if (User.IsInRole("Administrators") || User.IsInRole("Assisstant"))
+    if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
     {
         <div class="row mt-4">
             <vc:car-dto cars="@Model.VehicleModel.Cars"></vc:car-dto>
@@ -163,12 +163,11 @@
 }
 
 
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="card card-body my-3">
+<div class="row mt-4 d-flex justify-content-center">
+    <div class="col-6">
             @if (!User.Identity.IsAuthenticated)
             {
-                <div class="text-center">@SharedLocalizer.GetLocalizedHtmlString("MAKECOMMENT")<a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">@SharedLocalizer.GetLocalizedHtmlString("COMMENTLOGIN")</a>!</div>
+                <div class="text-center mb-5">@SharedLocalizer.GetLocalizedHtmlString("MAKECOMMENT")<a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">@SharedLocalizer.GetLocalizedHtmlString("COMMENTLOGIN")</a>!</div>
             }
             else
             {
@@ -179,8 +178,7 @@
                     </div>
                 </form>
             }
-        </div>
-        <div id="comments">
+        <div id="comments" class="mt-3">
         @foreach (var comment in Model.Comments)
         {
             <partial name="~/Pages/Shared/_CommentPartial.cshtml" model="comment" />
@@ -195,7 +193,14 @@
     <script src="~/js/rating.js"></script>
 
     <script type="text/javascript">
-        tinymce.init({ selector: '.html-editor' });
+        tinymce.init(
+            {
+                selector: '.html-editor',
+         
+                toolbar: false,
+                menubar: false,
+                statusbar: false
+            });
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("/vehiclemodelshub")
             .build();

@@ -2,6 +2,7 @@
 using CarRental.Bll.IServices;
 using CarRental.Dal.Entities;
 using CarRental.Web.ViewRender;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using System;

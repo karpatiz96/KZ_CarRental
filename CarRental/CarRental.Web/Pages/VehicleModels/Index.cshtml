@@ -5,7 +5,7 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    if (User.IsInRole("Administrators, Assisstant"))
+    if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
     {
         <p>
             <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>

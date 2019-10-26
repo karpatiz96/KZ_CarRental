@@ -8,6 +8,6 @@ namespace CarRental.Dal.Users
     {
         public const string Administrators = nameof(Administrators);
 
-        public const string Assisstant = nameof(Assisstant);
+        public const string Assistant = nameof(Assistant);
     }
 }

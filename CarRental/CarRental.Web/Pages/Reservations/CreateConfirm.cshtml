@@ -76,7 +76,7 @@
                     <button type="submit" class="btn btn-primary">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</button>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole("Administrators"))
+                        if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
                         {
                             <a class="ml-3" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
                         }
@@ -91,7 +91,7 @@
         {
             @if (User.Identity.IsAuthenticated)
             {
-                if (User.IsInRole("Administrators"))
+                if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
                 {
                     <a class="ml-3" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
                 }

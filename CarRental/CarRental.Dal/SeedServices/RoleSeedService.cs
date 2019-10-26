@@ -24,9 +24,9 @@ namespace CarRental.Dal.SeedServices
                 await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Administrators });
             }
 
-            if(!await _roleManager.RoleExistsAsync(Roles.Assisstant))
+            if(!await _roleManager.RoleExistsAsync(Roles.Assistant))
             {
-                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Assisstant });
+                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Assistant });
             }
         }
     }
