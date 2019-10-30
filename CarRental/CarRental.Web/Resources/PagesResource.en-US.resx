@@ -126,6 +126,12 @@
   <data name="ACTIVE" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="ADDRESS_FOUND" xml:space="preserve">
+    <value>Address Found:</value>
+  </data>
   <data name="AIR_CON" xml:space="preserve">
     <value>Air conditioned</value>
   </data>
@@ -159,6 +165,9 @@
   <data name="CREATE" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="CREATE_ADDRESS" xml:space="preserve">
+    <value>Create new Address</value>
+  </data>
   <data name="CREATE_CAR" xml:space="preserve">
     <value>Create Car</value>
   </data>
@@ -179,6 +188,9 @@
   </data>
   <data name="EDIT" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="EDIT_ADDRESS" xml:space="preserve">
+    <value>Edit Address</value>
   </data>
   <data name="EDIT_CAR" xml:space="preserve">
     <value>Edit Car</value>

@@ -23,7 +23,7 @@
 </head>
 <body class="color-bg-main">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3 color-bg">
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3 color-bg">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">@SharedLocalizer.GetLocalizedHtmlString("CAR_RENTAL_WEB")</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -54,6 +54,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">@SharedLocalizer.GetLocalizedHtmlString("USERS")</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Addresses/Index">@SharedLocalizer.GetLocalizedHtmlString("ADDRESSES")</a>
                                 </li>
                             }
                             else if (User.IsInRole("Assisstant"))

@@ -120,6 +120,9 @@
   <data name="ACCEPT" xml:space="preserve">
     <value>Elfogad</value>
   </data>
+  <data name="ADDRESSES" xml:space="preserve">
+    <value>Telephelyek</value>
+  </data>
   <data name="ADDRESS_TITLE" xml:space="preserve">
     <value>Kölcsönzött auto felvételi, és leadási helyek</value>
   </data>

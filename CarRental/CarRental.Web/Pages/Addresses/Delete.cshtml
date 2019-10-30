@@ -1,0 +1,56 @@
+﻿@page
+@model CarRental.Web.Pages.Addresses.DeleteModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h3>@PagesLocalizer.GetLocalizedHtmlString("DELETE_ARE_YOU_SURE")</h3>
+<div>
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("ADDRESS")</h4>
+    <hr />
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Address.ZipCode)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address.ZipCode)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Address.City)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address.City)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Address.StreetAddress)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address.StreetAddress)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Address.FullAddress)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address.FullAddress)
+        </div>
+    </div>
+
+    <form class="mt-4" method="post">
+        <input type="hidden" asp-for="Address.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="btn btn-danger mr-3">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</button>
+        <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+    </form>
+</div>

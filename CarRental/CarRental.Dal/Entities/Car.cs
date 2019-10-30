@@ -12,8 +12,12 @@ namespace CarRental.Dal.Entities
         public string PlateNumber { get; set; }
         [Required]
         public bool Active { get; set; }
+
         public int VehicleModelId { get; set; }
         public VehicleModel VehicleModel { get; set; }
+
+        public int? AddressId { get; set; }
+        public Address Address { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
     }

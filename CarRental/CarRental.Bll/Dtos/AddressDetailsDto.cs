@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CarRental.Dal.Entities
+namespace CarRental.Bll.Dtos
 {
-    public class Address
+    public class AddressDetailsDto
     {
         public int Id { get; set; }
-        [Required]
+        [Display(Name = "ZIP_CODE")]
         public int ZipCode { get; set; }
-        [Required]
+        [Display(Name = "CITY")]
         public string City { get; set; }
-        [Required]
+        [Display(Name = "STREET_ADDRESS")]
         public string StreetAddress { get; set; }
+        public string FullAddress { get; set; }
 
         public bool IsDeleted { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; }
-
-        public ICollection<Car> Cars { get; set; }
+        public ICollection<CarDto> Cars { get; set; }
+        public int CarFound { get; set; }
     }
 }

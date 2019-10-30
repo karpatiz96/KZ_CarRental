@@ -100,6 +100,10 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
                 {
                     //ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     ModelState.AddModelError(string.Empty, _localizer["INVALID_LOGIN_ATTEMPT"]);
+
+                    await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
                     return Page();
                 }
             }

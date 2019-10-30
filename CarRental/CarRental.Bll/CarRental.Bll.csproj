@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dtos\AddressDetailsDto.cs~RF6ca74dc.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CarRental.Dal\CarRental.Dal.csproj" />
   </ItemGroup>
 

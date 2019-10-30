@@ -228,6 +228,9 @@
   <data name="CITY" xml:space="preserve">
     <value>Város</value>
   </data>
+  <data name="CITY_REQUIRED" xml:space="preserve">
+    <value>Város megadása kötelező.</value>
+  </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP" xml:space="preserve">
     <value>A hitelesítő alkalmazás konfigurálása</value>
   </data>
@@ -655,6 +658,9 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
   <data name="STREET_ADDRESS" xml:space="preserve">
     <value>Utca</value>
   </data>
+  <data name="STREET_ADDRESS_REQUIRED" xml:space="preserve">
+    <value>Utca megadása kötelező.</value>
+  </data>
   <data name="SUBMIT" xml:space="preserve">
     <value>Küldés</value>
   </data>
@@ -696,5 +702,11 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
   </data>
   <data name="ZIP_CODE" xml:space="preserve">
     <value>Irányítószám</value>
+  </data>
+  <data name="ZIP_CODE_RANGE" xml:space="preserve">
+    <value>Az irányítószámnak 1000 és 9999 közötti számnak kell lennie.</value>
+  </data>
+  <data name="ZIP_CODE_REQUIRED" xml:space="preserve">
+    <value>Irányítószám megadása kötelező.</value>
   </data>
 </root>

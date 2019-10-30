@@ -120,6 +120,9 @@
   <data name="ACCEPT" xml:space="preserve">
     <value>Accept</value>
   </data>
+  <data name="ADDRESSES" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
   <data name="ADDRESS_TITLE" xml:space="preserve">
     <value>Car pick-up and drop-off locations</value>
   </data>

@@ -126,6 +126,12 @@
   <data name="ACTIVE" xml:space="preserve">
     <value>Aktív</value>
   </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Telephely</value>
+  </data>
+  <data name="ADDRESS_FOUND" xml:space="preserve">
+    <value>Talált telephelyek:</value>
+  </data>
   <data name="AIR_CON" xml:space="preserve">
     <value>Légkondicionált</value>
   </data>
@@ -159,6 +165,9 @@
   <data name="CREATE" xml:space="preserve">
     <value>Létrehoz</value>
   </data>
+  <data name="CREATE_ADDRESS" xml:space="preserve">
+    <value>Új telephely létrehozása</value>
+  </data>
   <data name="CREATE_CAR" xml:space="preserve">
     <value>Auto létrehozása</value>
   </data>
@@ -179,6 +188,9 @@
   </data>
   <data name="EDIT" xml:space="preserve">
     <value>Szerkeszt</value>
+  </data>
+  <data name="EDIT_ADDRESS" xml:space="preserve">
+    <value>Telephely szerkesztése</value>
   </data>
   <data name="EDIT_CAR" xml:space="preserve">
     <value>Auto szerkesztése</value>

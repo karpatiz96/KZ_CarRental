@@ -229,6 +229,9 @@
   <data name="CITY" xml:space="preserve">
     <value>City</value>
   </data>
+  <data name="CITY_REQUIRED" xml:space="preserve">
+    <value>City required.</value>
+  </data>
   <data name="CONFIGURE_AUTHENTICATOR_APP" xml:space="preserve">
     <value>Configure authenticator app</value>
   </data>
@@ -657,6 +660,9 @@
   <data name="STREET_ADDRESS" xml:space="preserve">
     <value>Street address</value>
   </data>
+  <data name="STREET_ADDRESS_REQUIRED" xml:space="preserve">
+    <value>Street address required.</value>
+  </data>
   <data name="SUBMIT" xml:space="preserve">
     <value>Submit</value>
   </data>
@@ -698,5 +704,11 @@
   </data>
   <data name="ZIP_CODE" xml:space="preserve">
     <value>Zip code</value>
+  </data>
+  <data name="ZIP_CODE_RANGE" xml:space="preserve">
+    <value>Zip code is between 1000 and 9999.</value>
+  </data>
+  <data name="ZIP_CODE_REQUIRED" xml:space="preserve">
+    <value>Zip code required.</value>
   </data>
 </root>
