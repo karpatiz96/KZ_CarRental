@@ -274,6 +274,9 @@
   <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
     <value>Create a new account.</value>
   </data>
+  <data name="CURRENT_ADDRESS" xml:space="preserve">
+    <value>Current address</value>
+  </data>
   <data name="CURRENT_PASSWORD" xml:space="preserve">
     <value>Current password</value>
   </data>

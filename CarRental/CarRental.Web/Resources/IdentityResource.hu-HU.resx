@@ -273,6 +273,9 @@
   <data name="CREATE_A_NEW_ACCOUNT" xml:space="preserve">
     <value>Új fiók létrehozása.</value>
   </data>
+  <data name="CURRENT_ADDRESS" xml:space="preserve">
+    <value>Jelenlegi telephely</value>
+  </data>
   <data name="CURRENT_PASSWORD" xml:space="preserve">
     <value>Jelenlegi jelszó</value>
   </data>

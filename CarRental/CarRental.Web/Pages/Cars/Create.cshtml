@@ -17,6 +17,12 @@
                 <label asp-for="Car.VehicleModelId" class="control-label"></label>
                 <select asp-for="Car.VehicleModelId" class="form-control" asp-items="ViewBag.VehicleModelId"></select>
             </div>
+            <div class="form-group">
+                <label asp-for="Car.AddressId" class="control-label"></label>
+                <select asp-for="Car.AddressId" class="form-control" asp-items="ViewBag.AddressId">
+                    <option value=""></option>
+                </select>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Car.Active" /> @Html.DisplayNameFor(model => model.Car.Active)

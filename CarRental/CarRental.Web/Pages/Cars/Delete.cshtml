@@ -31,6 +31,18 @@
     <div class="row">
         <label class="col-md-2">
             <b>
+                @Html.DisplayNameFor(model => model.Car.Address)
+            </b>
+        </label>
+        <div class="col-md-10">
+            <a asp-page="/Addresses/Details" asp-route-id="@Model.Car.AddressId">
+                @Html.DisplayFor(model => model.Car.Address)
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
                 @Html.DisplayNameFor(model => model.Car.Active)
             </b>
         </label>

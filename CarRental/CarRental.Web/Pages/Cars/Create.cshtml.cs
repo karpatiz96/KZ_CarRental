@@ -17,18 +17,22 @@ namespace CarRental.Web.Pages.Cars
 
         private readonly IVehicleModelService _vehicleModelService;
 
+        private readonly IAddressService _addressService;
+
         private readonly ILogger<CreateModel> _logger;
 
-        public CreateModel(ICarService carService, IVehicleModelService vehicleModelService, ILogger<CreateModel> logger)
+        public CreateModel(ICarService carService, IVehicleModelService vehicleModelService, IAddressService addressService, ILogger<CreateModel> logger)
         {
             _carService = carService;
             _vehicleModelService = vehicleModelService;
+            _addressService = addressService;
             _logger = logger;
         }
 
         public async Task<IActionResult> OnGet()
         {
             ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType");
+            ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
             return Page();
         }
 
@@ -40,6 +44,7 @@ namespace CarRental.Web.Pages.Cars
             if (!ModelState.IsValid)
             {
                 ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType");
+                ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
                 return Page();
             }
 

@@ -44,6 +44,8 @@ namespace CarRental.Bll.Services
                 PlateNumber = c.PlateNumber,
                 VehicleModelId = c.VehicleModelId,
                 VehicleType = c.VehicleModel.VehicleType,
+                AddressId = a.Id,
+                Address = a.ZipCode.ToString() + " " + a.City + " " + a.StreetAddress,
                 Active = c.Active
             }).ToList(),
             CarFound = a.Cars.Count
@@ -68,6 +70,7 @@ namespace CarRental.Bll.Services
         public async Task<AddressDetailsDto> GetAddressDetails(int? id)
         {
             return await _dbContext.Addresses
+                .Include(a => a.Cars)
                 .Where(vm => vm.Id == id)
                 .Select(AddressDetailsDtoSelector)
                 .SingleOrDefaultAsync();
@@ -85,7 +88,7 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<Address> addresses = _dbContext.Addresses;
+            IQueryable<Address> addresses = _dbContext.Addresses.Where(a => a.IsDeleted == false);
 
             switch (filter.addressOrder)
             {
@@ -170,13 +173,18 @@ namespace CarRental.Bll.Services
                 .Where(a => a.Id == id.Value)
                 .SingleOrDefaultAsync();
 
-            address.IsDeleted = true;
+            var cars = await _dbContext.Cars
+                .Include(c => c.Address)
+                .Where(c => c.AddressId == id)
+                .ToListAsync();
 
-            foreach(var car in address.Cars)
+            foreach (var car in cars)
             {
-                car.AddressId = null;
                 address.Cars.Remove(car);
+                car.Address = null;
             }
+
+            address.IsDeleted = true;
 
             await _dbContext.SaveChangesAsync();
         }

@@ -17,6 +17,10 @@ namespace CarRental.Bll.Dtos
         public int VehicleModelId { get; set; }
         [Display(Name = "VEHICLE_MODEL")]
         public string VehicleType { get; set; }
+        [Display(Name = "CURRENT_ADDRESS")]
+        public int? AddressId { get; set; }
+        [Display(Name = "CURRENT_ADDRESS")]
+        public string Address { get; set; }
         public bool HasReservation { get; set; }
     }
 }

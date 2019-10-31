@@ -24,12 +24,15 @@ namespace CarRental.Web.Pages.Cars
 
         private readonly IVehicleModelService _vehicleModelService;
 
+        private readonly IAddressService _addressService;
+
         private readonly ILogger<EditModel> _logger;
 
-        public EditModel(ICarService carService, IVehicleModelService vehicleModelService, ILogger<EditModel> logger)
+        public EditModel(ICarService carService, IVehicleModelService vehicleModelService, IAddressService addressService, ILogger<EditModel> logger)
         {
             _carService = carService;
             _vehicleModelService = vehicleModelService;
+            _addressService = addressService;
             _logger = logger;
         }
 
@@ -53,6 +56,7 @@ namespace CarRental.Web.Pages.Cars
             }
 
             ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
+            ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
             return Page();
         }
 
@@ -61,6 +65,7 @@ namespace CarRental.Web.Pages.Cars
             if (!ModelState.IsValid)
             {
                 ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
+                ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
                 return Page();
             }
 

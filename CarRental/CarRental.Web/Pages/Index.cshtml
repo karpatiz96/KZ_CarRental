@@ -20,6 +20,8 @@
 
 @if (User.Identity.IsAuthenticated)
 {
+    @if (!(User.IsInRole("Administrators") || User.IsInRole("Assistant")))
+    {
     <div class="row mt-4">
         <h4>@SharedLocalizer.GetLocalizedHtmlString("CURRENTRESERVATIONS")</h4>
     </div>
@@ -27,6 +29,7 @@
     <div class="row mt-4">
         <vc:reservation-list-header reservations="@Model.Reservations"></vc:reservation-list-header>
     </div>
+    }
 }
 
 <div class="row mt-4">

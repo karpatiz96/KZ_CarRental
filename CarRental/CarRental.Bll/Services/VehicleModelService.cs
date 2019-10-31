@@ -65,6 +65,10 @@ namespace CarRental.Bll.Services
                 PlateNumber = c.PlateNumber,
                 VehicleModelId = c.VehicleModelId,
                 VehicleType = c.VehicleModel.VehicleType,
+                AddressId = c.AddressId,
+                Address = c.AddressId.HasValue 
+                    ? c.Address.ZipCode.ToString() + " " + c.Address.City + " " + c.Address.StreetAddress 
+                    : "",
                 Active = c.Active
             }).ToList(),
             CarFound = vm.Cars.Count,
@@ -159,6 +163,7 @@ namespace CarRental.Bll.Services
         {
             var vehicleModel = await _dbContext.VehicleModels
                 .Include(v => v.Cars)
+                    .ThenInclude(c => c.Address)
                 .Include(r => r.Ratings)
                 .Where(vm => vm.Id == id)
                 .Select(VehicleModelDetailsDtoSelector)

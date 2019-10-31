@@ -61,7 +61,7 @@ namespace CarRental.Web.Pages.Users
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get User {ID}", id);
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.Users.Where(u => u.Id == id).SingleOrDefaultAsync();
 
             if (user == null)
             {
