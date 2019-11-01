@@ -448,6 +448,9 @@
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
     <value>Verification code is invalid.</value>
   </data>
+  <data name="IS_IN_USE" xml:space="preserve">
+    <value>Site is in use</value>
+  </data>
   <data name="LOCKED_OUT" xml:space="preserve">
     <value>Locked out</value>
   </data>
@@ -620,6 +623,9 @@
   <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
     <value>Reset your password.</value>
   </data>
+  <data name="REVIEWERS" xml:space="preserve">
+    <value>Reviewers</value>
+  </data>
   <data name="ROLE" xml:space="preserve">
     <value>Role</value>
   </data>
@@ -641,6 +647,9 @@
   </data>
   <data name="SET_YOUR_PASSWORD" xml:space="preserve">
     <value>Set your password</value>
+  </data>
+  <data name="STAR_RATING" xml:space="preserve">
+    <value>Rating</value>
   </data>
   <data name="STATE" xml:space="preserve">
     <value>State</value>

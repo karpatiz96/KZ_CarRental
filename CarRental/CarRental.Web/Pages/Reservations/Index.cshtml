@@ -2,6 +2,8 @@
 @model CarRental.Web.Pages.Reservations.IndexModel
 @inject PagesLocalizationService PagesLocalizer
 
+<h4>@PagesLocalizer.GetLocalizedHtmlString("RESERVATIONS")</h4>
+<hr/>
 <div class="row">
     <form class="form-inline" asp-page="./Index" method="get" asp-antiforgery="true">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

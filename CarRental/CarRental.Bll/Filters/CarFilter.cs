@@ -17,7 +17,9 @@
             ActiveAscending,
             PlateNumberDescending,
             VehicleTypeDescending,
-            ActiveDescending
+            ActiveDescending,
+            AddressAscending,
+            AddressDescending,
         }
     }
 }

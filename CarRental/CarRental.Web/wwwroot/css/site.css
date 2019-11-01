@@ -83,7 +83,7 @@ body {
 .rating {
     unicode-bidi: bidi-override;
     direction: rtl;
-    font-size: 30px;
+    font-size: 20px;
 }
   
 .rating span.star {
@@ -98,7 +98,7 @@ body {
 }
   
 .rating span.star:before {
-    padding-right: 5px;
+    padding-right: 1px;
 }
   
 .rating span.star:hover:before, .rating span.star:hover ~ span.star:before {

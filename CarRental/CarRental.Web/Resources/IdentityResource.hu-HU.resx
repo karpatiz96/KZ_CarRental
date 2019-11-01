@@ -447,6 +447,9 @@
   <data name="INVALID_VERFICATION_CODE" xml:space="preserve">
     <value>A Igazoló kód érvénytelen.</value>
   </data>
+  <data name="IS_IN_USE" xml:space="preserve">
+    <value>Telephely használatban van</value>
+  </data>
   <data name="LOCKED_OUT" xml:space="preserve">
     <value>Kizárás</value>
   </data>
@@ -619,6 +622,9 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
   <data name="RESET_YOUR_PASSWORD" xml:space="preserve">
     <value>Adja meg az új jelszavát.</value>
   </data>
+  <data name="REVIEWERS" xml:space="preserve">
+    <value>Értékelők</value>
+  </data>
   <data name="ROLE" xml:space="preserve">
     <value>Szerepkör</value>
   </data>
@@ -639,6 +645,9 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
   </data>
   <data name="SET_YOUR_PASSWORD" xml:space="preserve">
     <value>Állítsd be a jelszavad</value>
+  </data>
+  <data name="STAR_RATING" xml:space="preserve">
+    <value>Értékelés</value>
   </data>
   <data name="STATE" xml:space="preserve">
     <value>Állapot</value>

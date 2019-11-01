@@ -2,6 +2,8 @@
 @model CarRental.Web.Pages.Users.IndexModel
 @inject PagesLocalizationService PagesLocalizer
 
+<h4>@PagesLocalizer.GetLocalizedHtmlString("USERS")</h4>
+<hr/>
 <div class="row d-flex justify-content-center">
     <form asp-page="./Index" method="get" asp-antiforgery="true">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

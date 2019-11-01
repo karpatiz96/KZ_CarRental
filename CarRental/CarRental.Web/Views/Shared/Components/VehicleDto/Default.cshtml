@@ -1,12 +1,27 @@
 ﻿@model CarRental.Bll.Dtos.VehicleDto
 @inject PagesLocalizationService PagesLocalizer
+@inject IdentityLocalizationService IdentityLocalizer
 
 <div class="card h-100" id="vehiclemodelcard">
     <h5 class="card-header text-success">@Model.VehicleType</h5>
     <div class="card-body">
         <div class="container">
             <div class="row">
-                <p class="card-text col-md-6"><b>@PagesLocalizer.GetLocalizedHtmlString("PRICE_PER_DAY")</b> @Model.PricePerDay Ft</p>
+                <div class="col-md-6">
+                    <p class="card-text"><b>@PagesLocalizer.GetLocalizedHtmlString("PRICE_PER_DAY")</b> @Model.PricePerDay Ft</p>
+                    <p class="card-text">
+                        <b>@IdentityLocalizer.GetLocalizedHtmlString("STAR_RATING"): </b>
+                        @for (int s = 0; s < Math.Round(Model.StarRating); s++)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                        @for (int s = 0; s < (5 - Math.Round(Model.StarRating)); s++)
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                        @Html.DisplayFor(model => model.StarRating)
+                    </p>
+                </div>
                 <a class="col-md-6" asp-page="/VehicleModels/Details" asp-route-id="@Model.Id">
                     <img class="card-img-top" src="~/images/@Model.VehicleUrl" title="@Model.VehicleType" alt="@Model.VehicleType">
                 </a>

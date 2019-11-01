@@ -15,6 +15,7 @@ using CarRental.Web.Resources;
 using System.Reflection;
 using CarRental.Web.ViewRender;
 using CarRental.Bll.Dtos;
+using CarRental.Dal.Users;
 
 namespace CarRental.Web.Areas.Identity.Pages.Account
 {
@@ -91,6 +92,13 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    var addToRole = await _userManager.AddToRoleAsync(user, Roles.Customer);
+
+                    if (addToRole.Succeeded)
+                    {
+                        _logger.LogInformation($"User {0} added to role {1}.", user.Id, Roles.Customer);
+                    }
+
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -101,11 +109,11 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
                     /*await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
 
-                    var model = new EmailConfirmationDto(user.Name ?? user.UserName, HtmlEncoder.Default.Encode(callbackUrl));
+                    /*var model = new EmailConfirmationDto(user.Name ?? user.UserName, HtmlEncoder.Default.Encode(callbackUrl));
 
                     const string view = "/Views/Emails/ConfirmAccountEmail";
                     var body = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", body);
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email", body);*/
 
 
                     await _signInManager.SignInAsync(user, isPersistent: false);

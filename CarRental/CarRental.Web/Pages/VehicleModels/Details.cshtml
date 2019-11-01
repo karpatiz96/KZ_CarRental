@@ -7,7 +7,9 @@
     <h4>@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_MODEL")</h4>
     <hr />
     <div class="media">
-        <img class="mr-3 col-md-4" src="~/images/@Model.VehicleModel.VehicleUrl">
+        <div class="mr-3 col-md-4">
+        <img src="~/images/@Model.VehicleModel.VehicleUrl">
+        </div>
         <div class="media-body">
             <div class="container">
                 <div class="row">
@@ -23,35 +25,14 @@
                         {
                             <span class="fa fa-star checked"></span>
                         }
-                        @for (int s = 0; s < ( 5 - Math.Round(Model.VehicleModel.StarRating)); s++)
+                        @for (int s = 0; s < (5 - Math.Round(Model.VehicleModel.StarRating)); s++)
                         {
                             <span class="fa fa-star"></span>
                         }
+                        @Html.DisplayFor(model => model.VehicleModel.StarRating)
+                        @Html.DisplayNameFor(model => model.VehicleModel.Reviewers): 
+                        @Html.DisplayFor(model => model.VehicleModel.Reviewers)
                     </div>
-                    @if (User.Identity.IsAuthenticated && !(User.IsInRole("Administrators") || User.IsInRole("Assistant")) )
-                    {
-                        @if (!Model.IsRated)
-                        {
-                        <form method="post" asp-page-handler="Rating">
-                            <input type="hidden" asp-for="@Model.Rating.VehicleModelId">
-                            <span class="rating">
-                                @for(int i = 0; i <= 4 ; i++)
-                                {
-                                    var star = "star";
-                                    if (Model.Rating.Rating == (5 - i))
-                                    {
-                                        star += "active";
-                                    }
-                                    <span data-value="@(5 - i)" class="@star fa fa-star"></span>
-                                }
-                            </span>
-                            <input type="hidden" asp-for="@Model.Rating.Rating" id="Rating" />
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-primary">@PagesLocalizer.GetLocalizedHtmlString("RATING")</button>
-                            </div>
-                        </form>
-                        }
-                    }
                 </div>
                 <div class="row">
                     <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.PricePerDay)</b></label>
@@ -110,12 +91,38 @@
                         }
                     </div>
                 </div>
+                <div class="row">
+                    @if (User.Identity.IsAuthenticated && !(User.IsInRole("Administrators") || User.IsInRole("Assistant")))
+                    {
+                        @if (!Model.IsRated)
+                        {
+                            <form class="form-inline col-md-8" method="post" asp-page-handler="Rating">
+                                <input type="hidden" asp-for="@Model.Rating.VehicleModelId">
+                                <span class="rating">
+                                    @for (int i = 0; i <= 4; i++)
+                                    {
+                                        var star = "star";
+                                        if (Model.Rating.Rating == (5 - i))
+                                        {
+                                            star += "active";
+                                        }
+                                        <span data-value="@(5 - i)" class="@star fa fa-star"></span>
+                                    }
+                                </span>
+                                <input type="hidden" asp-for="@Model.Rating.Rating" id="Rating" />
+                                <div class="form-group ml-5">
+                                    <button type="submit" class="btn btn-outline-success ml-2">@PagesLocalizer.GetLocalizedHtmlString("RATING")</button>
+                                </div>
+                            </form>
+                        }
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mt-4 offset-1">
     @if (User.Identity.IsAuthenticated)
     {
         if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
@@ -132,17 +139,7 @@
         }
     }
     <div class="ml-3">
-        @if (User.Identity.IsAuthenticated)
-        {
-            if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
-            {
-            }
-            else
-            {
-                <a class="btn btn-success" asp-page="/Reservations/Create" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</a>
-            }
-        }
-        else
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
         {
             <a class="btn btn-success" asp-page="/Reservations/Create" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</a>
         }
@@ -162,22 +159,24 @@
     }
 }
 
-
-<div class="row mt-4 d-flex justify-content-center">
-    <div class="col-6">
-            @if (!User.Identity.IsAuthenticated)
-            {
-                <div class="text-center mb-5">@SharedLocalizer.GetLocalizedHtmlString("MAKECOMMENT")<a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">@SharedLocalizer.GetLocalizedHtmlString("COMMENTLOGIN")</a>!</div>
-            }
-            else
-            {
-                <form id="new-comment-form" method="post" asp-page-handler="Comment">
-                    <textarea name="text" class="html-editor"></textarea>
-                    <div class="text-right mt-2">
-                        <button class="btn btn-outline-primary" value="@Model.VehicleModel.Id" name="vehicleModelId">@SharedLocalizer.GetLocalizedHtmlString("COMMENT")</button>
-                    </div>
-                </form>
-            }
+<div class="container mt-4">
+<h4>@PagesLocalizer.GetLocalizedHtmlString("COMMENTS"): </h4>
+<hr />
+<div class="row mt-4">
+    <div class="col-6 offset-1">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="text-center mb-5">@SharedLocalizer.GetLocalizedHtmlString("MAKECOMMENT")<a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">@SharedLocalizer.GetLocalizedHtmlString("COMMENTLOGIN")</a>!</div>
+        }
+        else
+        {
+            <form id="new-comment-form" method="post" asp-page-handler="Comment">
+                <textarea name="text" class="html-editor"></textarea>
+                <div class="text-right mt-2">
+                    <button class="btn btn-outline-primary" value="@Model.VehicleModel.Id" name="vehicleModelId">@SharedLocalizer.GetLocalizedHtmlString("COMMENT")</button>
+                </div>
+            </form>
+        }
         <div id="comments" class="mt-3">
         @foreach (var comment in Model.Comments)
         {
@@ -185,6 +184,7 @@
         }
         </div>
     </div>
+</div>
 </div>
 
 @section Scripts {

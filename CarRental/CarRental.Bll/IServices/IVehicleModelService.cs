@@ -23,8 +23,6 @@ namespace CarRental.Bll.IServices
 
         Task CreateVehicleModel(VehicleModelInputDto vehicleModelDto);
 
-        Task EditVehicle(VehicleModelDto vehicleModelDto, IFormFile Picture);
-
         Task EditVehicleModel(VehicleModelEditDto vehicleModelDto);
 
         Task DeleteVehicle(int? id);

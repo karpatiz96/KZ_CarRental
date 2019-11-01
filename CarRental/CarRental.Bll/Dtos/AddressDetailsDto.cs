@@ -15,10 +15,12 @@ namespace CarRental.Bll.Dtos
         [Display(Name = "STREET_ADDRESS")]
         public string StreetAddress { get; set; }
         public string FullAddress { get; set; }
-
-        public bool IsDeleted { get; set; }
+        [Display(Name = "IS_IN_USE")]
+        public bool IsInUse { get; set; }
 
         public ICollection<CarDto> Cars { get; set; }
         public int CarFound { get; set; }
+
+        public bool HasReservation { get; set; }
     }
 }

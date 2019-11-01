@@ -45,10 +45,20 @@
             @Html.DisplayFor(model => model.Address.FullAddress)
         </div>
     </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Address.IsInUse)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address.IsInUse)
+        </div>
+    </div>
 
     <div class="row mt-4">
         <a class="btn btn-primary mr-3" asp-page="./Edit" asp-route-id="@Model.Address.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
-        @if (!Model.Address.IsDeleted)
+        @if (!Model.Address.HasReservation)
         {
             <a class="btn btn-danger mr-3" asp-page="./Delete" asp-route-id="@Model.Address.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
         }

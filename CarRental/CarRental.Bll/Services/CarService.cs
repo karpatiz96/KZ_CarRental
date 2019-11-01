@@ -60,7 +60,9 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<Car> cars = _dbContext.Cars.Include(c => c.VehicleModel);
+            IQueryable<Car> cars = _dbContext.Cars
+                .Include(c => c.VehicleModel)
+                .Include(c => c.Address);
 
             if (!string.IsNullOrWhiteSpace(filter?.VehicleType))
                 cars = cars.Where(c => c.VehicleModel.VehicleType.Contains(filter.VehicleType));
@@ -87,6 +89,12 @@ namespace CarRental.Bll.Services
                     break;
                 case CarFilter.CarOrder.ActiveDescending:
                     cars = cars.OrderByDescending(c => c.Active);
+                    break;
+                case CarFilter.CarOrder.AddressAscending:
+                    cars = cars.OrderBy(c => c.Address.ZipCode).OrderBy(c => c.Address.City).OrderBy(c => c.Address.StreetAddress);
+                    break;
+                case CarFilter.CarOrder.AddressDescending:
+                    cars = cars.OrderByDescending(c => c.Address.ZipCode).OrderByDescending(c => c.Address.City).OrderByDescending(c => c.Address.StreetAddress);
                     break;
                 default:
                     cars = cars.OrderBy(c => c.PlateNumber);
@@ -229,16 +237,6 @@ namespace CarRental.Bll.Services
                 .Any(r => r.State == Reservation.ReservationStates.Accepted) == false)
                 .ToListAsync();
 
-            /*IList<Car> freeCars = new List<Car>();
-            foreach (var car in carList)
-            {
-                if (!car.Reservations.Where(r => (r.PickUpTime.Date <= start.Date && r.DropOffTime.Date >= start.Date) || (end.Date <= r.DropOffTime.Date && end.Date >= r.PickUpTime.Date)).Where(r => r.State == Reservation.ReservationStates.Accepted).Any())
-                {
-                    freeCars.Add(car);
-                }
-            }*/
-
-            //return freeCars.ToList();
             return carList;
         }
 

@@ -24,7 +24,7 @@
 <body class="color-bg-main">
     <header>
         <nav class="navbar navbar-expand-sm navbar-light border-bottom box-shadow mb-3 color-bg">
-            <div class="container">
+            <div class="container" style="width: 1200px;">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">@SharedLocalizer.GetLocalizedHtmlString("CAR_RENTAL_WEB")</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -59,7 +59,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Addresses/Index">@SharedLocalizer.GetLocalizedHtmlString("ADDRESSES")</a>
                                 </li>
                             }
-                            else if (User.IsInRole("Assisstant"))
+                            else if (User.IsInRole("Assistant"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Cars/Index">@SharedLocalizer.GetLocalizedHtmlString("CARS")</a>

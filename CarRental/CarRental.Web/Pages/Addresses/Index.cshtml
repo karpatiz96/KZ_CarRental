@@ -2,6 +2,8 @@
 @model CarRental.Web.Pages.Addresses.IndexModel
 @inject PagesLocalizationService PagesLocalizer
 
+<h4>@PagesLocalizer.GetLocalizedHtmlString("ADDRESSES")</h4>
+<hr/>
 <p>
     <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
 </p>

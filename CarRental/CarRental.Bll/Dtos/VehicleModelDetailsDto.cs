@@ -9,9 +9,9 @@ namespace CarRental.Bll.Dtos
         public ICollection<CarDto> Cars { get; set; }
 
         public int CarFound { get; set; }
-
+        [Display(Name = "STAR_RATING")]
         public float StarRating { get; set; }
-
+        [Display(Name = "REVIEWERS")]
         public int Reviewers { get; set; }
     }
 }

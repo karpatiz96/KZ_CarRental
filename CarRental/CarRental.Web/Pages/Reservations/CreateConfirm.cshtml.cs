@@ -169,7 +169,7 @@ namespace CarRental.Web.Pages.Reservations
             _logger.LogInformation(LoggingEvents.InsertItem, "Create Reservation");
             await _reservationService.CreateReservation(reservationDto);
 
-            var model = new EmailReservationDto
+            /*var model = new EmailReservationDto
             {
                 UserName = user.Name ?? user.Email,
                 Email = user.Email,
@@ -183,7 +183,7 @@ namespace CarRental.Web.Pages.Reservations
 
             const string view = "/Views/Emails/ReservationEmail";
             var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-            await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+            await _emailSender.SendEmailAsync(user.Email, "Reservation", message);*/
 
             return RedirectToPage("./List");
         }

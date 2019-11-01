@@ -12,10 +12,45 @@ namespace CarRental.Dal.Migrations
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
-                name: "IsDeleted",
+                name: "IsInUse",
                 table: "Addresses",
                 nullable: false,
                 defaultValue: false);
+
+            migrationBuilder.UpdateData(
+                table: "Addresses",
+                keyColumn: "Id",
+                keyValue: 1,
+                column: "IsInUse",
+                value: true);
+
+            migrationBuilder.UpdateData(
+                table: "Addresses",
+                keyColumn: "Id",
+                keyValue: 2,
+                column: "IsInUse",
+                value: true);
+
+            migrationBuilder.UpdateData(
+                table: "Addresses",
+                keyColumn: "Id",
+                keyValue: 3,
+                column: "IsInUse",
+                value: true);
+
+            migrationBuilder.UpdateData(
+                table: "Addresses",
+                keyColumn: "Id",
+                keyValue: 4,
+                column: "IsInUse",
+                value: true);
+
+            migrationBuilder.UpdateData(
+                table: "Addresses",
+                keyColumn: "Id",
+                keyValue: 5,
+                column: "IsInUse",
+                value: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_AddressId",
@@ -46,7 +81,7 @@ namespace CarRental.Dal.Migrations
                 table: "Cars");
 
             migrationBuilder.DropColumn(
-                name: "IsDeleted",
+                name: "IsInUse",
                 table: "Addresses");
         }
     }

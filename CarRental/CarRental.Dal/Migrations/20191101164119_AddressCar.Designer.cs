@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarRental.Dal.Migrations
 {
     [DbContext(typeof(CarRentalDbContext))]
-    [Migration("20191028150906_AddressCar")]
+    [Migration("20191101164119_AddressCar")]
     partial class AddressCar
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ namespace CarRental.Dal.Migrations
                     b.Property<string>("City")
                         .IsRequired();
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsInUse");
 
                     b.Property<string>("StreetAddress")
                         .IsRequired();
@@ -46,7 +46,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 1,
                             City = "Budapest",
-                            IsDeleted = false,
+                            IsInUse = true,
                             StreetAddress = "Kacsa utca 23",
                             ZipCode = 1120
                         },
@@ -54,7 +54,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 2,
                             City = "Budapest",
-                            IsDeleted = false,
+                            IsInUse = true,
                             StreetAddress = "Fenyves utca 25",
                             ZipCode = 1125
                         },
@@ -62,7 +62,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 3,
                             City = "Budapest",
-                            IsDeleted = false,
+                            IsInUse = true,
                             StreetAddress = "Lomb utca 23",
                             ZipCode = 1135
                         },
@@ -70,7 +70,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 4,
                             City = "Budapest",
-                            IsDeleted = false,
+                            IsInUse = true,
                             StreetAddress = "Galamb utca 25",
                             ZipCode = 1122
                         },
@@ -78,7 +78,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 5,
                             City = "Budapest",
-                            IsDeleted = false,
+                            IsInUse = true,
                             StreetAddress = "Szarvas út 15",
                             ZipCode = 1134
                         });

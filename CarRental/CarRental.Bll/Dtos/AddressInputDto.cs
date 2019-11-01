@@ -18,5 +18,7 @@ namespace CarRental.Bll.Dtos
         [Required(ErrorMessage = "STREET_ADDRESS_REQUIRED")]
         [Display(Name = "STREET_ADDRESS")]
         public string StreetAddress { get; set; }
+        [Display(Name = "IS_IN_USE")]
+        public bool IsInUse { get; set; }
     }
 }

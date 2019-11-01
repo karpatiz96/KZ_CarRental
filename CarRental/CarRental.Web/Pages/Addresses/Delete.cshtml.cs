@@ -65,21 +65,16 @@ namespace CarRental.Web.Pages.Addresses
                 return NotFound();
             }
 
-            try
+            if (!_addressService.AddressHasReservations(id))
             {
-                await _addressService.DeleteAddress(id);
-                _logger.LogInformation(LoggingEvents.DeleteItem, "Admin Deleted Address {ID}", id);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (_addressService.AddressExists(id))
+                try
                 {
-                    _logger.LogInformation(LoggingEvents.UpdateItemNotFound, "Updated Address {ID} NOT FOUND", Address.Id);
-                    return NotFound();
+                    await _addressService.DeleteAddress(id);
+                    _logger.LogInformation(LoggingEvents.DeleteItem, "Admin Deleted Address {ID}", id);
                 }
-                else
+                catch(DbUpdateException)
                 {
-                    return StatusCode(409);
+
                 }
             }
             

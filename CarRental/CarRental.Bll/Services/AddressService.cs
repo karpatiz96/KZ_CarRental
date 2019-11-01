@@ -37,7 +37,7 @@ namespace CarRental.Bll.Services
             City = a.City,
             StreetAddress = a.StreetAddress,
             FullAddress = a.ZipCode.ToString() + " " + a.City + " " + a.StreetAddress,
-            IsDeleted = a.IsDeleted,
+            IsInUse = a.IsInUse,
             Cars = a.Cars.Select(c => new CarDto
             {
                 Id = c.Id,
@@ -48,13 +48,14 @@ namespace CarRental.Bll.Services
                 Address = a.ZipCode.ToString() + " " + a.City + " " + a.StreetAddress,
                 Active = c.Active
             }).ToList(),
-            CarFound = a.Cars.Count
+            CarFound = a.Cars.Count,
+            HasReservation = a.Reservations.Any()
         };
 
         public async Task<IEnumerable<AddressDto>> GetAddresses()
         {
             return await _dbContext.Addresses
-                .Where(a => a.IsDeleted == false)
+                .Where(a => a.IsInUse == true)
                 .Select(AddressDtoSelector)
                 .ToListAsync();
         }
@@ -71,8 +72,10 @@ namespace CarRental.Bll.Services
         {
             return await _dbContext.Addresses
                 .Include(a => a.Cars)
+                .Include(a => a.Reservations)
                 .Where(vm => vm.Id == id)
                 .Select(AddressDetailsDtoSelector)
+                .AsNoTracking()
                 .SingleOrDefaultAsync();
         }
 
@@ -88,7 +91,7 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<Address> addresses = _dbContext.Addresses.Where(a => a.IsDeleted == false);
+            IQueryable<Address> addresses = _dbContext.Addresses;
 
             switch (filter.addressOrder)
             {
@@ -144,7 +147,7 @@ namespace CarRental.Bll.Services
                 City = addressDto.City,
                 ZipCode = addressDto.ZipCode.Value,
                 StreetAddress = addressDto.StreetAddress,
-                IsDeleted = false
+                IsInUse = addressDto.IsInUse
             };
 
             _dbContext.Addresses.Add(address);
@@ -184,14 +187,23 @@ namespace CarRental.Bll.Services
                 car.Address = null;
             }
 
-            address.IsDeleted = true;
+            _dbContext.Addresses.Remove(address);
 
             await _dbContext.SaveChangesAsync();
         }
 
+        public bool AddressHasReservations(int? id)
+        {
+            var result = _dbContext.Reservations
+                .Where(r => r.AddressId == id)
+                .Any();
+
+            return result;
+        }
+
         public bool AddressExists(int? id)
         {
-            return _dbContext.Addresses.Where(a => a.IsDeleted == false).Any(e => e.Id == id);
+            return _dbContext.Addresses.Where(a => a.IsInUse == true).Any(e => e.Id == id);
         }
     }
 }

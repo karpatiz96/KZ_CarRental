@@ -22,5 +22,7 @@ namespace CarRental.Bll.IServices
         Task DeleteAddress(int? id);
 
         bool AddressExists(int? id);
+
+        bool AddressHasReservations(int? id);
     }
 }
