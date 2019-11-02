@@ -147,8 +147,14 @@
   <data name="BACK_LIST" xml:space="preserve">
     <value>Back to List</value>
   </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="CANCELED" xml:space="preserve">
     <value>Canceled</value>
+  </data>
+  <data name="CANCEL_ARE_YOU_SURE" xml:space="preserve">
+    <value>Are you sure you want to cancel this?</value>
   </data>
   <data name="CANCEL_RESERVATION" xml:space="preserve">
     <value>Cancel Reservation</value>

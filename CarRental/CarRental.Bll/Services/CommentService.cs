@@ -25,8 +25,9 @@ namespace CarRental.Bll.Services
             Id = c.Id,
             Text = c.Text,
             CreationDate = c.CreationDate,
-            UserId = c.UserId ?? 0,
-            User = c.User.Name ?? "",
+            UserId = c.UserId,
+            UserName = c.User.UserName ?? "",
+            Name = c.User.Name ?? "",
             VehicleModelId = c.VehicleModelId
         };
 

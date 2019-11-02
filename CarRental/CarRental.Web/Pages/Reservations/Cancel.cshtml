@@ -2,9 +2,10 @@
 @model CarRental.Web.Pages.Reservations.CancelModel
 @inject PagesLocalizationService PagesLocalizer
 
-<h4>@PagesLocalizer.GetLocalizedHtmlString("CONFIRM_RESERVATION")</h4>
-<hr />
 <div class="container">
+    <h3>@PagesLocalizer.GetLocalizedHtmlString("CANCEL_ARE_YOU_SURE")</h3>
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("RESERVATION")</h4>
+    <hr />
     <div class="row">
         <label class="col-md-3">
             <b>
@@ -95,7 +96,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Reservation.Id">
                 <div class="form-group">
-                    <button type="submit" value="Cancel Reservation" class="btn btn-danger" asp-page-handler="Cancel">@PagesLocalizer.GetLocalizedHtmlString("CANCEL_RESERVATION")</button>
+                    <button type="submit" value="Cancel Reservation" class="btn btn-danger" asp-page-handler="Cancel">@PagesLocalizer.GetLocalizedHtmlString("CANCEL")</button>
                     <a asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
                 </div>
             </form>

@@ -147,8 +147,14 @@
   <data name="BACK_LIST" xml:space="preserve">
     <value>Vissza a listához</value>
   </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Visszavonás</value>
+  </data>
   <data name="CANCELED" xml:space="preserve">
     <value>Elutasított</value>
+  </data>
+  <data name="CANCEL_ARE_YOU_SURE" xml:space="preserve">
+    <value>Biztos visszavonja ezt?</value>
   </data>
   <data name="CANCEL_RESERVATION" xml:space="preserve">
     <value>Foglalás Elutasítása</value>

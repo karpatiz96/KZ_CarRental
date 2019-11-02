@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    @if (User.Identity.IsAuthenticated && !(User.IsInRole("Administrators") || User.IsInRole("Assistant")))
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
                     {
                         @if (!Model.IsRated)
                         {

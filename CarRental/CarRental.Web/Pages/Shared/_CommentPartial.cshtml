@@ -4,13 +4,16 @@
 
 <div class="card mb-2" id="comment-@Model.Id">
     <div class="card-header">
-        <h5 class="card-title">@Model.User </h5>
+        <h5 class="card-title">@Model.Name </h5>
         <span class="text-muted">
             @Model.CreationDate.ToLocalTime().ToString("yyyy. MMM dd")
         </span>
         @if (User.Identity.IsAuthenticated)
         {
-            <i class="fa fa-trash delete-comment interactive" data-comment-id="@Model.Id" ></i>
+            if (User.IsInRole("Assistant") || User.IsInRole("Administrators") || User.Identity.Name == Model.UserName)
+            {
+                <i class="fa fa-trash delete-comment interactive" data-comment-id="@Model.Id" ></i>
+            }
         }
     </div>
     <div class="card-body">@Html.Raw(Model.Text)</div>
