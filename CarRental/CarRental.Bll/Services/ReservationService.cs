@@ -90,7 +90,6 @@ namespace CarRental.Bll.Services
         public async Task EditReservation(int? id, int? carid)
         {
             var car = await _dbContext.Cars
-                .Include(c => c.VehicleModel)
                 .Include(c => c.Reservations)
                 .Where(c => c.Id == carid)
                 .SingleOrDefaultAsync();
@@ -98,9 +97,6 @@ namespace CarRental.Bll.Services
             var reservation = await _dbContext.Reservations
                 .Where(r => r.Id == id)
                 .Include(r => r.Car)
-                .Include(r => r.Address)
-                .Include(r => r.User)
-                .Include(r => r.VehicleModel)
                 .SingleOrDefaultAsync();
 
             if (reservation.Car != null)
@@ -128,9 +124,6 @@ namespace CarRental.Bll.Services
                 .Where(r => r.Id == id)
                 .Include(r => r.Car)
                     .ThenInclude(c => c.Reservations)
-                .Include(r => r.Address)
-                .Include(r => r.User)
-                .Include(r => r.VehicleModel)
                 .SingleOrDefaultAsync();
 
             var car = reservation.Car;
@@ -328,6 +321,12 @@ namespace CarRental.Bll.Services
                 case ReservationOrder.StateDescending:
                     reservations = reservations.OrderByDescending(r => r.State);
                     break;
+                case ReservationOrder.PriceAscending:
+                    reservations = reservations.OrderBy(r => r.Price);
+                    break;
+                case ReservationOrder.PriceDescending:
+                    reservations = reservations.OrderByDescending(r => r.Price);
+                    break;
                 default:
                     break;
             }
@@ -422,7 +421,8 @@ namespace CarRental.Bll.Services
 
         public bool ReservationExists(int? id)
         {
-            return _dbContext.Reservations.Any(e => e.Id == id);
+            return _dbContext.Reservations
+                .Any(e => e.Id == id);
         }
 
         public async Task<IEnumerable<ReservationListHeader>> GetReservationListHeaders(int? userid)

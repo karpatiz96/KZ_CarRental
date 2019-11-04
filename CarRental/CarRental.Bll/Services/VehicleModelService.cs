@@ -295,24 +295,19 @@ namespace CarRental.Bll.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<bool> VehicleModelHasReservations(int? id)
+        public bool VehicleModelHasReservations(int? id)
         {
-            var vehicleModel = await _dbContext.VehicleModels
-                .Where(vm => vm.Id == id)
-                .Include(vm => vm.Reservations)
-                .SingleOrDefaultAsync();
+            var result = _dbContext.Reservations
+                .Where(vm => vm.VehicleModelId == id)
+                .Any();
 
-            if (vehicleModel.Reservations.Any())
-            {
-                return true;
-            }
-
-            return false;
+            return result;
         }
 
         public bool VehicleModelExists(int? id)
         {
-            return _dbContext.VehicleModels.Any(e => e.Id == id);
+            return _dbContext.VehicleModels
+                .Any(e => e.Id == id);
         }
 
         public async Task<VehicleModelDeleteDto> GetVehicleModelDelete(int? id)

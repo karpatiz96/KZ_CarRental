@@ -200,5 +200,18 @@ namespace CarRental.Bll.Services
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task SetCultureInfoAsync(int? id, string cultureInfo)
+        {
+            var user = await _userManager.Users
+                .Where(u => u.Id == id)
+                .SingleOrDefaultAsync();
+
+            user.Culture = cultureInfo;
+
+            _dbContext.Attach(user).State = EntityState.Modified;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

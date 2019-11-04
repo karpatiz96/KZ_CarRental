@@ -7,7 +7,5 @@ namespace CarRental.Bll.IServices
         Task PostRating(int ratingValue, int vehicleModelId, int currentUserId);
 
         Task<bool> IsRated(int vehicleModelId, int currentUserId);
-
-        Task DeleteUserRatings(int userId);
     }
 }

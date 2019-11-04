@@ -17,6 +17,10 @@ using CarRental.Bll.Logging;
 using CarRental.Web.ViewRender;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
+using System.Globalization;
 
 namespace CarRental.Web.Pages.Reservations
 {
@@ -90,7 +94,10 @@ namespace CarRental.Web.Pages.Reservations
                 return NotFound();
             }
 
-            if (!_reservationService.ReservationExists(Reservation.Id))
+            _logger.LogInformation(LoggingEvents.GetItem, "Get Reservation {ID}", Reservation.Id);
+            Reservation = await _reservationService.GetReservation(Reservation.Id);
+
+            if (Reservation == null)
             {
                 _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get Reservation {ID} NOT FOUND", Reservation.Id);
                 return NotFound();
@@ -120,6 +127,14 @@ namespace CarRental.Web.Pages.Reservations
                 .Where(u => u.Id == Reservation.UserId)
                 .SingleOrDefaultAsync();
 
+            var culture = Thread.CurrentThread.CurrentCulture.Name;
+
+            if (!string.IsNullOrEmpty(user.Culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(user.Culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(user.Culture);
+            }
+
             var model = new EmailReservationDto
             {
                 UserName = user.Name ?? user.Email,
@@ -142,6 +157,12 @@ namespace CarRental.Web.Pages.Reservations
             (InvalidOperationException)
             {
                 return RedirectToPage("./Index");
+            }
+
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
             }*/
 
             return RedirectToPage("./Index");
@@ -156,7 +177,10 @@ namespace CarRental.Web.Pages.Reservations
                 return Page();
             }
 
-            if (!_reservationService.ReservationExists(Reservation.Id))
+            _logger.LogInformation(LoggingEvents.GetItem, "Get Reservation {ID}", Reservation.Id);
+            Reservation = await _reservationService.GetReservation(Reservation.Id);
+
+            if (Reservation == null)
             {
                 _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get Reservation {ID} NOT FOUND", Reservation.Id);
                 return NotFound();
@@ -186,6 +210,14 @@ namespace CarRental.Web.Pages.Reservations
                 .Where(u => u.Id == Reservation.UserId)
                 .SingleOrDefaultAsync();
 
+            var culture = Thread.CurrentThread.CurrentCulture.Name;
+
+            if (!string.IsNullOrEmpty(user.Culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(user.Culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(user.Culture);
+            }
+
             var model = new EmailReservationDto
             {
                 UserName = user.Name ?? user.Email,
@@ -208,6 +240,12 @@ namespace CarRental.Web.Pages.Reservations
             (InvalidOperationException)
             {
                 return RedirectToPage("./Index");
+            }
+
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
             }*/
 
             return RedirectToPage("./Index");

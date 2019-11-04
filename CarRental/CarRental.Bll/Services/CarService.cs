@@ -146,7 +146,7 @@ namespace CarRental.Bll.Services
                 AddressId = carDto.AddressId
             };
 
-            _dbContext.Add(car);
+            _dbContext.Cars.Add(car);
             //vehicleModel.Cars.Add(car);
             await _dbContext.SaveChangesAsync();
         }
@@ -156,8 +156,8 @@ namespace CarRental.Bll.Services
             var car = await _dbContext.Cars
                 .Include(c => c.VehicleModel)
                     .ThenInclude(vm => vm.Cars)
-                .Include(c => c.Reservations)
                 .Include(c => c.Address)
+                    .ThenInclude(a => a.Cars)
                 .Where(c => c.Id == carDto.Id)
                 .SingleOrDefaultAsync();
 
@@ -177,16 +177,16 @@ namespace CarRental.Bll.Services
 
             if (car.VehicleModelId != carDto.VehicleModelId)
             {
-                car.VehicleModel.Cars.Remove(car);
+                vehicleModel.Cars.Remove(car);
                 car.VehicleModel = vehicleModel;
                 vehicleModel.Cars.Add(car);
             }
 
             if(car.AddressId != carDto.AddressId)
             {
-                car.Address.Cars.Remove(car);
+                address.Cars.Remove(car);
                 car.Address = address;
-                car.Address.Cars.Add(car);
+                address.Cars.Add(car);
             }
 
             _dbContext.Attach(car).State = EntityState.Modified;
@@ -218,6 +218,7 @@ namespace CarRental.Bll.Services
             }
 
             vehicleModel.Cars.Remove(car);
+
             _dbContext.Cars.Remove(car);
             await _dbContext.SaveChangesAsync();
         }
@@ -242,22 +243,17 @@ namespace CarRental.Bll.Services
 
         public async Task<bool> CarHasReservations(int? id)
         {
-            var car = await _dbContext.Cars
-                .Include(c => c.Reservations)
-                .Where(c => c.Id == id)
-                .SingleOrDefaultAsync();
+            var result = await _dbContext.Reservations
+                .Where(r => r.CarId == id)
+                .AnyAsync();
 
-            if (car.Reservations.Any())
-            {
-                return true;
-            }
-
-            return false;
+            return result;
         }
 
         public bool CarExists(int? id)
         {
-            return _dbContext.Cars.Any(e => e.Id == id);
+            return _dbContext.Cars
+                .Any(e => e.Id == id);
         }
 
         public async Task<CarDetailsDto> GetCarDetailsDto(int? id)

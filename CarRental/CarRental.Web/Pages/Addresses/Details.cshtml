@@ -52,7 +52,14 @@
             </b>
         </label>
         <div class="col-md-10">
-            @Html.DisplayFor(model => model.Address.IsInUse)
+            @if (Model.Address.IsInUse)
+            {
+                @PagesLocalizer.GetLocalizedHtmlString("ADDRESS_IN_USE")
+            }
+            else
+            {
+                @PagesLocalizer.GetLocalizedHtmlString("ADDRESS_NOT_IN_USE")
+            }
         </div>
     </div>
 

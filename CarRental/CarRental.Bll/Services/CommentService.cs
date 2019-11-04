@@ -63,34 +63,13 @@ namespace CarRental.Bll.Services
                 .Select(CommentDtoSelector)
                 .SingleOrDefault();
 
-            var comment = _dbContext.Comments.Where(c => c.Id == commentId && c.UserId == currentUserId).SingleOrDefault();
+            var comment = _dbContext.Comments.Where(c => c.Id == commentId).SingleOrDefault();
 
             _dbContext.Comments.Remove(comment);
 
             _dbContext.SaveChanges();
 
             return commentDto;
-        }
-
-        public async Task DeleteUserComments(int userId)
-        {
-            var comments = await _dbContext.Comments
-                .Include(c => c.User)
-                .Where(c => c.UserId == userId)
-                .ToListAsync();
-
-            var user = await _dbContext.Users
-                .Include(u => u.Comments)
-                .Where(u => u.Id == userId)
-                .FirstOrDefaultAsync();
-
-            foreach(var item in comments)
-            {
-                item.User = null;
-                user.Comments.Remove(item);
-            }
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

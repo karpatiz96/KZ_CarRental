@@ -55,7 +55,7 @@ namespace CarRental.Web.Pages.Cars
                 return NotFound();
             }
 
-            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
             return Page();
         }
@@ -64,7 +64,7 @@ namespace CarRental.Web.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
-                ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
+                ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
                 ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
                 return Page();
             }

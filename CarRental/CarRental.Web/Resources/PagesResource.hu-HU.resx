@@ -135,6 +135,12 @@
   <data name="ADDRESS_FOUND" xml:space="preserve">
     <value>Talált telephelyek:</value>
   </data>
+  <data name="ADDRESS_IN_USE" xml:space="preserve">
+    <value>Telephely használatban</value>
+  </data>
+  <data name="ADDRESS_NOT_IN_USE" xml:space="preserve">
+    <value>Telephely nincs használatban</value>
+  </data>
   <data name="AIR_CON" xml:space="preserve">
     <value>Légkondicionált</value>
   </data>
@@ -257,6 +263,9 @@
   </data>
   <data name="RESERVATIONS" xml:space="preserve">
     <value>Foglalások</value>
+  </data>
+  <data name="RESERVATION_FOUND" xml:space="preserve">
+    <value>Talált foglalások:</value>
   </data>
   <data name="RESERVE" xml:space="preserve">
     <value>Foglal</value>

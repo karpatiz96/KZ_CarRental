@@ -16,5 +16,7 @@ namespace CarRental.Bll.IServices
         Task<UserDetailsDto> GetUserDetails(int? id);
 
         Task DeleteUser(int? userId);
+
+        Task SetCultureInfoAsync(int? id, string cultureInfo);
     }
 }

@@ -135,6 +135,12 @@
   <data name="ADDRESS_FOUND" xml:space="preserve">
     <value>Address Found:</value>
   </data>
+  <data name="ADDRESS_IN_USE" xml:space="preserve">
+    <value>Address is in use</value>
+  </data>
+  <data name="ADDRESS_NOT_IN_USE" xml:space="preserve">
+    <value>Address isn't in use</value>
+  </data>
   <data name="AIR_CON" xml:space="preserve">
     <value>Air conditioned</value>
   </data>
@@ -257,6 +263,9 @@
   </data>
   <data name="RESERVATIONS" xml:space="preserve">
     <value>Reservations</value>
+  </data>
+  <data name="RESERVATION_FOUND" xml:space="preserve">
+    <value>Reservation Found:</value>
   </data>
   <data name="RESERVE" xml:space="preserve">
     <value>Reserve</value>

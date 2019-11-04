@@ -27,10 +27,10 @@ namespace CarRental.Bll.IServices
 
         Task DeleteVehicle(int? id);
 
-        Task<bool> VehicleModelHasReservations(int? id);
+        bool VehicleModelHasReservations(int? id);
 
         bool VehicleModelExists(int? id);
-        //new
+        
         Task<VehicleModelDeleteDto> GetVehicleModelDelete(int? id);
     }
 }

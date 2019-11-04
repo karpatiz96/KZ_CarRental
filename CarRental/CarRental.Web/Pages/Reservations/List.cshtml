@@ -8,6 +8,10 @@
     <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
 </p>
 
+<div class="row mt-3">
+    <h5>@PagesLocalizer.GetLocalizedHtmlString("RESERVATION_FOUND") @Model.Reservation.Total</h5>
+</div>
+
 <table class="table mt-4">
     <thead>
         <tr>
@@ -27,7 +31,9 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Reservation.Results[0].Price)
+                <a asp-route-sortOrder="@Model.PriceSort">
+                    @Html.DisplayNameFor(model => model.Reservation.Results[0].Price)
+                </a>
             </th>
             <th>
                 <a asp-route-sortOrder="@Model.VehicleModelSort">

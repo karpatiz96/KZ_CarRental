@@ -11,7 +11,5 @@ namespace CarRental.Bll.IServices
         CommentDto PostComment(int vehicleModelId, string text, int currentUserId);
 
         CommentDto DeleteComment(int commentId, int currentUserId);
-
-        Task DeleteUserComments(int userId);
     }
 }

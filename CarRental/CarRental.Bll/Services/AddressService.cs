@@ -162,7 +162,8 @@ namespace CarRental.Bll.Services
 
             address.City = addressDto.City;
             address.ZipCode = addressDto.ZipCode.Value;
-            address.StreetAddress = address.StreetAddress;
+            address.StreetAddress = addressDto.StreetAddress;
+            address.IsInUse = addressDto.IsInUse;
 
             _dbContext.Attach(address).State = EntityState.Modified;
 
@@ -203,7 +204,9 @@ namespace CarRental.Bll.Services
 
         public bool AddressExists(int? id)
         {
-            return _dbContext.Addresses.Where(a => a.IsInUse == true).Any(e => e.Id == id);
+            return _dbContext.Addresses
+                .Where(a => a.IsInUse == true)
+                .Any(e => e.Id == id);
         }
     }
 }
