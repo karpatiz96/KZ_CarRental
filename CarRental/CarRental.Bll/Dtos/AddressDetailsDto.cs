@@ -8,6 +8,8 @@ namespace CarRental.Bll.Dtos
     public class AddressDetailsDto
     {
         public int Id { get; set; }
+        [Display(Name = "SITE_NAME")]
+        public string Name { get; set; }
         [Display(Name = "ZIP_CODE")]
         public int ZipCode { get; set; }
         [Display(Name = "CITY")]

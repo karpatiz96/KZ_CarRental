@@ -20,7 +20,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    @if (!(User.IsInRole("Administrators") || User.IsInRole("Assistant")))
+    @if (User.IsInRole("Customer"))
     {
     <div class="row mt-4">
         <h4>@SharedLocalizer.GetLocalizedHtmlString("CURRENTRESERVATIONS")</h4>
@@ -32,10 +32,10 @@
     }
 }
 
-<div class="row mt-4">
-    <h4>@SharedLocalizer.GetLocalizedHtmlString("ADDRESS_TITLE"): </h4>
+<!--<div class="row mt-4">
+    <h4>SharedLocalizer.GetLocalizedHtmlString("ADDRESS_TITLE"): </h4>
 </div>
 
 <div class="row mt-4">
-    <vc:address-dto address="@Model.Addresses"></vc:address-dto>
-</div>
+    <vc:address-dto address="Model.Addresses"></vc:address-dto>
+</div>-->

@@ -23,10 +23,10 @@ namespace CarRental.Web.ViewRender
             _serviceProvider = serviceProvider;
         }
 
-        public string Render<TModel>(string name, TModel model)
+        public string Render<TModel>(string name, TModel model, bool _isMainPage)
         {
             var actionContext = GetActionContext();
-            var viewEngineResult = _viewEngine.FindView(actionContext, name, false);
+            var viewEngineResult = _viewEngine.FindView(actionContext, name, isMainPage: _isMainPage);
             if (!viewEngineResult.Success)
             {
                 throw new InvalidOperationException(string.Format("Couldn't find view '{0}'", name));

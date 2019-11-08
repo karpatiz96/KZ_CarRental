@@ -121,7 +121,7 @@ namespace CarRental.Web.Pages.Reservations
                 }
             }
 
-            /*const string view = "/Views/Emails/ReservationEmailAccepted";
+            const string view = "/Views/Emails/ReservationEmailAccepted";
 
             var user = await _userManager.Users
                 .Where(u => u.Id == Reservation.UserId)
@@ -163,7 +163,7 @@ namespace CarRental.Web.Pages.Reservations
             {
                 Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
-            }*/
+            }
 
             return RedirectToPage("./Index");
         }
@@ -204,7 +204,7 @@ namespace CarRental.Web.Pages.Reservations
                 }
             }
 
-            /*const string view = "/Views/Emails/ReservationEmailCanceled";
+            const string view = "/Views/Emails/ReservationEmailCanceled";
 
             var user = await _userManager.Users
                 .Where(u => u.Id == Reservation.UserId)
@@ -246,7 +246,7 @@ namespace CarRental.Web.Pages.Reservations
             {
                 Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
                 Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
-            }*/
+            }
 
             return RedirectToPage("./Index");
         }

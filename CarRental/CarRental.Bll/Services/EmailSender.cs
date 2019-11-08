@@ -26,9 +26,9 @@ namespace CarRental.Bll.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("", Options.SendGridUser),
+                From = new EmailAddress("karpati.z@upcmail.hu", Options.SendGridUser),
                 Subject = subject,
-                PlainTextContent = message,
+                //PlainTextContent = message,
                 HtmlContent = message
             };
             msg.AddTo(new EmailAddress(email));

@@ -79,7 +79,10 @@
             }
             else
             {
-                <a class="btn btn-primary ml-3" asp-page="./Cancel" asp-route-id="@Model.Reservation.Id">@PagesLocalizer.GetLocalizedHtmlString("CANCEL")</a>
+                if (!(Model.Reservation.State == Reservation.ReservationStates.Cancled) && Model.Reservation.PickUpTime.Date > DateTime.Now.Date.AddDays(1))
+                {
+                    <a class="btn btn-primary ml-3" asp-page="./Cancel" asp-route-id="@Model.Reservation.Id">@PagesLocalizer.GetLocalizedHtmlString("CANCEL")</a>
+                }
                 <a class="ml-3" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
             }
         }

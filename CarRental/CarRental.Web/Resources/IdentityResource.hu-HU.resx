@@ -646,6 +646,9 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
   <data name="SET_YOUR_PASSWORD" xml:space="preserve">
     <value>Állítsd be a jelszavad</value>
   </data>
+  <data name="SITE_NAME" xml:space="preserve">
+    <value>Telephely neve</value>
+  </data>
   <data name="STAR_RATING" xml:space="preserve">
     <value>Értékelés</value>
   </data>
@@ -698,10 +701,10 @@ Ha nem fejezi be a hitelesítő alkalmazás konfigurációját, elveszítheti ho
     <value>Használj egy helyi fiókot bejelentkezéshez.</value>
   </data>
   <data name="VEHICLE_MODEL" xml:space="preserve">
-    <value>Auto Model</value>
+    <value>Autó modell</value>
   </data>
   <data name="VEHICLE_MODEL_REQUIRED" xml:space="preserve">
-    <value>Auto Model megadása kötelező</value>
+    <value>Autó Modell megadása kötelező</value>
   </data>
   <data name="VERIFICATION_CODE" xml:space="preserve">
     <value>Igazoló kód</value>

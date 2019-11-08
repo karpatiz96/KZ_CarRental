@@ -39,7 +39,7 @@ namespace CarRental.Web.Hubs
         {
             var comment = _commentService.PostComment(vehicleModelId, text, CurrentUserId.Value);
 
-            var htmlString = ViewRender.Render<CommentDto>("_CommentPartial", comment);
+            var htmlString = ViewRender.Render<CommentDto>("_CommentPartial", comment, false);
 
             await Clients.Groups($"vehiclemodel-{vehicleModelId}").CommentPosted(htmlString);
         }

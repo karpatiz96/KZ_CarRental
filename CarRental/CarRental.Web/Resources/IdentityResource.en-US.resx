@@ -648,6 +648,9 @@
   <data name="SET_YOUR_PASSWORD" xml:space="preserve">
     <value>Set your password</value>
   </data>
+  <data name="SITE_NAME" xml:space="preserve">
+    <value>Site Name</value>
+  </data>
   <data name="STAR_RATING" xml:space="preserve">
     <value>Rating</value>
   </data>

@@ -2,6 +2,6 @@
 {
     public interface IViewRender
     {
-        string Render<TModel>(string name, TModel model);
+        string Render<TModel>(string name, TModel model, bool isMainPage);
     }
 }

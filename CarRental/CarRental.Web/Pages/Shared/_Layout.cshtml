@@ -42,6 +42,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/VehicleModels/Index">@SharedLocalizer.GetLocalizedHtmlString("VEHICLE_MODELS")</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Addresses/Index">@SharedLocalizer.GetLocalizedHtmlString("ADDRESSES")</a>
+                        </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             if (User.IsInRole("Administrators"))
@@ -54,9 +57,6 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Users/Index">@SharedLocalizer.GetLocalizedHtmlString("USERS")</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-page="/Addresses/Index">@SharedLocalizer.GetLocalizedHtmlString("ADDRESSES")</a>
                                 </li>
                             }
                             else if (User.IsInRole("Assistant"))

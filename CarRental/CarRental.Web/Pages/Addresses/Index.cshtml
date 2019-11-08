@@ -1,12 +1,16 @@
 ﻿@page
 @model CarRental.Web.Pages.Addresses.IndexModel
 @inject PagesLocalizationService PagesLocalizer
+@inject SharedLocalizationService SharedLocalizer
 
-<h4>@PagesLocalizer.GetLocalizedHtmlString("ADDRESSES")</h4>
+<h4>@SharedLocalizer.GetLocalizedHtmlString("ADDRESS_TITLE")</h4>
 <hr/>
+@if (User.IsInRole("Administrators"))
+{
 <p>
     <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
 </p>
+}
 
 <div class="row mt-3">
     <h5>@PagesLocalizer.GetLocalizedHtmlString("ADDRESS_FOUND") @Model.Addresses.Total</h5>
@@ -16,6 +20,11 @@
 <table class="table mt-3">
     <thead>
         <tr>
+            <th>
+                <a asp-route-sortOrder="@Model.ZipCodeSort">
+                    @Html.DisplayNameFor(model => model.Addresses.Results[0].Name)
+                </a>
+            </th>
             <th>
                 <a asp-route-sortOrder="@Model.ZipCodeSort">
                     @Html.DisplayNameFor(model => model.Addresses.Results[0].ZipCode)
@@ -38,6 +47,9 @@
 @foreach (var item in Model.Addresses.Results) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
             <td>
@@ -47,7 +59,10 @@
                 @Html.DisplayFor(modelItem => item.StreetAddress)
             </td>
             <td>
-                <a asp-page="./Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                @if (User.IsInRole("Administrators"))
+                {
+                    <a asp-page="./Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                }
             </td>
         </tr>
 }
@@ -55,7 +70,7 @@
 </table>
 </div>
 
-@if (@Model.Addresses.Total != null)
+@if (Model.Addresses.Total != null)
 {
     <div class="card text-center border-0 color-bg-main">
         <div class="card-body">

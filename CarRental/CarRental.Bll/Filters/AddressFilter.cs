@@ -9,6 +9,8 @@ namespace CarRental.Bll.Filters
         public int? PageNumber { get; set; }
         public int? PageSize { get; set; } = 10;
 
+        public bool Active { get; set; }
+
         public AddressOrder addressOrder { get; set; }
 
         public enum AddressOrder
@@ -18,7 +20,9 @@ namespace CarRental.Bll.Filters
             StreetAddressAscending,
             ZipCodeDescending,
             CityDescending,
-            StreetAddressDescending
+            StreetAddressDescending,
+            NameAscending,
+            NameDescending
         }
     }
 }

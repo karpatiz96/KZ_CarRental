@@ -9,6 +9,16 @@
     <div class="row">
         <label class="col-md-2">
             <b>
+                @Html.DisplayNameFor(model => model.Address.Name)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.Address.Name)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
                 @Html.DisplayNameFor(model => model.Address.ZipCode)
             </b>
         </label>

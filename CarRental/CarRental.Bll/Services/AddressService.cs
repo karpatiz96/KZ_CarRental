@@ -24,6 +24,7 @@ namespace CarRental.Bll.Services
         public static Expression<Func<Address, AddressDto>> AddressDtoSelector { get; } = a => new AddressDto
         {
             Id = a.Id,
+            Name = a.Name,
             ZipCode = a.ZipCode,
             City = a.City,
             StreetAddress = a.StreetAddress,
@@ -33,6 +34,7 @@ namespace CarRental.Bll.Services
         public static Expression<Func<Address, AddressDetailsDto>> AddressDetailsDtoSelector { get; } = a => new AddressDetailsDto
         {
             Id = a.Id,
+            Name = a.Name,
             ZipCode = a.ZipCode,
             City = a.City,
             StreetAddress = a.StreetAddress,
@@ -93,6 +95,11 @@ namespace CarRental.Bll.Services
 
             IQueryable<Address> addresses = _dbContext.Addresses;
 
+            if (filter.Active)
+            {
+                addresses = addresses.Where(a => a.IsInUse == true);
+            }
+
             switch (filter.addressOrder)
             {
                 case AddressFilter.AddressOrder.ZipCodeAscending:
@@ -112,6 +119,12 @@ namespace CarRental.Bll.Services
                     break;
                 case AddressFilter.AddressOrder.StreetAddressDescending:
                     addresses = addresses.OrderByDescending(a => a.StreetAddress);
+                    break;
+                case AddressFilter.AddressOrder.NameAscending:
+                    addresses = addresses.OrderBy(a => a.Name);
+                    break;
+                case AddressFilter.AddressOrder.NameDescending:
+                    addresses = addresses.OrderByDescending(a => a.Name);
                     break;
                 default:
                     addresses = addresses.OrderBy(a => a.ZipCode);
@@ -144,6 +157,7 @@ namespace CarRental.Bll.Services
         {
             Address address = new Address
             {
+                Name = addressDto.Name,
                 City = addressDto.City,
                 ZipCode = addressDto.ZipCode.Value,
                 StreetAddress = addressDto.StreetAddress,
@@ -160,6 +174,7 @@ namespace CarRental.Bll.Services
                 .Where(a => a.Id == addressDto.Id)
                 .SingleOrDefaultAsync();
 
+            address.Name = addressDto.Name;
             address.City = addressDto.City;
             address.ZipCode = addressDto.ZipCode.Value;
             address.StreetAddress = addressDto.StreetAddress;

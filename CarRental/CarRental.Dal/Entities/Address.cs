@@ -8,6 +8,8 @@ namespace CarRental.Dal.Entities
     public class Address
     {
         public int Id { get; set; }
+
+        public string Name { get; set; }
         [Required]
         public int ZipCode { get; set; }
         [Required]

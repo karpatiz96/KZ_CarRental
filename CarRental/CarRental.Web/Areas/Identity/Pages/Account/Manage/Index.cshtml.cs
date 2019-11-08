@@ -171,7 +171,7 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
             /*await _emailSender.SendEmailAsync(email, "Confirm your email",
                 $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");*/
 
-            var model = new EmailConfirmationDto(user.Name ?? user.UserName, HtmlEncoder.Default.Encode(callbackUrl));
+            var model = new EmailConfirmationDto(user.Name ?? user.UserName, callbackUrl);
 
             const string view = "/Views/Emails/ConfirmAccountEmail";
             var body = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);

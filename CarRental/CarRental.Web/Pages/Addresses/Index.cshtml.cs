@@ -13,25 +13,30 @@ using Microsoft.Extensions.Logging;
 using CarRental.Bll.Dtos;
 using CarRental.Bll.Logging;
 using CarRental.Bll.Filters;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarRental.Web.Pages.Addresses
 {
-    [Authorize(Roles = "Administrators")]
+    [AllowAnonymous]
     public class IndexModel : PageModel
     {
         private readonly IAddressService _addressService;
 
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(IAddressService addressService, ILogger<IndexModel> logger)
+        private readonly UserManager<User> _userManager;
+
+        public IndexModel(IAddressService addressService, ILogger<IndexModel> logger, UserManager<User> userManager)
         {
             _addressService = addressService;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
         public PagedResult<AddressDto> Addresses { get; private set; }
 
+        public string NameSort { get; set; }
         public string ZipCodeSort { get; set; }
         public string CitySort { get; set; }
         public string StreetAddressSort { get; set; }
@@ -44,8 +49,19 @@ namespace CarRental.Web.Pages.Addresses
             ZipCodeSort = string.IsNullOrEmpty(sortOrder) ? "zip_desc" : "";
             CitySort = sortOrder == "City" ? "city_desc" : "City";
             StreetAddressSort = sortOrder == "Street" ? "street_desc" : "Street";
+            NameSort = sortOrder == "Name" ? "name_desc" : "Name";
 
             filter.PageNumber = pageNumber ?? 0;
+            filter.Active = true;
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                if(_userManager.IsInRoleAsync(user, "Administrators").Result || _userManager.IsInRoleAsync(user, "Assistant").Result)
+                {
+                    filter.Active = false;
+                }
+            }
 
             switch (sortOrder)
             {
@@ -63,6 +79,12 @@ namespace CarRental.Web.Pages.Addresses
                     break;
                 case "Street":
                     filter.addressOrder = AddressFilter.AddressOrder.StreetAddressAscending;
+                    break;
+                case "name_desc":
+                    filter.addressOrder = AddressFilter.AddressOrder.NameDescending;
+                    break;
+                case "Name":
+                    filter.addressOrder = AddressFilter.AddressOrder.NameAscending;
                     break;
                 case "":
                     filter.addressOrder = AddressFilter.AddressOrder.ZipCodeAscending;
