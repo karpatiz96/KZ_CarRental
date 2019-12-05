@@ -126,6 +126,21 @@
   <data name="ACTIVE" xml:space="preserve">
     <value>Aktív</value>
   </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Telephely</value>
+  </data>
+  <data name="ADDRESSES" xml:space="preserve">
+    <value>Telephelyek</value>
+  </data>
+  <data name="ADDRESS_FOUND" xml:space="preserve">
+    <value>Talált telephelyek:</value>
+  </data>
+  <data name="ADDRESS_IN_USE" xml:space="preserve">
+    <value>Telephely használatban</value>
+  </data>
+  <data name="ADDRESS_NOT_IN_USE" xml:space="preserve">
+    <value>Telephely nincs használatban</value>
+  </data>
   <data name="AIR_CON" xml:space="preserve">
     <value>Légkondicionált</value>
   </data>
@@ -138,20 +153,32 @@
   <data name="BACK_LIST" xml:space="preserve">
     <value>Vissza a listához</value>
   </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Visszavonás</value>
+  </data>
   <data name="CANCELED" xml:space="preserve">
     <value>Elutasított</value>
+  </data>
+  <data name="CANCEL_ARE_YOU_SURE" xml:space="preserve">
+    <value>Biztos visszavonja ezt?</value>
   </data>
   <data name="CANCEL_RESERVATION" xml:space="preserve">
     <value>Foglalás Elutasítása</value>
   </data>
   <data name="CAR" xml:space="preserve">
-    <value>Auto</value>
+    <value>Autó</value>
+  </data>
+  <data name="CARS" xml:space="preserve">
+    <value>Autók</value>
   </data>
   <data name="CAR_FOUND" xml:space="preserve">
-    <value>Auto talált:</value>
+    <value>Autó talált:</value>
   </data>
   <data name="CAR_RESERVATION" xml:space="preserve">
     <value>Autó talált. Szeretne foglalást leadni?</value>
+  </data>
+  <data name="COMMENTS" xml:space="preserve">
+    <value>Hozzászólások</value>
   </data>
   <data name="CONFIRM_RESERVATION" xml:space="preserve">
     <value>Foglalás megerősítése</value>
@@ -159,14 +186,17 @@
   <data name="CREATE" xml:space="preserve">
     <value>Létrehoz</value>
   </data>
+  <data name="CREATE_ADDRESS" xml:space="preserve">
+    <value>Új telephely létrehozása</value>
+  </data>
   <data name="CREATE_CAR" xml:space="preserve">
-    <value>Auto létrehozása</value>
+    <value>Autó létrehozása</value>
   </data>
   <data name="CREATE_NEW" xml:space="preserve">
     <value>Új létrehoz</value>
   </data>
   <data name="CREATE_VEHICLE_MODEL" xml:space="preserve">
-    <value>Auto Model létrehozása</value>
+    <value>Autómodell létrehozása</value>
   </data>
   <data name="DELETE" xml:space="preserve">
     <value>Töröl</value>
@@ -180,11 +210,17 @@
   <data name="EDIT" xml:space="preserve">
     <value>Szerkeszt</value>
   </data>
+  <data name="EDIT_ADDRESS" xml:space="preserve">
+    <value>Telephely szerkesztése</value>
+  </data>
   <data name="EDIT_CAR" xml:space="preserve">
-    <value>Auto szerkesztése</value>
+    <value>Autó szerkesztése</value>
+  </data>
+  <data name="EDIT_USER" xml:space="preserve">
+    <value>Felhasználó szerkesztése</value>
   </data>
   <data name="EDIT_VEHICLE_MODEL" xml:space="preserve">
-    <value>Auto Model Szerkesztése</value>
+    <value>Autómodell Szerkesztése</value>
   </data>
   <data name="FILTER" xml:space="preserve">
     <value>Szűr</value>
@@ -199,7 +235,7 @@
     <value>Minimum ár:</value>
   </data>
   <data name="MODEL_FOUND" xml:space="preserve">
-    <value>Auto Model talált:</value>
+    <value>Autómodell talált:</value>
   </data>
   <data name="NEXT" xml:space="preserve">
     <value>Következő oldal</value>
@@ -222,8 +258,17 @@
   <data name="PRICE_PER_DAY" xml:space="preserve">
     <value>Napi ár:</value>
   </data>
+  <data name="RATING" xml:space="preserve">
+    <value>Értékelés</value>
+  </data>
   <data name="RESERVATION" xml:space="preserve">
     <value>Foglalás</value>
+  </data>
+  <data name="RESERVATIONS" xml:space="preserve">
+    <value>Foglalások</value>
+  </data>
+  <data name="RESERVATION_FOUND" xml:space="preserve">
+    <value>Talált foglalások:</value>
   </data>
   <data name="RESERVE" xml:space="preserve">
     <value>Foglal</value>
@@ -232,18 +277,30 @@
     <value>Mentés</value>
   </data>
   <data name="SEARCH_VEHICLES" xml:space="preserve">
-    <value>Auto Keresés</value>
+    <value>Autó Keresés</value>
   </data>
   <data name="UNDECIEDED" xml:space="preserve">
     <value>Visszaigazolatlan</value>
   </data>
+  <data name="USER" xml:space="preserve">
+    <value>Felhasználó</value>
+  </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Felhasználók</value>
+  </data>
+  <data name="USER_FOUND" xml:space="preserve">
+    <value>Talált felhasználók:</value>
+  </data>
   <data name="VEHICLE_MODEL" xml:space="preserve">
-    <value>Auto Model</value>
+    <value>Autómodell</value>
+  </data>
+  <data name="VEHICLE_MODELS" xml:space="preserve">
+    <value>Autómodellek</value>
   </data>
   <data name="VEHICLE_RESERVATION" xml:space="preserve">
-    <value>Auto Foglalás</value>
+    <value>Autó Foglalás</value>
   </data>
   <data name="VEHICLE_TYPE" xml:space="preserve">
-    <value>Auto Model:</value>
+    <value>Autómodell:</value>
   </data>
 </root>

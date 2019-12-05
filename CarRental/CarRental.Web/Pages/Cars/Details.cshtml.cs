@@ -15,25 +15,20 @@ using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Cars
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class DetailsModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ICarService _carService;
 
         private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(CarRentalDbContext context, ICarService carService, ILogger<DetailsModel> logger)
+        public DetailsModel(ICarService carService, ILogger<DetailsModel> logger)
         {
-            _context = context;
             _carService = carService;
             _logger = logger;
         }
 
-        public CarDto Car { get; set; }
-
-        public bool HasReservation { get; set; }
+        public CarDetailsDto Car { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -42,15 +37,13 @@ namespace CarRental.Web.Pages.Cars
                 return NotFound();
             }
             _logger.LogInformation(LoggingEvents.GetItem, "Get Car {ID}", id);
-            Car = await _carService.GetCar(id);
+            Car = await _carService.GetCarDetailsDto(id);
 
             if (Car == null)
             {
                 _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get Car {ID} NOT FOUND", id);
                 return NotFound();
             }
-
-            HasReservation = await _carService.CarHasReservations(id);
 
             return Page();
         }

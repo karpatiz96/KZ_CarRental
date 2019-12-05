@@ -52,7 +52,7 @@ namespace CarRental.Web.Pages.VehicleModels
 
             if (user != null)
             {
-                if(_userManager.IsInRoleAsync(user, "Administrators").Result)
+                if(_userManager.IsInRoleAsync(user, "Administrators").Result  || _userManager.IsInRoleAsync(user, "Assistant").Result)
                 {
                     filter.Active = false;
                 }

@@ -120,6 +120,9 @@
   <data name="ACCEPT" xml:space="preserve">
     <value>Elfogad</value>
   </data>
+  <data name="ADDRESSES" xml:space="preserve">
+    <value>Telephelyek</value>
+  </data>
   <data name="ADDRESS_TITLE" xml:space="preserve">
     <value>Kölcsönzött auto felvételi, és leadási helyek</value>
   </data>
@@ -127,16 +130,28 @@
     <value>Legjobb ajánlatok:</value>
   </data>
   <data name="CARS" xml:space="preserve">
-    <value>Autok</value>
+    <value>Autók</value>
   </data>
   <data name="CAR_RENTAL_WEB" xml:space="preserve">
     <value>Car Rental</value>
+  </data>
+  <data name="COMMENT" xml:space="preserve">
+    <value>Hozzászólás</value>
+  </data>
+  <data name="COMMENTLOGIN" xml:space="preserve">
+    <value>jelentkezzen be</value>
   </data>
   <data name="COOKIE_CONSENT_LINK" xml:space="preserve">
     <value>Tudj meg többet</value>
   </data>
   <data name="COOKIE_CONSENT_TEXT" xml:space="preserve">
     <value>Ez az oldal sütiket használ. Az elfodagra kattintva elfogadja használatukat. További információkért lásd itt: </value>
+  </data>
+  <data name="CURRENTRESERVATIONS" xml:space="preserve">
+    <value>Jelenlegi Foglalások</value>
+  </data>
+  <data name="DELETECOMMENT" xml:space="preserve">
+    <value>Hozzászólás törlése</value>
   </data>
   <data name="HELLO" xml:space="preserve">
     <value>Hello</value>
@@ -156,17 +171,23 @@
   <data name="LOGOUT" xml:space="preserve">
     <value>Kijelentkezés</value>
   </data>
+  <data name="MAKECOMMENT" xml:space="preserve">
+    <value>Hozzászólás írásához </value>
+  </data>
   <data name="PREVIOUS_RESERVATIONS" xml:space="preserve">
     <value>Korábbi Foglalások</value>
   </data>
   <data name="PRIVACY" xml:space="preserve">
-    <value>Adatvédelmi irányelvek</value>
+    <value>Adatvédelem</value>
   </data>
   <data name="PRIVACY_TEXT" xml:space="preserve">
     <value>Ez a webhely cookie-kat használ a felhasználói nyelv beállításához.</value>
   </data>
   <data name="PRIVACY_TITLE" xml:space="preserve">
     <value>Adatvédelmi irányelvek</value>
+  </data>
+  <data name="RATE" xml:space="preserve">
+    <value>Értékel</value>
   </data>
   <data name="REGISTER" xml:space="preserve">
     <value>Regisztráció</value>
@@ -177,8 +198,11 @@
   <data name="SAVE" xml:space="preserve">
     <value>Mentés</value>
   </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Felhasználók</value>
+  </data>
   <data name="VEHICLE_MODELS" xml:space="preserve">
-    <value>Auto Modellek</value>
+    <value>Autómodellek</value>
   </data>
   <data name="WELCOME" xml:space="preserve">
     <value>Üdvözöljük a Car Rental -nál</value>

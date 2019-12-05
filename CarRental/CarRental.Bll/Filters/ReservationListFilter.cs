@@ -18,7 +18,9 @@
             DropOffDescending,
             AddressDescending,
             VehicleModelDescending,
-            StateDescending
+            StateDescending,
+            PriceAscending,
+            PriceDescending
         }
     }
 }

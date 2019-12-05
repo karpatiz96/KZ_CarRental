@@ -23,6 +23,16 @@ namespace CarRental.Dal.SeedServices
             {
                 await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Administrators });
             }
+
+            if(!await _roleManager.RoleExistsAsync(Roles.Assistant))
+            {
+                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Assistant });
+            }
+
+            if (!await _roleManager.RoleExistsAsync(Roles.Customer))
+            {
+                await _roleManager.CreateAsync(new IdentityRole<int> { Name = Roles.Customer });
+            }
         }
     }
 }

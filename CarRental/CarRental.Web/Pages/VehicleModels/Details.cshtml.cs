@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using CarRental.Dal.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using CarRental.Bll.IServices;
-using CarRental.Bll.Dtos;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
@@ -18,24 +15,32 @@ namespace CarRental.Web.Pages.VehicleModels
     {
         private readonly IVehicleModelService _vehicleModelService;
 
+        private readonly ICommentService _commentService;
+
+        private readonly IRatingService _ratingService;
+
+        private UserManager<User> UserManager;
+
         private readonly ILogger<DetailsModel> _logger;
 
-        private readonly ICarService _carService;
-
-        public DetailsModel(IVehicleModelService vehicleModelService, ICarService carService, ILogger<DetailsModel> logger)
+        public DetailsModel(IVehicleModelService vehicleModelService, ICommentService commentService, 
+            IRatingService ratingService, UserManager<User> userManager, ILogger<DetailsModel> logger)
         {
             _vehicleModelService = vehicleModelService;
-            _carService = carService;
+            _commentService = commentService;
+            _ratingService = ratingService;
+            UserManager = userManager;
             _logger = logger;
         }
 
         public VehicleModelDetailsDto VehicleModel { get; set; }
 
-        /*public VehicleModelDto VehicleModel { get; set; }
+        public IEnumerable<CommentDto> Comments { get; private set; }
 
-        public IEnumerable<CarDto> Cars { get; set; }
+        public bool IsRated { get; private set; }
 
-        public int CarFound { get; set; }*/
+        [BindProperty]
+        public RatingDto Rating { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -45,7 +50,6 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
-            //VehicleModel = await _vehicleModelService.GetVehicle(id.Value);
             VehicleModel = await _vehicleModelService.GetVehicleModel(id.Value);
 
             if (VehicleModel == null)
@@ -54,10 +58,38 @@ namespace CarRental.Web.Pages.VehicleModels
                 return NotFound();
             }
 
-            //Cars = await _carService.GetCarList(VehicleModel.Id);
+            Comments = await _commentService.GetComments();
 
-            //CarFound = Cars.Count();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var user = await UserManager.GetUserAsync(HttpContext.User);
+                if (user != null)
+                {
+                    IsRated = await _ratingService.IsRated(VehicleModel.Id, user.Id);
+
+                    if (!IsRated)
+                    {
+                        Rating = new RatingDto
+                        {
+                            VehicleModelId = VehicleModel.Id
+                        };
+                    }
+                }
+            }
+
             return Page();
-        }
+        }        public async Task<IActionResult> OnPostRating()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            var user = await UserManager.GetUserAsync(HttpContext.User);
+
+            await _ratingService.PostRating(Rating.Rating, Rating.VehicleModelId, user.Id);
+
+            return RedirectToPage("./Details", new { id = Rating.VehicleModelId } );
+        }
     }
 }

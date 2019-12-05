@@ -27,7 +27,25 @@ namespace CarRental.Bll.Services
             PlateNumber = c.PlateNumber,
             VehicleModelId = c.VehicleModelId,
             VehicleType = c.VehicleModel.VehicleType,
+            AddressId = c.AddressId,
+            Address = c.AddressId.HasValue ?
+                c.Address.ZipCode.ToString() + " " + c.Address.City + " " + c.Address.StreetAddress
+                : "",
             Active = c.Active
+        };
+
+        public static Expression<Func<Car, CarDetailsDto>> CarDetailsDtoSelector { get; } = c => new CarDetailsDto
+        {
+            Id = c.Id,
+            PlateNumber = c.PlateNumber,
+            VehicleModelId = c.VehicleModelId,
+            VehicleType = c.VehicleModel.VehicleType,
+            AddressId = c.AddressId,
+            Address = c.AddressId.HasValue ?
+                c.Address.ZipCode.ToString() + " " + c.Address.City + " " + c.Address.StreetAddress
+                : "",
+            Active = c.Active,
+            HasReservation = c.Reservations.Any()
         };
 
         public async Task<PagedResult<CarDto>> GetCars(CarFilter filter)
@@ -42,7 +60,9 @@ namespace CarRental.Bll.Services
             if (filter?.PageNumber < 0)
                 filter.PageNumber = null;
 
-            IQueryable<Car> cars = _dbContext.Cars.Include(c => c.VehicleModel);
+            IQueryable<Car> cars = _dbContext.Cars
+                .Include(c => c.VehicleModel)
+                .Include(c => c.Address);
 
             if (!string.IsNullOrWhiteSpace(filter?.VehicleType))
                 cars = cars.Where(c => c.VehicleModel.VehicleType.Contains(filter.VehicleType));
@@ -69,6 +89,12 @@ namespace CarRental.Bll.Services
                     break;
                 case CarFilter.CarOrder.ActiveDescending:
                     cars = cars.OrderByDescending(c => c.Active);
+                    break;
+                case CarFilter.CarOrder.AddressAscending:
+                    cars = cars.OrderBy(c => c.Address.ZipCode).OrderBy(c => c.Address.City).OrderBy(c => c.Address.StreetAddress);
+                    break;
+                case CarFilter.CarOrder.AddressDescending:
+                    cars = cars.OrderByDescending(c => c.Address.ZipCode).OrderByDescending(c => c.Address.City).OrderByDescending(c => c.Address.StreetAddress);
                     break;
                 default:
                     cars = cars.OrderBy(c => c.PlateNumber);
@@ -107,19 +133,21 @@ namespace CarRental.Bll.Services
 
         public async Task CreateCar(CarDto carDto)
         {
-            VehicleModel vehicleModel = await _dbContext.VehicleModels
+            /*VehicleModel vehicleModel = await _dbContext.VehicleModels
                 .Where(vm => vm.Id == carDto.VehicleModelId)
-                .SingleOrDefaultAsync();
+                .SingleOrDefaultAsync();*/
 
             Car car = new Car
             {
                 PlateNumber = carDto.PlateNumber,
                 Active = carDto.Active,
                 VehicleModelId = carDto.VehicleModelId,
-                VehicleModel = vehicleModel
+                //VehicleModel = vehicleModel,
+                AddressId = carDto.AddressId
             };
-            _dbContext.Add(car);
-            vehicleModel.Cars.Add(car);
+
+            _dbContext.Cars.Add(car);
+            //vehicleModel.Cars.Add(car);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -128,7 +156,8 @@ namespace CarRental.Bll.Services
             var car = await _dbContext.Cars
                 .Include(c => c.VehicleModel)
                     .ThenInclude(vm => vm.Cars)
-                .Include(c => c.Reservations)
+                .Include(c => c.Address)
+                    .ThenInclude(a => a.Cars)
                 .Where(c => c.Id == carDto.Id)
                 .SingleOrDefaultAsync();
 
@@ -137,14 +166,27 @@ namespace CarRental.Bll.Services
                 .Where(vm => vm.Id == carDto.VehicleModelId)
                 .SingleOrDefaultAsync();
 
+            var address = await _dbContext.Addresses
+                .Include(a => a.Cars)
+                .Where(a => a.Id == carDto.AddressId)
+                .SingleOrDefaultAsync();
+
+
             car.Active = carDto.Active;
             car.PlateNumber = carDto.PlateNumber;
 
             if (car.VehicleModelId != carDto.VehicleModelId)
             {
-                car.VehicleModel.Cars.Remove(car);
+                vehicleModel.Cars.Remove(car);
                 car.VehicleModel = vehicleModel;
                 vehicleModel.Cars.Add(car);
+            }
+
+            if(car.AddressId != carDto.AddressId)
+            {
+                address.Cars.Remove(car);
+                car.Address = address;
+                address.Cars.Add(car);
             }
 
             _dbContext.Attach(car).State = EntityState.Modified;
@@ -154,18 +196,29 @@ namespace CarRental.Bll.Services
 
         public async Task DeleteCar(int? id)
         {
-            Car car = await _dbContext.Cars
+            var car = await _dbContext.Cars
                 .Include(c => c.VehicleModel)
                 .Include(c => c.Reservations)
                 .Where(c => c.Id == id)
                 .SingleOrDefaultAsync();
 
-            VehicleModel vehicleModel = await _dbContext.VehicleModels
+            var vehicleModel = await _dbContext.VehicleModels
                 .Include(vm => vm.Cars)
                 .Where(vm => vm.Id == car.VehicleModelId)
                 .SingleOrDefaultAsync();
 
+            var address = await _dbContext.Addresses
+                .Include(a => a.Cars)
+                .Where(a => a.Id == car.AddressId)
+                .SingleOrDefaultAsync();
+
+            if(address != null)
+            {
+                address.Cars.Remove(car);
+            }
+
             vehicleModel.Cars.Remove(car);
+
             _dbContext.Cars.Remove(car);
             await _dbContext.SaveChangesAsync();
         }
@@ -179,63 +232,37 @@ namespace CarRental.Bll.Services
 
             var carList = await cars
                 .Where(c => c.VehicleModel.Active == true && c.VehicleModelId == id)
+                .Where(c => c.Reservations
+                .Where(r => (r.PickUpTime.Date <= start.Date && r.DropOffTime.Date >= start.Date)
+                || (end.Date <= r.DropOffTime.Date && end.Date >= r.PickUpTime.Date))
+                .Any(r => r.State == Reservation.ReservationStates.Accepted) == false)
                 .ToListAsync();
 
-            IList<Car> freeCars = new List<Car>();
-            foreach (var car in carList)
-            {
-                if (!car.Reservations.Where(r => (r.PickUpTime.Date <= start.Date && r.DropOffTime.Date >= start.Date) || (end.Date <= r.DropOffTime.Date && end.Date >= r.PickUpTime.Date)).Where(r => r.State == Reservation.ReservationStates.Accepted).Any())
-                {
-                    freeCars.Add(car);
-                }
-            }
-            return freeCars.AsEnumerable().ToList();
-        }
-
-        public async Task<IEnumerable<CarDto>> GetCarList(int? vehicleModelId)
-        {
-            return await _dbContext.Cars
-                .Include(c => c.VehicleModel)
-                .Where(c => c.VehicleModelId == vehicleModelId)
-                .Select(CarDtoSelector)
-                .ToAsyncEnumerable()
-                .ToList();
+            return carList;
         }
 
         public async Task<bool> CarHasReservations(int? id)
         {
-            var car = await _dbContext.Cars
-                .Include(c => c.Reservations)
-                .Where(c => c.Id == id)
-                .SingleOrDefaultAsync();
+            var result = await _dbContext.Reservations
+                .Where(r => r.CarId == id)
+                .AnyAsync();
 
-            if (car.Reservations.Any())
-            {
-                return true;
-            }
-
-            return false;
+            return result;
         }
 
         public bool CarExists(int? id)
         {
-            return _dbContext.Cars.Any(e => e.Id == id);
+            return _dbContext.Cars
+                .Any(e => e.Id == id);
         }
 
         public async Task<CarDetailsDto> GetCarDetailsDto(int? id)
         {
             return await _dbContext.Cars
                 .Include(c => c.Reservations)
+                .Include(c => c.Address)
                 .Where(c => c.Id == id.Value)
-                .Select(c => new CarDetailsDto
-                {
-                    Id = c.Id,
-                    PlateNumber = c.PlateNumber,
-                    VehicleModelId = c.VehicleModelId,
-                    VehicleType = c.VehicleModel.VehicleType,
-                    Active = c.Active,
-                    HasReservation = c.Reservations.Any()
-                })
+                .Select(CarDetailsDtoSelector)
                 .SingleOrDefaultAsync();
         }
     }

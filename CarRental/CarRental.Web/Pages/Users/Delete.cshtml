@@ -1,0 +1,71 @@
+﻿@page
+@model CarRental.Web.Pages.Users.DeleteModel
+@inject PagesLocalizationService PagesLocalizer
+
+<h3>@PagesLocalizer.GetLocalizedHtmlString("DELETE_ARE_YOU_SURE")</h3>
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("USER")</h4>
+    <hr />
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.UserDto.UserName)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.UserName)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.UserDto.Name)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.Name)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.UserDto.Email)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.Email)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.UserDto.PhoneNumber)
+            </b>
+        </label>
+        <div class="col-md-10">
+            @Html.DisplayFor(model => model.UserDto.PhoneNumber)
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.UserDto.Roles)
+            </b>
+        </label>
+        <div class="col-md-10">
+            <div>
+                @foreach (var role in Model.UserDto.Roles)
+                {
+                    <p>@role.ToString()</p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <form class="mt-4" method="post">
+        <input type="hidden" asp-for="UserDto.Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button type="submit" class="btn btn-danger mr-3">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</button>
+        <a asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+    </form>
+</div>

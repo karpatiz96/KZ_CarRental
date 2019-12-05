@@ -1,38 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Logging;
+using CarRental.Dal;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using CarRental.Dal;
-using CarRental.Dal.Entities;
-using CarRental.Bll.Dtos;
-using CarRental.Bll.IServices;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
-using CarRental.Bll.Logging;
+using System.Threading.Tasks;
 
 namespace CarRental.Web.Pages.VehicleModels
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class DeleteModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ILogger<DeleteModel> _logger;
 
         private readonly IVehicleModelService _vehicleModelService;
 
-        public DeleteModel(CarRentalDbContext context, IVehicleModelService vehicleModelService, ILogger<DeleteModel> logger)
+        public DeleteModel(IVehicleModelService vehicleModelService, ILogger<DeleteModel> logger)
         {
-            _context = context;
             _vehicleModelService = vehicleModelService;
             _logger = logger;
         }
-
-        /*[BindProperty]
-        public VehicleModelDto VehicleModel { get; set; }*/
 
         [BindProperty]
         public VehicleModelDeleteDto VehicleModel { get; set; }
@@ -45,7 +34,6 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem,"Get VehicleModel {ID}", id);
-            //VehicleModel = await _vehicleModelService.GetVehicle(id);
             VehicleModel = await _vehicleModelService.GetVehicleModelDelete(id);
 
             if (VehicleModel == null)
@@ -64,13 +52,11 @@ namespace CarRental.Web.Pages.VehicleModels
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get VehicleModel {ID}", id);
-            //VehicleModel = await _vehicleModelService.GetVehicle(id);
 
             VehicleModel = await _vehicleModelService.GetVehicleModelDelete(id);
 
             if (VehicleModel != null)
             {
-                //bool hasReservation = await _vehicleModelService.VehicleModelHasReservations(id);
                 if (VehicleModel.HasReservation)
                 {
                     return RedirectToPage("./Index");

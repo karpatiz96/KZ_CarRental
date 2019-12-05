@@ -20,7 +20,7 @@ using System.Reflection;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class CreateModel : PageModel
     {
         private readonly UserManager<User> _userManager;
@@ -51,33 +51,17 @@ namespace CarRental.Web.Pages.Reservations
         public async Task<IActionResult> OnGet(int? id)
         {
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType", id);
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType", id);
             return Page();
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
-
-        public class InputModel
-        {
-            [Required(ErrorMessage = "PICK_UP_TIME_REQUIRED")]
-            [DataType(DataType.DateTime)]
-            [Display(Name = "PICK_UP_TIME")]
-            public DateTime? PickUpTime { get; set; }
-            [Required( ErrorMessage = "DROP_OFF_TIME_REQUIRED")]
-            [DataType(DataType.DateTime)]
-            [Display(Name = "DROP_OFF_TIME")]
-            public DateTime? DropOffTime { get; set; }
-            [Display(Name = "ADDRESS")]
-            public int AddressId { get; set; }
-            [Display(Name = "VEHICLE_MODEL")]
-            public int VehicleModelId { get; set; }
-        }
+        public ReservationInputDto Input { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType");
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetActiveVehicleModels(), "Id", "VehicleType");
 
             if (!ModelState.IsValid)
             {

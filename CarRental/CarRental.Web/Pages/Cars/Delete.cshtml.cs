@@ -15,24 +15,21 @@ using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Cars
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class DeleteModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ICarService _carService;
 
         private readonly ILogger<DeleteModel> _logger;
 
-        public DeleteModel(CarRentalDbContext context, ICarService carService, ILogger<DeleteModel> logger)
+        public DeleteModel(ICarService carService, ILogger<DeleteModel> logger)
         {
-            _context = context;
             _carService = carService;
             _logger = logger;
         }
 
         [BindProperty]
-        public CarDto Car { get; set; }
+        public CarDetailsDto Car { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -42,7 +39,7 @@ namespace CarRental.Web.Pages.Cars
             }
 
             _logger.LogInformation(LoggingEvents.GetItem, "Get Car {ID}", id);
-            Car = await _carService.GetCar(id);
+            Car = await _carService.GetCarDetailsDto(id);
 
             if (Car == null)
             {
@@ -58,12 +55,13 @@ namespace CarRental.Web.Pages.Cars
             {
                 return NotFound();
             }
+
             _logger.LogInformation(LoggingEvents.GetItem, "Get Car {ID}", id);
-            Car = await _carService.GetCar(id);
+            Car = await _carService.GetCarDetailsDto(id);
+
             if(Car != null)
             {
-                bool hasReservations = await _carService.CarHasReservations(id);
-                if (!hasReservations)
+                if (!Car.HasReservation)
                 {
                     await _carService.DeleteCar(id);
                     _logger.LogInformation(LoggingEvents.DeleteItem, "Admin Deleted Car {ID}", id);

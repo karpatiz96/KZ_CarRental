@@ -16,7 +16,7 @@ using static CarRental.Bll.Filters.ReservationListFilter;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class ListModel : PageModel
     {
         private readonly UserManager<User> _userManager;
@@ -39,6 +39,7 @@ namespace CarRental.Web.Pages.Reservations
         public string DropOffSort { get; set; }
         public string VehicleModelSort { get; set; }
         public string StateSort { get; set; }
+        public string PriceSort { get; set; }
         public string CurrentSort { get; set; }
 
         public async Task OnGetAsync(string sortOrder, int? pageNumber)
@@ -58,6 +59,7 @@ namespace CarRental.Web.Pages.Reservations
             AddressSort = sortOrder == "Address" ? "address_desc" : "Address";
             VehicleModelSort = sortOrder == "VehicleModel" ? "vehiclemodel_desc" : "VehicleModel";
             StateSort = sortOrder == "State" ? "state_desc" : "State";
+            PriceSort = sortOrder == "Price" ? "price_desc" : "Price";
 
             filter.PageNumber = pageNumber ?? 0;
 
@@ -89,6 +91,12 @@ namespace CarRental.Web.Pages.Reservations
                     break;
                 case "state_desc":
                     filter.reservationOrder = ReservationOrder.StateDescending;
+                    break;
+                case "Price":
+                    filter.reservationOrder = ReservationOrder.PriceAscending;
+                    break;
+                case "price_desc":
+                    filter.reservationOrder = ReservationOrder.PriceDescending;
                     break;
                 default:
                     filter.reservationOrder = ReservationOrder.PickUpAscending;

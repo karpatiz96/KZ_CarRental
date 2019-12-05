@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Localization;
 using CarRental.Web.Resources;
 using System.Reflection;
+using CarRental.Dal.Users;
 
 namespace CarRental.Web.Areas.Identity.Pages.Account
 {
@@ -134,6 +135,13 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        var addToRole = await _userManager.AddToRoleAsync(user, Roles.Customer);
+
+                        if (addToRole.Succeeded)
+                        {
+                            _logger.LogInformation($"User {0} added to role {1}.", user.Id, Roles.Customer);
+                        }
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return LocalRedirect(returnUrl);

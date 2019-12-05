@@ -17,7 +17,7 @@ using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Cars
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class IndexModel : PageModel
     {
         private readonly ICarService _carService;
@@ -44,6 +44,7 @@ namespace CarRental.Web.Pages.Cars
         public string TypeSort { get; set; }
         public string PlateSort { get; set; }
         public string ActiveSort { get; set; }
+        public string AddressSort { get; set; }
         public string CurrentSort { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string sortOrder, string vehicleType, string currentVehicleType, string plateNumber, string currentPlateNumber, int? pageNumber)
@@ -53,6 +54,7 @@ namespace CarRental.Web.Pages.Cars
             PlateSort = string.IsNullOrEmpty(sortOrder) ? "plate_desc" : "";
             TypeSort = sortOrder == "Type" ? "type_desc" : "Type";
             ActiveSort = sortOrder == "Active" ? "active_desc" : "Active";
+            AddressSort = sortOrder == "Address" ? "address_desc" : "Address";
 
             if (vehicleType != null || plateNumber != null)
             {
@@ -89,6 +91,12 @@ namespace CarRental.Web.Pages.Cars
                     break;
                 case "Active":
                     filter.carOrder = CarFilter.CarOrder.ActiveAscending;
+                    break;
+                case "address_desc":
+                    filter.carOrder = CarFilter.CarOrder.AddressDescending;
+                    break;
+                case "Address":
+                    filter.carOrder = CarFilter.CarOrder.AddressAscending;
                     break;
                 case "": filter.carOrder = CarFilter.CarOrder.PlateNumberAscending;
                     break;

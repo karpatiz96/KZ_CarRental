@@ -28,6 +28,10 @@ namespace CarRental.Dal.Migrations
                     b.Property<string>("City")
                         .IsRequired();
 
+                    b.Property<bool>("IsInUse");
+
+                    b.Property<string>("Name");
+
                     b.Property<string>("StreetAddress")
                         .IsRequired();
 
@@ -42,6 +46,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 1,
                             City = "Budapest",
+                            IsInUse = true,
                             StreetAddress = "Kacsa utca 23",
                             ZipCode = 1120
                         },
@@ -49,6 +54,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 2,
                             City = "Budapest",
+                            IsInUse = true,
                             StreetAddress = "Fenyves utca 25",
                             ZipCode = 1125
                         },
@@ -56,6 +62,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 3,
                             City = "Budapest",
+                            IsInUse = true,
                             StreetAddress = "Lomb utca 23",
                             ZipCode = 1135
                         },
@@ -63,6 +70,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 4,
                             City = "Budapest",
+                            IsInUse = true,
                             StreetAddress = "Galamb utca 25",
                             ZipCode = 1122
                         },
@@ -70,6 +78,7 @@ namespace CarRental.Dal.Migrations
                         {
                             Id = 5,
                             City = "Budapest",
+                            IsInUse = true,
                             StreetAddress = "Szarvas út 15",
                             ZipCode = 1134
                         });
@@ -83,12 +92,16 @@ namespace CarRental.Dal.Migrations
 
                     b.Property<bool>("Active");
 
+                    b.Property<int?>("AddressId");
+
                     b.Property<string>("PlateNumber")
                         .IsRequired();
 
                     b.Property<int>("VehicleModelId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("VehicleModelId");
 
@@ -377,6 +390,50 @@ namespace CarRental.Dal.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CarRental.Dal.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTimeOffset>("CreationDate");
+
+                    b.Property<string>("Text");
+
+                    b.Property<int?>("UserId");
+
+                    b.Property<int>("VehicleModelId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VehicleModelId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("CarRental.Dal.Entities.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("UserId");
+
+                    b.Property<int>("Value");
+
+                    b.Property<int>("VehicleModelId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VehicleModelId");
+
+                    b.ToTable("Ratings");
+                });
+
             modelBuilder.Entity("CarRental.Dal.Entities.Reservation", b =>
                 {
                     b.Property<int>("Id")
@@ -422,6 +479,8 @@ namespace CarRental.Dal.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Culture");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256);
@@ -849,8 +908,36 @@ namespace CarRental.Dal.Migrations
 
             modelBuilder.Entity("CarRental.Dal.Entities.Car", b =>
                 {
+                    b.HasOne("CarRental.Dal.Entities.Address", "Address")
+                        .WithMany("Cars")
+                        .HasForeignKey("AddressId");
+
                     b.HasOne("CarRental.Dal.Entities.VehicleModel", "VehicleModel")
                         .WithMany("Cars")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CarRental.Dal.Entities.Comment", b =>
+                {
+                    b.HasOne("CarRental.Dal.Entities.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("CarRental.Dal.Entities.VehicleModel", "VehicleModel")
+                        .WithMany("Comments")
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("CarRental.Dal.Entities.Rating", b =>
+                {
+                    b.HasOne("CarRental.Dal.Entities.User", "User")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("CarRental.Dal.Entities.VehicleModel", "VehicleModel")
+                        .WithMany("Ratings")
                         .HasForeignKey("VehicleModelId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

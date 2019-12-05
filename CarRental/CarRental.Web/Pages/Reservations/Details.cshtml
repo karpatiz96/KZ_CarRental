@@ -72,13 +72,17 @@
     <div class="row mt-4">
         @if (User.Identity.IsAuthenticated)
         {
-            if (User.IsInRole("Administrators"))
+            if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
             {
                 <a class="btn btn-primary ml-3" asp-page="./Edit" asp-route-id="@Model.Reservation.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
                 <a class="ml-3" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
             }
             else
             {
+                if (!(Model.Reservation.State == Reservation.ReservationStates.Cancled) && Model.Reservation.PickUpTime.Date > DateTime.Now.Date.AddDays(1))
+                {
+                    <a class="btn btn-primary ml-3" asp-page="./Cancel" asp-route-id="@Model.Reservation.Id">@PagesLocalizer.GetLocalizedHtmlString("CANCEL")</a>
+                }
                 <a class="ml-3" asp-page="./List">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
             }
         }

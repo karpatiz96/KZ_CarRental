@@ -1,0 +1,102 @@
+﻿@using CarRental.Bll.Dtos
+@using CarRental.Dal.Entities
+@model EmailReservationDto
+
+@inject IdentityLocalizationService IdentityLocalizer
+@inject PagesLocalizationService PagesLocalizer
+
+@{
+    Layout = "_EmailLayoutHtml";
+    ViewContext.ViewData["Title"] = IdentityLocalizer.GetLocalizedHtmlString("RESERVATION_TITLE");
+}
+
+<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_DEAR") @Model.UserName!</p>
+
+<br />
+
+<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_CANCEL_TEXT")</p>
+
+<br />
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 400px;">
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.UserName)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            @Html.DisplayFor(model => model.UserName)
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.VehicleType)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            @Html.DisplayFor(model => model.VehicleType)
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.Address)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            @Html.DisplayFor(model => model.Address)
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.PickUpTime)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            @Html.DisplayFor(model => model.PickUpTime)
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.DropOffTime)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            @Html.DisplayFor(model => model.DropOffTime)
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.Price)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            @Html.DisplayFor(model => model.Price) Ft
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <b>@Html.DisplayNameFor(model => model.State)</b>
+        </td>
+        <td bgcolor="#ffffff" align="left" style="padding: 10px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 20px;">
+            <p>
+                @if (Model.State == Reservation.ReservationStates.Accepted)
+                {
+                    @PagesLocalizer.GetLocalizedHtmlString("ACCEPTED")
+                }
+                else
+                {
+                    @if (Model.State == Reservation.ReservationStates.Cancled)
+                    {
+                        @PagesLocalizer.GetLocalizedHtmlString("CANCELED")
+                    }
+                    else
+                    {
+                        @PagesLocalizer.GetLocalizedHtmlString("UNDECIEDED")
+                    }
+                }
+            </p>
+        </td>
+    </tr>
+</table>
+
+<br />
+
+<p>@IdentityLocalizer.GetLocalizedHtmlString("EMAIL_RESERVATION_BEST_REGARDS")</p>
+
+<br />
+
+<p>@IdentityLocalizer.GetLocalizedHtmlString("CAR_RENTAL_TEAM")</p>

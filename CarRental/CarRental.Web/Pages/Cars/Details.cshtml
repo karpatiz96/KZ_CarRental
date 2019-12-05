@@ -17,9 +17,9 @@
     </div>
     <div class="row">
         <label class="col-md-2">
-        <b>
-            @Html.DisplayNameFor(model => model.Car.VehicleType)
-        </b>
+            <b>
+                @Html.DisplayNameFor(model => model.Car.VehicleType)
+            </b>
         </label>
         <div class="col-md-10">
             <a asp-page="/VehicleModels/Details" asp-route-id="@Model.Car.VehicleModelId">
@@ -29,9 +29,21 @@
     </div>
     <div class="row">
         <label class="col-md-2">
-        <b>
-            @Html.DisplayNameFor(model => model.Car.Active)
-        </b>
+            <b>
+                @Html.DisplayNameFor(model => model.Car.Address)
+            </b>
+        </label>
+        <div class="col-md-10">
+            <a asp-page="/Addresses/Details" asp-route-id="@Model.Car.AddressId">
+                @Html.DisplayFor(model => model.Car.Address)
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <label class="col-md-2">
+            <b>
+                @Html.DisplayNameFor(model => model.Car.Active)
+            </b>
         </label>
         <div class="col-md-10">
             @if (Model.Car.Active)
@@ -46,9 +58,9 @@
     </div>
     <div class="row mt-4">
         <a class="btn btn-primary mr-3" asp-page="./Edit" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
-        @if (!Model.HasReservation)
+        @if (!Model.Car.HasReservation)
         {
-        <a class="btn btn-danger mr-3" asp-page="./Delete" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
+            <a class="btn btn-danger mr-3" asp-page="./Delete" asp-route-id="@Model.Car.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
         }
         <a class="mt-1" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
     </div>

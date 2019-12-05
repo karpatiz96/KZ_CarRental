@@ -1,0 +1,48 @@
+﻿@page
+@model CarRental.Web.Pages.Users.CreateModel
+
+@inject IdentityLocalizationService IdentityLocalizer
+@inject PagesLocalizationService PagesLocalizer
+
+<h4>@IdentityLocalizer.GetLocalizedHtmlString("CREATE_A_NEW_ACCOUNT")</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Input.Name">@IdentityLocalizer.GetLocalizedHtmlString("NAME")</label>
+                <input asp-for="Input.Name" class="form-control" />
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.RoleName" class="control-label"></label>
+                <select asp-for="Input.RoleName" class="form-control" asp-items="ViewBag.RoleName">
+                    <option value=""></option>
+                </select>
+                <span asp-validation-for="Input.RoleName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email">@IdentityLocalizer.GetLocalizedHtmlString("EMAIL")</label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Password">@IdentityLocalizer.GetLocalizedHtmlString("PASSWORD")</label>
+                <input asp-for="Input.Password" class="form-control" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword">@IdentityLocalizer.GetLocalizedHtmlString("CONFIRM_PASSWORD")</label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success mr-3">@PagesLocalizer.GetLocalizedHtmlString("CREATE")</button>
+            <a asp-page="Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

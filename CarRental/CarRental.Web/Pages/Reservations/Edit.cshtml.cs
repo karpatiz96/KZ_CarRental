@@ -14,26 +14,41 @@ using CarRental.Bll.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using CarRental.Bll.Logging;
+using CarRental.Web.ViewRender;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
+using System.Globalization;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class EditModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ICarService _carService;
 
         private readonly IReservationService _reservationService;
 
         private readonly ILogger<EditModel> _logger;
 
-        public EditModel(CarRentalDbContext context, ICarService carService, IReservationService reservationService, ILogger<EditModel> logger)
+        private readonly IEmailSender _emailSender;
+
+        private readonly IRazorViewToStringRender _render;
+
+        private readonly UserManager<User> _userManager;
+
+        public EditModel(ICarService carService, IReservationService reservationService, 
+            ILogger<EditModel> logger, IEmailSender emailSender,
+            IRazorViewToStringRender render, UserManager<User> userManager)
         {
-            _context = context;
             _carService = carService;
             _reservationService = reservationService;
             _logger = logger;
+            _emailSender = emailSender;
+            _render = render;
+            _userManager = userManager;
         }
 
 
@@ -56,8 +71,8 @@ namespace CarRental.Web.Pages.Reservations
                 return NotFound();
             }
 
-            var cars = _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
-            ViewData["CarId"] = new SelectList(cars.Result, "Id", "PlateNumber");
+            var cars = await _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
+            ViewData["CarId"] = new SelectList(cars, "Id", "PlateNumber");
             return Page();
         }
 
@@ -65,8 +80,8 @@ namespace CarRental.Web.Pages.Reservations
         {
             if (!ModelState.IsValid)
             {
-                var cars = _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
-                ViewData["CarId"] = new SelectList(cars.Result, "Id", "PlateNumber");
+                var cars = await _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
+                ViewData["CarId"] = new SelectList(cars, "Id", "PlateNumber");
                 return Page();
             }
 
@@ -79,7 +94,10 @@ namespace CarRental.Web.Pages.Reservations
                 return NotFound();
             }
 
-            if (!_reservationService.ReservationExists(Reservation.Id))
+            _logger.LogInformation(LoggingEvents.GetItem, "Get Reservation {ID}", Reservation.Id);
+            Reservation = await _reservationService.GetReservation(Reservation.Id);
+
+            if (Reservation == null)
             {
                 _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get Reservation {ID} NOT FOUND", Reservation.Id);
                 return NotFound();
@@ -99,8 +117,52 @@ namespace CarRental.Web.Pages.Reservations
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
+            }
+
+            const string view = "/Views/Emails/ReservationEmailAccepted";
+
+            var user = await _userManager.Users
+                .Where(u => u.Id == Reservation.UserId)
+                .SingleOrDefaultAsync();
+
+            var culture = Thread.CurrentThread.CurrentCulture.Name;
+
+            if (!string.IsNullOrEmpty(user.Culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(user.Culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(user.Culture);
+            }
+
+            var model = new EmailReservationDto
+            {
+                UserName = user.Name ?? user.Email,
+                Email = user.Email,
+                VehicleType = Reservation.VehicleType,
+                Address = Reservation.Address,
+                PickUpTime = Reservation.PickUpTime,
+                DropOffTime = Reservation.DropOffTime,
+                Price = Reservation.Price,
+                State = Dal.Entities.Reservation.ReservationStates.Accepted
+            };
+
+            try
+            {
+                var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+
+            }
+            catch
+            (InvalidOperationException)
+            {
+                return RedirectToPage("./Index");
+            }
+
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
             }
 
             return RedirectToPage("./Index");
@@ -110,12 +172,15 @@ namespace CarRental.Web.Pages.Reservations
         {
             if (!ModelState.IsValid)
             {
-                var cars = _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
-                ViewData["CarId"] = new SelectList(cars.Result, "Id", "PlateNumber");
+                var cars = await _carService.GetCars(Reservation.PickUpTime, Reservation.DropOffTime, Reservation.VehicleModelId);
+                ViewData["CarId"] = new SelectList(cars, "Id", "PlateNumber");
                 return Page();
             }
 
-            if (!_reservationService.ReservationExists(Reservation.Id))
+            _logger.LogInformation(LoggingEvents.GetItem, "Get Reservation {ID}", Reservation.Id);
+            Reservation = await _reservationService.GetReservation(Reservation.Id);
+
+            if (Reservation == null)
             {
                 _logger.LogInformation(LoggingEvents.GetItemNotFound, "Get Reservation {ID} NOT FOUND", Reservation.Id);
                 return NotFound();
@@ -135,16 +200,56 @@ namespace CarRental.Web.Pages.Reservations
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
+            }
+
+            const string view = "/Views/Emails/ReservationEmailCanceled";
+
+            var user = await _userManager.Users
+                .Where(u => u.Id == Reservation.UserId)
+                .SingleOrDefaultAsync();
+
+            var culture = Thread.CurrentThread.CurrentCulture.Name;
+
+            if (!string.IsNullOrEmpty(user.Culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(user.Culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(user.Culture);
+            }
+
+            var model = new EmailReservationDto
+            {
+                UserName = user.Name ?? user.Email,
+                Email = user.Email,
+                VehicleType = Reservation.VehicleType,
+                Address = Reservation.Address,
+                PickUpTime = Reservation.PickUpTime,
+                DropOffTime = Reservation.DropOffTime,
+                Price = Reservation.Price,
+                State = Dal.Entities.Reservation.ReservationStates.Cancled
+            };
+
+            try
+            {
+                var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
+                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+
+            }
+            catch 
+            (InvalidOperationException)
+            {
+                return RedirectToPage("./Index");
+            }
+
+            if (!string.IsNullOrEmpty(culture))
+            {
+                Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+                Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
             }
 
             return RedirectToPage("./Index");
         }
 
-        /*private bool ReservationExists(int id)
-        {
-            return _context.Reservations.Any(e => e.Id == id);
-        }*/
     }
 }

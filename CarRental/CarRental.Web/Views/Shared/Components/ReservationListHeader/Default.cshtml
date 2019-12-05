@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CarRental.Bll.Dtos.ReservationListHeader>
+@inject PagesLocalizationService PagesLocalizer
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PickUpTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DropOffTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PickUpTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DropOffTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VehicleType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    <a asp-page="/Reservations/Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -13,25 +13,26 @@ using CarRental.Bll.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using CarRental.Bll.Logging;
+using System.Net;
 
 namespace CarRental.Web.Pages.Cars
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class EditModel : PageModel
     {
-        private readonly CarRentalDbContext _context;
-
         private readonly ICarService _carService;
 
         private readonly IVehicleModelService _vehicleModelService;
 
+        private readonly IAddressService _addressService;
+
         private readonly ILogger<EditModel> _logger;
 
-        public EditModel(CarRentalDbContext context, ICarService carService, IVehicleModelService vehicleModelService, ILogger<EditModel> logger)
+        public EditModel(ICarService carService, IVehicleModelService vehicleModelService, IAddressService addressService, ILogger<EditModel> logger)
         {
-            _context = context;
             _carService = carService;
             _vehicleModelService = vehicleModelService;
+            _addressService = addressService;
             _logger = logger;
         }
 
@@ -54,7 +55,8 @@ namespace CarRental.Web.Pages.Cars
                 return NotFound();
             }
 
-            ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType", Car.VehicleModelId);
+            ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
+            ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
             return Page();
         }
 
@@ -62,7 +64,8 @@ namespace CarRental.Web.Pages.Cars
         {
             if (!ModelState.IsValid)
             {
-                ViewData["VehicleModelId"] = new SelectList(_vehicleModelService.GetActiveVehicles(), "Id", "VehicleType", Car.VehicleModelId);
+                ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType", Car.VehicleModelId);
+                ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");
                 return Page();
             }
 
@@ -94,16 +97,12 @@ namespace CarRental.Web.Pages.Cars
                 }
                 else
                 {
-                    throw;
+                    return StatusCode(409);
                 }
             }
 
             return RedirectToPage("./Index");
         }
 
-        private bool CarExists(int id)
-        {
-            return _context.Cars.Any(e => e.Id == id);
-        }
     }
 }

@@ -126,6 +126,21 @@
   <data name="ACTIVE" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="ADDRESS" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="ADDRESSES" xml:space="preserve">
+    <value>Addresses</value>
+  </data>
+  <data name="ADDRESS_FOUND" xml:space="preserve">
+    <value>Address Found:</value>
+  </data>
+  <data name="ADDRESS_IN_USE" xml:space="preserve">
+    <value>Address is in use</value>
+  </data>
+  <data name="ADDRESS_NOT_IN_USE" xml:space="preserve">
+    <value>Address isn't in use</value>
+  </data>
   <data name="AIR_CON" xml:space="preserve">
     <value>Air conditioned</value>
   </data>
@@ -138,8 +153,14 @@
   <data name="BACK_LIST" xml:space="preserve">
     <value>Back to List</value>
   </data>
+  <data name="CANCEL" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="CANCELED" xml:space="preserve">
     <value>Canceled</value>
+  </data>
+  <data name="CANCEL_ARE_YOU_SURE" xml:space="preserve">
+    <value>Are you sure you want to cancel this?</value>
   </data>
   <data name="CANCEL_RESERVATION" xml:space="preserve">
     <value>Cancel Reservation</value>
@@ -147,17 +168,26 @@
   <data name="CAR" xml:space="preserve">
     <value>Car</value>
   </data>
+  <data name="CARS" xml:space="preserve">
+    <value>Cars</value>
+  </data>
   <data name="CAR_FOUND" xml:space="preserve">
     <value>Car Found:</value>
   </data>
   <data name="CAR_RESERVATION" xml:space="preserve">
     <value>Car Found. Do you want to make a reservation?</value>
   </data>
+  <data name="COMMENTS" xml:space="preserve">
+    <value>Comments</value>
+  </data>
   <data name="CONFIRM_RESERVATION" xml:space="preserve">
     <value>Confirm Reservation</value>
   </data>
   <data name="CREATE" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="CREATE_ADDRESS" xml:space="preserve">
+    <value>Create new Address</value>
   </data>
   <data name="CREATE_CAR" xml:space="preserve">
     <value>Create Car</value>
@@ -180,8 +210,14 @@
   <data name="EDIT" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="EDIT_ADDRESS" xml:space="preserve">
+    <value>Edit Address</value>
+  </data>
   <data name="EDIT_CAR" xml:space="preserve">
     <value>Edit Car</value>
+  </data>
+  <data name="EDIT_USER" xml:space="preserve">
+    <value>Edit User</value>
   </data>
   <data name="EDIT_VEHICLE_MODEL" xml:space="preserve">
     <value>Edit Vehicle Model</value>
@@ -222,8 +258,17 @@
   <data name="PRICE_PER_DAY" xml:space="preserve">
     <value>Price per day:</value>
   </data>
+  <data name="RATING" xml:space="preserve">
+    <value>Rating</value>
+  </data>
   <data name="RESERVATION" xml:space="preserve">
     <value>Reservation</value>
+  </data>
+  <data name="RESERVATIONS" xml:space="preserve">
+    <value>Reservations</value>
+  </data>
+  <data name="RESERVATION_FOUND" xml:space="preserve">
+    <value>Reservation Found:</value>
   </data>
   <data name="RESERVE" xml:space="preserve">
     <value>Reserve</value>
@@ -237,8 +282,20 @@
   <data name="UNDECIEDED" xml:space="preserve">
     <value>Undecieded</value>
   </data>
+  <data name="USER" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="USERS" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="USER_FOUND" xml:space="preserve">
+    <value>User Found:</value>
+  </data>
   <data name="VEHICLE_MODEL" xml:space="preserve">
     <value>Vehicle Model</value>
+  </data>
+  <data name="VEHICLE_MODELS" xml:space="preserve">
+    <value>Vehicle Models</value>
   </data>
   <data name="VEHICLE_RESERVATION" xml:space="preserve">
     <value>Vehicle Reservation</value>

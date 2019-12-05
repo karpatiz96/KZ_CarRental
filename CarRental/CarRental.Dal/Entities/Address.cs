@@ -8,6 +8,8 @@ namespace CarRental.Dal.Entities
     public class Address
     {
         public int Id { get; set; }
+
+        public string Name { get; set; }
         [Required]
         public int ZipCode { get; set; }
         [Required]
@@ -15,6 +17,10 @@ namespace CarRental.Dal.Entities
         [Required]
         public string StreetAddress { get; set; }
 
+        public bool IsInUse { get; set; }
+
         public ICollection<Reservation> Reservations { get; set; }
+
+        public ICollection<Car> Cars { get; set; }
     }
 }

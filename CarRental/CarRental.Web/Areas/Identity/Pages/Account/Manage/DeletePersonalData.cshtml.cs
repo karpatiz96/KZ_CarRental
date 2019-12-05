@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using System.Threading.Tasks;
 using CarRental.Dal.Entities;
-using CarRental.Dal.Services;
+using CarRental.Bll.Services;
 using CarRental.Web.Resources;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +13,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using CarRental.Bll.IServices;
 
 namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
 {
@@ -23,18 +24,21 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
         private readonly ILogger<DeletePersonalDataModel> _logger;
         private readonly IStringLocalizer _localizer;
         private readonly IReservationService _reservationService;
+        private readonly IUserService _userService;
 
         public DeletePersonalDataModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<DeletePersonalDataModel> logger,
             IStringLocalizerFactory factory,
-            IReservationService reservationService)
+            IReservationService reservationService,
+            IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _reservationService = reservationService;
+            _userService = userService;
             //_localizer = localizer;
             var type = typeof(IdentityResource);
             var assemblyName = new AssemblyName(type.GetTypeInfo().Assembly.FullName);
@@ -85,19 +89,7 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            /*IEnumerable<Reservation> reservations = _reservationService.GetReservations(user.Id);
-
-            foreach(var item in reservations)
-            {
-                item.User = null;
-                user.Reservations.Remove(item);
-                if(item.State == Reservation.ReservationStates.Undecieded)
-                {
-                    item.State = Reservation.ReservationStates.Cancled;
-                }
-            }*/
-
-            await _reservationService.DeletedUserReservations(user.Id);
+            await _userService.DeleteUser(user.Id);
 
             var result = await _userManager.DeleteAsync(user);
             var userId = await _userManager.GetUserIdAsync(user);

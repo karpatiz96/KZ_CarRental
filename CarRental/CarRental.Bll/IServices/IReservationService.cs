@@ -8,7 +8,7 @@ namespace CarRental.Bll.IServices
 {
     public interface IReservationService
     {
-        Task CreateReservation(Reservation reservation);
+        Task CreateReservation(ReservationDto reservationDto);
 
         Task EditReservation(int? id, int? carid);
 
@@ -20,12 +20,12 @@ namespace CarRental.Bll.IServices
 
         Task<PagedResult<ReservationListHeader>> GetReservations(ReservationListFilter filter, int? userid);
 
-        IEnumerable<Reservation> GetReservations(int? userid);
-
         Task DeletedUserReservations(int? userid);
 
         Task<ReservationHeader> GetReservation(int? id);
 
         bool ReservationExists(int? id);
+
+        Task<IEnumerable<ReservationListHeader>> GetReservationListHeaders(int? userid);
     }
 }

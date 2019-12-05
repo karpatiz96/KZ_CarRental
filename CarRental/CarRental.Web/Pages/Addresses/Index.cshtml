@@ -1,0 +1,122 @@
+﻿@page
+@model CarRental.Web.Pages.Addresses.IndexModel
+@inject PagesLocalizationService PagesLocalizer
+@inject SharedLocalizationService SharedLocalizer
+
+<h4>@SharedLocalizer.GetLocalizedHtmlString("ADDRESS_TITLE")</h4>
+<hr/>
+@if (User.IsInRole("Administrators"))
+{
+<p>
+    <a class="btn btn-success" asp-page="Create">@PagesLocalizer.GetLocalizedHtmlString("CREATE_NEW")</a>
+</p>
+}
+
+<div class="row mt-3">
+    <h5>@PagesLocalizer.GetLocalizedHtmlString("ADDRESS_FOUND") @Model.Addresses.Total</h5>
+</div>
+
+<div class="row">
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>
+                <a asp-route-sortOrder="@Model.ZipCodeSort">
+                    @Html.DisplayNameFor(model => model.Addresses.Results[0].Name)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.ZipCodeSort">
+                    @Html.DisplayNameFor(model => model.Addresses.Results[0].ZipCode)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.CitySort">
+                    @Html.DisplayNameFor(model => model.Addresses.Results[0].City)
+                </a>
+            </th>
+            <th>
+                <a asp-route-sortOrder="@Model.StreetAddressSort">
+                    @Html.DisplayNameFor(model => model.Addresses.Results[0].StreetAddress)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Addresses.Results) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StreetAddress)
+            </td>
+            <td>
+                @if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
+                {
+                    <a asp-page="./Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+@if (Model.Addresses.Total != null)
+{
+    <div class="card text-center border-0 color-bg-main">
+        <div class="card-body">
+            @if ((Model.Addresses.PageSize ?? 0) != 0)
+            {
+                var totalPages = (int)Math.Ceiling((double)Model.Addresses.Total.Value / (double)Model.Addresses.PageSize.Value);
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        @if (Model.Addresses.PageNumber != 0)
+                        {
+                            <li class="page-item">
+                                <a asp-route-pageNumber="@(Model.Addresses.PageNumber - 1)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <span>&laquo;</span>
+                                </a>
+                            </li>
+                        }
+                        @for (var pageNumber = Math.Max(0, Model.Addresses.PageNumber.Value - 2); pageNumber < Math.Min(totalPages, Model.Addresses.PageNumber.Value + 3); pageNumber++)
+                        {
+                            @if (Model.Addresses.PageNumber == pageNumber)
+                            {
+                                <li class="page-item active">
+                                    <a class="page-link">
+                                        @(pageNumber + 1)
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a asp-route-pageNumber="@(pageNumber)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                        @(pageNumber + 1)
+                                    </a>
+                                </li>
+                            }
+                        }
+                        @if (Model.Addresses.PageNumber < Math.Ceiling((decimal)(Model.Addresses.Total.Value / Model.Addresses.PageSize.Value)) - 1)
+                        {
+                            <li class="page-item">
+                                <a asp-route-pageNumber="@(Model.Addresses.PageNumber + 1)" asp-route-sortOrder="@Model.CurrentSort" class="page-link">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+    </div>
+}

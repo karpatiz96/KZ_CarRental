@@ -1,18 +1,37 @@
 ﻿@page
 @model CarRental.Web.Pages.VehicleModels.DetailsModel
 @inject PagesLocalizationService PagesLocalizer
+@inject SharedLocalizationService SharedLocalizer
 
 <div class="container">
     <h4>@PagesLocalizer.GetLocalizedHtmlString("VEHICLE_MODEL")</h4>
     <hr />
     <div class="media">
-        <img class="mr-3 col-md-4" src="~/images/@Model.VehicleModel.VehicleUrl">
+        <div class="mr-3 col-md-4">
+        <img src="~/images/@Model.VehicleModel.VehicleUrl">
+        </div>
         <div class="media-body">
             <div class="container">
                 <div class="row">
                     <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.VehicleType)</b></label>
                     <div class="col-md-8">
                         <p>@Html.DisplayFor(model => model.VehicleModel.VehicleType)</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-4"><b>@Html.DisplayNameFor(model => model.VehicleModel.StarRating)</b></label>
+                    <div class="col-md-8">
+                        @for (int s = 0; s < Math.Round(Model.VehicleModel.StarRating); s++)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                        @for (int s = 0; s < (5 - Math.Round(Model.VehicleModel.StarRating)); s++)
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                        @Html.DisplayFor(model => model.VehicleModel.StarRating)
+                        @Html.DisplayNameFor(model => model.VehicleModel.Reviewers): 
+                        @Html.DisplayFor(model => model.VehicleModel.Reviewers)
                     </div>
                 </div>
                 <div class="row">
@@ -72,39 +91,55 @@
                         }
                     </div>
                 </div>
+                <div class="row">
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
+                    {
+                        @if (!Model.IsRated)
+                        {
+                            <form class="form-inline col-md-8" method="post" asp-page-handler="Rating">
+                                <input type="hidden" asp-for="@Model.Rating.VehicleModelId">
+                                <span class="rating">
+                                    @for (int i = 0; i <= 4; i++)
+                                    {
+                                        var star = "star";
+                                        if (Model.Rating.Rating == (5 - i))
+                                        {
+                                            star += "active";
+                                        }
+                                        <span data-value="@(5 - i)" class="@star fa fa-star"></span>
+                                    }
+                                </span>
+                                <input type="hidden" asp-for="@Model.Rating.Rating" id="Rating" />
+                                <div class="form-group ml-5">
+                                    <button type="submit" class="btn btn-outline-success ml-2">@PagesLocalizer.GetLocalizedHtmlString("RATING")</button>
+                                </div>
+                            </form>
+                        }
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mt-4 offset-1">
     @if (User.Identity.IsAuthenticated)
     {
-        if (User.IsInRole("Administrators"))
+        if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
         {
             <div class="ml-3">
                 <a class="btn btn-primary" asp-page="./Edit" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
             </div>
             if (Model.VehicleModel.CarFound == 0)
             {
-            <div class="ml-3">
-                <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
-            </div>
+                <div class="ml-3">
+                    <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("DELETE")</a>
+                </div>
             }
         }
     }
     <div class="ml-3">
-        @if (User.Identity.IsAuthenticated)
-        {
-            if (User.IsInRole("Administrators"))
-            {
-            }
-            else
-            {
-                <a class="btn btn-success" asp-page="/Reservations/Create" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</a>
-            }
-        }
-        else
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Customer"))
         {
             <a class="btn btn-success" asp-page="/Reservations/Create" asp-route-id="@Model.VehicleModel.Id">@PagesLocalizer.GetLocalizedHtmlString("RESERVE")</a>
         }
@@ -116,10 +151,87 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    if (User.IsInRole("Administrators"))
+    if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
     {
         <div class="row mt-4">
             <vc:car-dto cars="@Model.VehicleModel.Cars"></vc:car-dto>
         </div>
     }
+}
+
+<div class="container mt-4">
+<h4>@PagesLocalizer.GetLocalizedHtmlString("COMMENTS"): </h4>
+<hr />
+<div class="row mt-4">
+    <div class="col-6 offset-1">
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="text-center mb-5">@SharedLocalizer.GetLocalizedHtmlString("MAKECOMMENT")<a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Request.Path@Request.QueryString">@SharedLocalizer.GetLocalizedHtmlString("COMMENTLOGIN")</a>!</div>
+        }
+        else
+        {
+            <form id="new-comment-form" method="post" asp-page-handler="Comment">
+                <textarea name="text" class="html-editor"></textarea>
+                <div class="text-right mt-2">
+                    <button class="btn btn-outline-primary" value="@Model.VehicleModel.Id" name="vehicleModelId">@SharedLocalizer.GetLocalizedHtmlString("COMMENT")</button>
+                </div>
+            </form>
+        }
+        <div id="comments" class="mt-3">
+        @foreach (var comment in Model.Comments)
+        {
+            <partial name="~/Pages/Shared/_CommentPartial.cshtml" model="comment" />
+        }
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/rating.js"></script>
+
+    <script type="text/javascript">
+        tinymce.init(
+            {
+                selector: '.html-editor',
+         
+                toolbar: false,
+                menubar: false,
+                statusbar: false
+            });
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("/vehiclemodelshub")
+            .build();
+
+        connection.start().then(function ()
+        {
+            connection.send('JoinVehicleModelPage', @Model.VehicleModel.Id).then(function () { });
+        });
+
+        connection.on('CommentPosted', function (htmlString)
+        {
+            $("#comments").prepend(htmlString);
+        });
+
+        $('#new-comment-form').submit(function (e)
+        {
+            e.preventDefault();
+            console.log(e);
+            connection.send('PostComment', @Model.VehicleModel.Id, tinymce.activeEditor.getContent()).then(function () { });
+        });
+
+        connection.on('CommentDeleted', function (commentId)
+        {
+            $("#comment-" + commentId).remove();
+        });
+        $('.delete-comment').click(function (e)
+        {
+            var commentId = e.target.attributes['data-comment-id'].value;
+            console.log(e);
+            connection.send('DeleteComment', commentId).then();
+        });
+
+    </script>
 }
