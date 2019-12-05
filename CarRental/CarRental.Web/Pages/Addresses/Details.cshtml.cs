@@ -15,7 +15,7 @@ using CarRental.Bll.Logging;
 
 namespace CarRental.Web.Pages.Addresses
 {
-    [Authorize(Roles = "Administrators")]
+    [Authorize(Roles = "Administrators, Assistant")]
     public class DetailsModel : PageModel
     {
         private readonly IAddressService _addressService;

@@ -16,7 +16,7 @@ using static CarRental.Bll.Filters.ReservationListFilter;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class ListModel : PageModel
     {
         private readonly UserManager<User> _userManager;

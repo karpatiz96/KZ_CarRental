@@ -136,7 +136,7 @@
     <value>Car Rental</value>
   </data>
   <data name="COMMENT" xml:space="preserve">
-    <value>Hozzászólás</value>
+    <value>Comment</value>
   </data>
   <data name="COMMENTLOGIN" xml:space="preserve">
     <value>please login</value>

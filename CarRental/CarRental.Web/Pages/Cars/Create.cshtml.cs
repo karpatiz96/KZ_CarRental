@@ -29,7 +29,7 @@ namespace CarRental.Web.Pages.Cars
             _logger = logger;
         }
 
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
             ViewData["VehicleModelId"] = new SelectList(await _vehicleModelService.GetVehicleModels(), "Id", "VehicleType");
             ViewData["AddressId"] = new SelectList(await _addressService.GetAddresses(), "Id", "FullAddress");

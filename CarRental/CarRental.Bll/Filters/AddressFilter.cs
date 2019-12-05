@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CarRental.Bll.Filters
+﻿namespace CarRental.Bll.Filters
 {
     public class AddressFilter
     {

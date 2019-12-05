@@ -59,7 +59,7 @@
                 @Html.DisplayFor(modelItem => item.StreetAddress)
             </td>
             <td>
-                @if (User.IsInRole("Administrators"))
+                @if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
                 {
                     <a asp-page="./Details" asp-route-id="@item.Id">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
                 }

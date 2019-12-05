@@ -216,6 +216,9 @@
   <data name="EDIT_CAR" xml:space="preserve">
     <value>Edit Car</value>
   </data>
+  <data name="EDIT_USER" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
   <data name="EDIT_VEHICLE_MODEL" xml:space="preserve">
     <value>Edit Vehicle Model</value>
   </data>

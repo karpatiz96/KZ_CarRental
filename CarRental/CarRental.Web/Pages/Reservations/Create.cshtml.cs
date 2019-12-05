@@ -20,7 +20,7 @@ using System.Reflection;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class CreateModel : PageModel
     {
         private readonly UserManager<User> _userManager;

@@ -216,6 +216,9 @@
   <data name="EDIT_CAR" xml:space="preserve">
     <value>Autó szerkesztése</value>
   </data>
+  <data name="EDIT_USER" xml:space="preserve">
+    <value>Felhasználó szerkesztése</value>
+  </data>
   <data name="EDIT_VEHICLE_MODEL" xml:space="preserve">
     <value>Autómodell Szerkesztése</value>
   </data>

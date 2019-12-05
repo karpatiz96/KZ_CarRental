@@ -19,7 +19,7 @@ using CarRental.Web.ViewRender;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class CreateConfirmModel : PageModel
     {
 

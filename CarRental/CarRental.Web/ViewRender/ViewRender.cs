@@ -23,7 +23,7 @@ namespace CarRental.Web.ViewRender
             _serviceProvider = serviceProvider;
         }
 
-        public string Render<TModel>(string name, TModel model, bool _isMainPage)
+        public string Render<TModel>(string name, TModel model, bool _isMainPage = false)
         {
             var actionContext = GetActionContext();
             var viewEngineResult = _viewEngine.FindView(actionContext, name, isMainPage: _isMainPage);

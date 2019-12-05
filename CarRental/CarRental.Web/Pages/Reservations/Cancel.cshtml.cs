@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CarRental.Web.Pages.Reservations
 {
-    [Authorize]
+    [Authorize(Roles = "Customer")]
     public class CancelModel : PageModel
     {
         private readonly IReservationService _reservationService;

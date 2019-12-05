@@ -16,7 +16,10 @@ namespace CarRental.Web
     {
         public async static Task Main(string[] args)
         {
-            (await CreateWebHostBuilder(args).Build().MigrateDatabase<CarRentalDbContext>()).Run();
+            (await CreateWebHostBuilder(args)
+                .Build()
+                .MigrateDatabase<CarRentalDbContext>())
+                .Run();
             //CreateWebHostBuilder(args).Build().Run();
         }
 
