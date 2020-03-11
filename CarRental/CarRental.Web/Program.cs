@@ -7,7 +7,10 @@ using CarRental.Dal;
 using CarRental.Web.Hosting;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.Logging;
 
 namespace CarRental.Web
@@ -25,6 +28,20 @@ namespace CarRental.Web
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            .ConfigureAppConfiguration((context, config) => 
+            {
+                if (context.HostingEnvironment.IsProduction())
+                {
+                    var builtconfig = config.Build();
+
+                    var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                    var keyVaultClient = new KeyVaultClient(
+                        new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider
+                            .KeyVaultTokenCallback));
+
+                    config.AddAzureKeyVault($"https://{builtconfig["KeyVaultName"]}.vault.azure.net/", keyVaultClient, new DefaultKeyVaultSecretManager());
+                }
+            })
+            .UseStartup<Startup>();
     }
 }
