@@ -6,6 +6,9 @@ using CarRental.Dal.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,11 +23,13 @@ namespace CarRental.Bll.Services
         public CarRentalDbContext _dbContext { get; }
 
         private readonly IHostingEnvironment _hosting;
+        private readonly IConfiguration _configuration;
 
-        public VehicleModelService(CarRentalDbContext dbContext, IHostingEnvironment hosting)
+        public VehicleModelService(CarRentalDbContext dbContext, IHostingEnvironment hosting, IConfiguration configuration)
         {
             _dbContext = dbContext;
             _hosting = hosting;
+            _configuration = configuration;
         }
 
         public static Expression<Func<VehicleModel, VehicleDto>> VehicleDtoSelector { get; } = vm => new VehicleDto
@@ -195,19 +200,31 @@ namespace CarRental.Bll.Services
             if (vehicleModelDto.Picture != null || vehicleModelDto.Picture.Length > 0)
             {
                 var file = vehicleModelDto.Picture;
-                var upload = Path.Combine(_hosting.WebRootPath, "images");
-                var extension = Path.GetExtension(file.FileName);
                 var fileName = Path.GetFileName(file.FileName);
-                if (file.Length > 0)
-                {
+                var extension = Path.GetExtension(file.FileName);
+                string name = Path.GetFileNameWithoutExtension(fileName);
+                string myfileName = name + '_' + vehicle.Id + extension;
 
-                    string name = Path.GetFileNameWithoutExtension(fileName);
-                    string myfileName = name + '_' + vehicle.Id + extension;
-                    using (var filestream = new FileStream(Path.Combine(upload, myfileName), FileMode.Create))
+                var storageConnectionString = _configuration.GetValue<String>("StorageConnectionString");
+
+                if (!String.IsNullOrEmpty(storageConnectionString))
+                {
+                    try
                     {
-                        await file.CopyToAsync(filestream);
-                        vehicle.VehicleUrl = myfileName;
-                        await _dbContext.SaveChangesAsync();
+                        CloudStorageAccount account = CloudStorageAccount.Parse(storageConnectionString);
+                        CloudBlobClient client = account.CreateCloudBlobClient();
+                        CloudBlobContainer container = client.GetContainerReference("images");
+                        CloudBlockBlob blob = container.GetBlockBlobReference(myfileName);
+                        using (var stream = file.OpenReadStream())
+                        {
+                            await blob.UploadFromStreamAsync(stream);
+                            vehicle.VehicleUrl = blob.Uri.ToString();
+                            await _dbContext.SaveChangesAsync();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
                     }
                 }
             }
@@ -227,34 +244,42 @@ namespace CarRental.Bll.Services
             vehicleModel.AirConditioning = vehicleModelDto.AirConditioning;
             vehicleModel.Automatic = vehicleModelDto.Automatic;
 
-            if (vehicleModelDto.Picture != null && vehicleModelDto.Picture.Length > 0)
+            if (vehicleModelDto.Picture != null || vehicleModelDto.Picture.Length > 0)
             {
                 var file = vehicleModelDto.Picture;
-                var upload = Path.Combine(_hosting.WebRootPath, "images");
+                var fileName = Path.GetFileName(file.FileName);
                 var extension = Path.GetExtension(file.FileName);
-                string fileName = Path.GetFileName(file.FileName);
-                string currentName = vehicleModel.VehicleUrl;
+                string name = Path.GetFileNameWithoutExtension(fileName);
+                string myfileName = name + '_' + vehicleModel.Id + extension;
 
-                if (currentName != null && currentName.Length > 0)
+                var storageConnectionString = _configuration.GetValue<String>("StorageConnectionString");
+
+                if (!String.IsNullOrEmpty(storageConnectionString))
                 {
-                    string libary = Path.Combine(_hosting.WebRootPath, "images");
-                    string fullPath = Path.Combine(libary, currentName);
-
-                    if (System.IO.File.Exists(fullPath))
+                    try
                     {
-                        System.IO.File.Delete(fullPath);
+                        CloudStorageAccount account = CloudStorageAccount.Parse(storageConnectionString);
+                        CloudBlobClient client = account.CreateCloudBlobClient();
+                        CloudBlobContainer container = client.GetContainerReference("images");
+                        if(vehicleModel.VehicleUrl != null && vehicleModel.VehicleUrl.Length > 0)
+                        {
+                            Uri uri = new Uri(vehicleModel.VehicleUrl);
+                            string currentName = Path.GetFileName(uri.LocalPath);
+                            CloudBlockBlob oldBlob = container.GetBlockBlobReference(currentName);
+                            await oldBlob.DeleteIfExistsAsync();
+                        }
+
+                        CloudBlockBlob blob = container.GetBlockBlobReference(myfileName);
+                        using (var stream = file.OpenReadStream())
+                        {
+                            await blob.UploadFromStreamAsync(stream);
+                            vehicleModel.VehicleUrl = blob.Uri.ToString();
+                            await _dbContext.SaveChangesAsync();
+                        }
                     }
-                }
-
-                if (file.Length > 0)
-                {
-                    string name = Path.GetFileNameWithoutExtension(fileName);
-                    string myfileName = name + '_' + vehicleModel.Id + extension;
-
-                    using (var fileStream = new FileStream(Path.Combine(upload, myfileName), FileMode.Create))
+                    catch (Exception e)
                     {
-                        await file.CopyToAsync(fileStream);
-                        vehicleModel.VehicleUrl = myfileName;
+
                     }
                 }
             }
@@ -277,16 +302,19 @@ namespace CarRental.Bll.Services
                 .Include(c => c.VehicleModel)
                 .ToListAsync();
 
-            var filename = vehicleModel.VehicleUrl;
+            Uri uri = new Uri(vehicleModel.VehicleUrl);
+            var filename = Path.GetFileName(uri.LocalPath);
 
             if (filename != null && filename.Length > 0)
             {
-                string libary = Path.Combine(_hosting.WebRootPath, "images");
-                string fullPath = Path.Combine(libary, filename);
-
-                if (System.IO.File.Exists(fullPath))
+                var storageConnectionString = _configuration.GetValue<String>("StorageConnectionString");
+                if (!String.IsNullOrEmpty(storageConnectionString))
                 {
-                    System.IO.File.Delete(fullPath);
+                    CloudStorageAccount account = CloudStorageAccount.Parse(storageConnectionString);
+                    CloudBlobClient client = account.CreateCloudBlobClient();
+                    CloudBlobContainer container = client.GetContainerReference("images");
+                    var blob = container.GetBlockBlobReference(filename);
+                    await blob.DeleteIfExistsAsync();
                 }
             }
 

@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Sendgrid" Version="9.12.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,7 @@
                     </p>
                 </div>
                 <a class="col-md-6" asp-page="/VehicleModels/Details" asp-route-id="@Model.Id">
-                    <img class="card-img-top" src="~/images/@Model.VehicleUrl" title="@Model.VehicleType" alt="@Model.VehicleType">
+                    <img class="card-img-top" src="@Model.VehicleUrl" title="@Model.VehicleType" alt="@Model.VehicleType">
                 </a>
             </div>
             <a asp-page="/VehicleModels/Details" asp-route-id="@Model.Id" class="btn btn-outline-primary">@PagesLocalizer.GetLocalizedHtmlString("DETAILS")</a>
