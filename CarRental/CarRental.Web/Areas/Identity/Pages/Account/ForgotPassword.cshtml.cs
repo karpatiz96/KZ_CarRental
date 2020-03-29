@@ -14,6 +14,8 @@ using CarRental.Web.Resources;
 using System.Reflection;
 using CarRental.Web.ViewRender;
 using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Messages;
 
 namespace CarRental.Web.Areas.Identity.Pages.Account
 {
@@ -22,17 +24,20 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly ICloudStorageService _cloudStorageService;
         private readonly IRazorViewToStringRender _render;
         private readonly IStringLocalizer _localizer;
 
         public ForgotPasswordModel(
             UserManager<User> userManager, 
-            IEmailSender emailSender, 
+            IEmailSender emailSender,
+            ICloudStorageService cloudStorageService,
             IRazorViewToStringRender render,
             IStringLocalizerFactory factory)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _cloudStorageService = cloudStorageService;
             _render = render;
 
             var type = typeof(IdentityResource);
@@ -77,7 +82,11 @@ namespace CarRental.Web.Areas.Identity.Pages.Account
 
                 const string view = "/Views/Emails/ForgotPasswordEmail";
                 var body = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-                await _emailSender.SendEmailAsync(Input.Email, "Reset Password", body);
+
+                QueueEmailMessage queueEmail = new QueueEmailMessage(Input.Email, "", body, "Reset Password");
+                await _cloudStorageService.SendMessage(queueEmail);
+                
+                //await _emailSender.SendEmailAsync(Input.Email, "Reset Password", body);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

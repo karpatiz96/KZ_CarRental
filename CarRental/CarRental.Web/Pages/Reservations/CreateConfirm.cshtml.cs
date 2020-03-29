@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using static CarRental.Dal.Entities.Reservation;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using CarRental.Web.ViewRender;
+using CarRental.Bll.Messages;
 
 namespace CarRental.Web.Pages.Reservations
 {
@@ -41,11 +42,14 @@ namespace CarRental.Web.Pages.Reservations
 
         private readonly IRazorViewToStringRender _render;
 
+        private readonly ICloudStorageService _cloudStorageService;
+
         public CreateConfirmModel(CarRentalDbContext context, UserManager<User> userManager, 
             IReservationService reservationService, IVehicleModelService vehicleModelService, 
             IAddressService addressService, ICarService carService, 
             ILogger<CreateConfirmModel> logger, IEmailSender emailSender,
-            IRazorViewToStringRender render)
+            IRazorViewToStringRender render, 
+            ICloudStorageService cloudStorageService)
         {
             _context = context;
             _userManager = userManager;
@@ -56,6 +60,7 @@ namespace CarRental.Web.Pages.Reservations
             _logger = logger;
             _emailSender = emailSender;
             _render = render;
+            _cloudStorageService = cloudStorageService;
         }
 
         public ReservationDto Reservation { get; set; }
@@ -183,7 +188,10 @@ namespace CarRental.Web.Pages.Reservations
 
             const string view = "/Views/Emails/ReservationEmail";
             var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-            await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+
+            QueueEmailMessage queueEmail = new QueueEmailMessage(user.Email, "", message, "Reservation");
+            await _cloudStorageService.SendMessage(queueEmail);
+            //await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
 
             return RedirectToPage("./List");
         }

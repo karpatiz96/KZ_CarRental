@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using CarRental.Bll.Dtos;
+using CarRental.Bll.IServices;
+using CarRental.Bll.Messages;
 using CarRental.Dal.Entities;
 using CarRental.Web.Resources;
 using CarRental.Web.ViewRender;
@@ -24,17 +26,20 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
         private readonly IEmailSender _emailSender;
         private readonly IRazorViewToStringRender _render;
         private readonly IStringLocalizer _localizer;
+        private readonly ICloudStorageService _cloudStorageService;
 
         public IndexModel(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             IEmailSender emailSender,
             IRazorViewToStringRender render,
-            IStringLocalizerFactory factory)
+            IStringLocalizerFactory factory,
+            ICloudStorageService cloudStorageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _cloudStorageService = cloudStorageService;
             _render = render;
             //_localizer = localizer;
             var type = typeof(IdentityResource);
@@ -175,7 +180,10 @@ namespace CarRental.Web.Areas.Identity.Pages.Account.Manage
 
             const string view = "/Views/Emails/ConfirmAccountEmail";
             var body = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-            await _emailSender.SendEmailAsync(Input.Email, "Reset Password", body);
+
+            QueueEmailMessage queueEmail = new QueueEmailMessage(Input.Email, "", body, "Reset Password");
+            await _cloudStorageService.SendMessage(queueEmail);
+            //await _emailSender.SendEmailAsync(Input.Email, "Reset Password", body);
 
             //StatusMessage = "Verification email sent. Please check your email.";
             StatusMessage = _localizer["STATUS_UPDATE_PROFILE_EMAIL_SEND"];

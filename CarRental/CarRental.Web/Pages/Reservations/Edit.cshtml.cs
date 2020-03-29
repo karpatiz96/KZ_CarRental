@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Http;
 using System.Threading;
 using System.Globalization;
+using CarRental.Bll.Messages;
 
 namespace CarRental.Web.Pages.Reservations
 {
@@ -39,9 +40,12 @@ namespace CarRental.Web.Pages.Reservations
 
         private readonly UserManager<User> _userManager;
 
+        private readonly ICloudStorageService _cloudStorageService;
+
         public EditModel(ICarService carService, IReservationService reservationService, 
             ILogger<EditModel> logger, IEmailSender emailSender,
-            IRazorViewToStringRender render, UserManager<User> userManager)
+            IRazorViewToStringRender render, UserManager<User> userManager
+            , ICloudStorageService cloudStorageService)
         {
             _carService = carService;
             _reservationService = reservationService;
@@ -49,6 +53,7 @@ namespace CarRental.Web.Pages.Reservations
             _emailSender = emailSender;
             _render = render;
             _userManager = userManager;
+            _cloudStorageService = cloudStorageService;
         }
 
 
@@ -150,7 +155,9 @@ namespace CarRental.Web.Pages.Reservations
             try
             {
                 var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+                //await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+                QueueEmailMessage queueEmail = new QueueEmailMessage(user.Email, "", message, "Reservation");
+                await _cloudStorageService.SendMessage(queueEmail);
 
             }
             catch
@@ -233,7 +240,9 @@ namespace CarRental.Web.Pages.Reservations
             try
             {
                 var message = await _render.RenderViewToStringAsync($"{view}Html.cshtml", model);
-                await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+                //await _emailSender.SendEmailAsync(user.Email, "Reservation", message);
+                QueueEmailMessage queueEmail = new QueueEmailMessage(user.Email, "", message, "Reservation");
+                await _cloudStorageService.SendMessage(queueEmail);
 
             }
             catch 
