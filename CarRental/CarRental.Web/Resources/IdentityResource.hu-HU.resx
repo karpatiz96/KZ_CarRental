@@ -450,6 +450,15 @@
   <data name="IS_IN_USE" xml:space="preserve">
     <value>Telephely használatban van</value>
   </data>
+  <data name="LATITUDE" xml:space="preserve">
+    <value>Szélesség</value>
+  </data>
+  <data name="LATITUDE_RANGE" xml:space="preserve">
+    <value>A Szélességnek -90 és 90 fok közötti értéknek kell lennie.</value>
+  </data>
+  <data name="LATITUDE_REQUIRED" xml:space="preserve">
+    <value>Szélesség megadása szükséges.</value>
+  </data>
   <data name="LOCKED_OUT" xml:space="preserve">
     <value>Kizárás</value>
   </data>
@@ -461,6 +470,15 @@
   </data>
   <data name="LOGOUT_TEXT" xml:space="preserve">
     <value>Sikeresen kijelentkezett az alkalmazásból.</value>
+  </data>
+  <data name="LONGITUDE" xml:space="preserve">
+    <value>Hosszúság</value>
+  </data>
+  <data name="LONGITUDE_RANGE" xml:space="preserve">
+    <value>A Hosszúságnak -180 és 180 fok közötti értéknek kell lennie.</value>
+  </data>
+  <data name="LONGITUDE_REQUIRED" xml:space="preserve">
+    <value>Hosszúság megadása szükséges.</value>
   </data>
   <data name="MANAGE_CAHNGE_ACCOUNT_SETTINGS" xml:space="preserve">
     <value>Váltóztassa meg a fiókja beállításait</value>

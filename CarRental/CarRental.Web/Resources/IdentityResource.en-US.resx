@@ -451,6 +451,15 @@
   <data name="IS_IN_USE" xml:space="preserve">
     <value>Site is in use</value>
   </data>
+  <data name="LATITUDE" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="LATITUDE_RANGE" xml:space="preserve">
+    <value>Latitude is between -90 and 90 degrees.</value>
+  </data>
+  <data name="LATITUDE_REQUIRED" xml:space="preserve">
+    <value>Latitude required.</value>
+  </data>
   <data name="LOCKED_OUT" xml:space="preserve">
     <value>Locked out</value>
   </data>
@@ -462,6 +471,15 @@
   </data>
   <data name="LOGOUT_TEXT" xml:space="preserve">
     <value>You have successfully logged out of the application.</value>
+  </data>
+  <data name="LONGITUDE" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="LONGITUDE_RANGE" xml:space="preserve">
+    <value>Longitude is between -180 and 180 degrees.</value>
+  </data>
+  <data name="LONGITUDE_REQUIRED" xml:space="preserve">
+    <value>Longitude required.</value>
   </data>
   <data name="MANAGE_CAHNGE_ACCOUNT_SETTINGS" xml:space="preserve">
     <value>Change your account settings</value>

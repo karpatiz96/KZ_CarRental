@@ -17,6 +17,10 @@ namespace CarRental.Dal.Entities
         [Required]
         public string StreetAddress { get; set; }
 
+        public float Latitude { get; set; }
+
+        public float Longitude { get; set; }
+
         public bool IsInUse { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }

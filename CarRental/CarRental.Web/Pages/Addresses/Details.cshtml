@@ -5,74 +5,86 @@
 <div class="container">
     <h4>@PagesLocalizer.GetLocalizedHtmlString("ADDRESS")</h4>
     <hr />
-    <div class="row">
-        <label class="col-md-2">
-            <b>
-                @Html.DisplayNameFor(model => model.Address.Name)
-            </b>
-        </label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Address.Name)
+    <div class="media" style="align-items: initial">
+        <div class="media-body">
+            <div class="container">
+                <div class="row">
+                    <label class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Address.Name)
+                        </b>
+                    </label>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Address.Name)
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Address.ZipCode)
+                        </b>
+                    </label>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Address.ZipCode)
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Address.City)
+                        </b>
+                    </label>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Address.City)
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Address.StreetAddress)
+                        </b>
+                    </label>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Address.StreetAddress)
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Address.FullAddress)
+                        </b>
+                    </label>
+                    <div class="col-md-10">
+                        @Html.DisplayFor(model => model.Address.FullAddress)
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-2">
+                        <b>
+                            @Html.DisplayNameFor(model => model.Address.IsInUse)
+                        </b>
+                    </label>
+                    <div class="col-md-10">
+                        @if (Model.Address.IsInUse)
+                        {
+                            @PagesLocalizer.GetLocalizedHtmlString("ADDRESS_IN_USE")
+                        }
+                        else
+                        {
+                            @PagesLocalizer.GetLocalizedHtmlString("ADDRESS_NOT_IN_USE")
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 mt-4">
+            <div id="map"></div>
         </div>
     </div>
-    <div class="row">
-        <label class="col-md-2">
-            <b>
-                @Html.DisplayNameFor(model => model.Address.ZipCode)
-            </b>
-        </label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Address.ZipCode)
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-md-2">
-            <b>
-                @Html.DisplayNameFor(model => model.Address.City)
-            </b>
-        </label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Address.City)
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-md-2">
-            <b>
-                @Html.DisplayNameFor(model => model.Address.StreetAddress)
-            </b>
-        </label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Address.StreetAddress)
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-md-2">
-            <b>
-                @Html.DisplayNameFor(model => model.Address.FullAddress)
-            </b>
-        </label>
-        <div class="col-md-10">
-            @Html.DisplayFor(model => model.Address.FullAddress)
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-md-2">
-            <b>
-                @Html.DisplayNameFor(model => model.Address.IsInUse)
-            </b>
-        </label>
-        <div class="col-md-10">
-            @if (Model.Address.IsInUse)
-            {
-                @PagesLocalizer.GetLocalizedHtmlString("ADDRESS_IN_USE")
-            }
-            else
-            {
-                @PagesLocalizer.GetLocalizedHtmlString("ADDRESS_NOT_IN_USE")
-            }
-        </div>
-    </div>
-
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
+    {
     <div class="row mt-4">
         <a class="btn btn-primary mr-3" asp-page="./Edit" asp-route-id="@Model.Address.Id">@PagesLocalizer.GetLocalizedHtmlString("EDIT")</a>
         @if (!Model.Address.HasReservation)
@@ -81,14 +93,91 @@
         }
         <a class="mt-1" asp-page="./Index">@PagesLocalizer.GetLocalizedHtmlString("BACK_LIST")</a>
     </div>
+    }
+}
 </div>
 
 @if (User.Identity.IsAuthenticated)
 {
-    if (User.IsInRole("Administrators"))
+    if (User.IsInRole("Administrators") || User.IsInRole("Assistant"))
     {
         <div class="row mt-4">
             <vc:car-dto cars="@Model.Address.Cars"></vc:car-dto>
         </div>
     }
 }
+
+<script type="text/javascript">
+        var subscriptionKey = '@Model.MapKey';
+        var latitude = @Model.Address.Latitude;
+        var longitude = @Model.Address.Longitude;
+    var name = '@Model.Address.Name';
+
+    var map = new atlas.Map('map', {
+        center: [longitude, latitude],
+        zoom: 16,
+        view: "Auto",
+        authOptions: {
+            authType: 'subscriptionKey',
+            subscriptionKey: subscriptionKey
+        }
+    });
+
+    map.events.add('ready', function () {
+
+        var marker = new atlas.HtmlMarker({
+            color: 'DodgerBlue',
+            text: '10',
+            position: [longitude, latitude],
+            popup: new atlas.Popup({
+                content: '<div style="padding:10px">Hello World</div>',
+                pixelOffset: [0, -30]
+            })
+        });
+
+        map.markers.add(marker);
+
+        map.events.add('click', marker, () => {
+            marker.togglePopup();
+        });
+    });
+
+    /*var map = new atlas.Map('map', {
+        center: [longitude, latitude],
+            zoom: 16,
+            authOptions: {
+                authType: 'subscriptionKey',
+                subscriptionKey: subscriptionKey
+            }
+
+    });
+
+    var centerMarker = new atlas.HtmlMarker({
+        color: 'DodgerBlue',
+        position: [longitude, latitude],
+        popup: new atlas.Popup({
+            content: '<div style="padding:10px">' + name + '</div>',
+            pixelOffset: [0, -30]
+        })
+    });
+
+    map.markers.add(centerMarker);*/
+
+        /*map.events.add('ready', function () {
+
+            var centerMarker = new atlas.HtmlMarker({
+                color: 'DodgerBlue',
+                position: [longitude, latitude],
+                popup: new atlas.Popup({
+                    content: '<div style="padding:10px">' + name + '</div>',
+                    pixelOffset: [0, -30]
+                })
+            });
+
+            map.markers.add(centerMarker);
+
+            map.events.add('click', centerMarker, () => {
+                marker.togglePopup();
+            });
+        });*/
+</script>

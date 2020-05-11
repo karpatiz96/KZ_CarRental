@@ -63,6 +63,7 @@ namespace CarRental.Web
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<ICloudStorageService, CloudStorageService>();
+            services.AddScoped<IContentModeratorService, ContentModeratorService>();
 
             services.AddScoped<IViewRender, ViewRender.ViewRender>();
             services.AddScoped<IRazorViewToStringRender, RazorViewToStringRender>();

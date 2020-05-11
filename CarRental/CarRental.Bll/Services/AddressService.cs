@@ -39,6 +39,8 @@ namespace CarRental.Bll.Services
             City = a.City,
             StreetAddress = a.StreetAddress,
             FullAddress = a.ZipCode.ToString() + " " + a.City + " " + a.StreetAddress,
+            Latitude = a.Latitude,
+            Longitude = a.Longitude,
             IsInUse = a.IsInUse,
             Cars = a.Cars.Select(c => new CarDto
             {
@@ -161,6 +163,8 @@ namespace CarRental.Bll.Services
                 City = addressDto.City,
                 ZipCode = addressDto.ZipCode.Value,
                 StreetAddress = addressDto.StreetAddress,
+                Latitude = addressDto.Latitude,
+                Longitude = addressDto.Longitude,
                 IsInUse = addressDto.IsInUse
             };
 
@@ -178,6 +182,8 @@ namespace CarRental.Bll.Services
             address.City = addressDto.City;
             address.ZipCode = addressDto.ZipCode.Value;
             address.StreetAddress = addressDto.StreetAddress;
+            address.Latitude = addressDto.Latitude;
+            address.Longitude = addressDto.Longitude;
             address.IsInUse = addressDto.IsInUse;
 
             _dbContext.Attach(address).State = EntityState.Modified;

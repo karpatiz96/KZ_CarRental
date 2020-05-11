@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Remove="Migrations\20191028150906_AddressCar.cs" />
+    <Compile Remove="Migrations\20200414095025_AddressLatitudeLongitudeName.cs" />
   </ItemGroup>
 
   <ItemGroup>

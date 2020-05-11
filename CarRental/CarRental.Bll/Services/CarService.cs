@@ -230,6 +230,8 @@ namespace CarRental.Bll.Services
                 .Include(c => c.VehicleModel)
                 .Where(c => c.Active == true);
 
+            
+
             var carList = await cars
                 .Where(c => c.VehicleModel.Active == true && c.VehicleModelId == id)
                 .Where(c => c.Reservations

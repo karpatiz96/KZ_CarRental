@@ -15,9 +15,12 @@ namespace CarRental.Bll.Services
     {
         public CarRentalDbContext _dbContext { get; }
 
-        public CommentService(CarRentalDbContext dbContext)
+        public IContentModeratorService _contentModeratorService { get; set; }
+
+        public CommentService(CarRentalDbContext dbContext, IContentModeratorService contentModeratorService)
         {
             _dbContext = dbContext;
+            _contentModeratorService = contentModeratorService;
         }
 
         public static Expression<Func<Comment, CommentDto>> CommentDtoSelector { get; } = c => new CommentDto
@@ -41,6 +44,8 @@ namespace CarRental.Bll.Services
 
         public CommentDto PostComment(int vehicleModelId, string text, int currentUserId)
         {
+            //var moderatedText = _contentModeratorService.ModerateText(text);
+
             var comment = new Comment
             {
                 Text = text,

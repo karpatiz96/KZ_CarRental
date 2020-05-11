@@ -18,6 +18,12 @@ namespace CarRental.Bll.Dtos
         [Display(Name = "IS_IN_USE")]
         public bool IsInUse { get; set; }
 
+        [Display(Name = "LATITUDE")]
+        public float Latitude { get; set; }
+
+        [Display(Name = "LONGITUDE")]
+        public float Longitude { get; set; }
+
         public ICollection<CarDto> Cars { get; set; }
         public int CarFound { get; set; }
 

@@ -41,11 +41,11 @@ namespace CarRental.Dal.SeedServices
         {
             Addresses = new List<Address>()
             {
-                new Address{ Id = 1, ZipCode = 1120, City = "Budapest", StreetAddress = "Kacsa utca 23", IsInUse = true },
-                new Address{ Id = 2, ZipCode = 1125, City = "Budapest", StreetAddress = "Fenyves utca 25", IsInUse = true },
-                new Address{ Id = 3, ZipCode = 1135, City = "Budapest", StreetAddress = "Lomb utca 23", IsInUse = true },
-                new Address{ Id = 4, ZipCode = 1122, City = "Budapest", StreetAddress = "Galamb utca 25", IsInUse = true },
-                new Address{ Id = 5, ZipCode = 1134, City = "Budapest", StreetAddress = "Szarvas út 15", IsInUse = true },
+                new Address{ Id = 1, ZipCode = 1120, City = "Budapest", StreetAddress = "Kacsa utca 23", Name = "Car Rental Kacsa utca", Latitude = 47.497913f, Longitude = 19.040236f, IsInUse = true },
+                new Address{ Id = 2, ZipCode = 1125, City = "Budapest", StreetAddress = "Fenyves utca 25", Name = "Car Rental Fenyves utca", Latitude = 47.497913f, Longitude = 19.040236f, IsInUse = true },
+                new Address{ Id = 3, ZipCode = 1135, City = "Budapest", StreetAddress = "Lomb utca 23", Name = "Car Rental Lomb utca", Latitude = 47.497913f, Longitude = 19.040236f, IsInUse = true },
+                new Address{ Id = 4, ZipCode = 1122, City = "Budapest", StreetAddress = "Galamb utca 25", Name = "Car Rental Galamb utca", Latitude = 47.497913f, Longitude = 19.040236f, IsInUse = true },
+                new Address{ Id = 5, ZipCode = 1134, City = "Budapest", StreetAddress = "Szarvas út 15", Name = "Car Rental Szarvas utca", Latitude = 47.497913f, Longitude = 19.040236f, IsInUse = true },
             };
 
             Cars = new List<Car>()

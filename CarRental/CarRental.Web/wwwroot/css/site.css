@@ -108,3 +108,10 @@ body {
 .rating span.star.active::before, .rating span.star.active ~ span.star::before {
     color: yellow;
 }
+
+/*Map */
+
+#map {
+    width: 100%;
+    height: 100%;
+}
