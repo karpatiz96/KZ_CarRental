@@ -6,6 +6,8 @@ using CarRental.Dal.Entities;
 using CarRental.Dal.EntityConfigurations;
 using CarRental.Dal.SeedInterfaces;
 using CarRental.Dal.SeedServices;
+using CarRental.Web.Bots;
+using CarRental.Web.Dialogs;
 using CarRental.Web.Hubs;
 using CarRental.Web.Resources;
 using CarRental.Web.ViewRender;
@@ -17,6 +19,8 @@ using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,6 +68,7 @@ namespace CarRental.Web
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<ICloudStorageService, CloudStorageService>();
             services.AddScoped<IContentModeratorService, ContentModeratorService>();
+            services.AddTransient<IBotService, BotService>();
 
             services.AddScoped<IViewRender, ViewRender.ViewRender>();
             services.AddScoped<IRazorViewToStringRender, RazorViewToStringRender>();
@@ -133,6 +138,30 @@ namespace CarRental.Web
                         return factory.Create("IdentityResource", assemblyName.Name);
                     };
                 });
+
+            // Create the Bot Framework Adapter with error handling enabled.
+            services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
+
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
+            services.AddSingleton<IStorage, MemoryStorage>();
+
+            // Create the User state. (Used in this bot's Dialog implementation.)
+            services.AddSingleton<UserState>();
+
+            // Create the Conversation state. (Used by the Dialog system itself.)
+            services.AddSingleton<ConversationState>();
+
+            // Register LUIS recognizer
+            services.AddSingleton<CarRentalRecognizer>();
+
+            // Register the ReservationDialog.
+            services.AddSingleton<ReservationDialog>();
+
+            // The MainDialog that will be run by the bot.
+            services.AddSingleton<MainDialog>();
+
+            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
+            services.AddTransient<IBot, DialogAndWelcomeBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -164,6 +193,8 @@ namespace CarRental.Web
             {
                 routes.MapHub<VehicleModelsHub>("/vehiclemodelshub"); 
             });
+
+            app.UseWebSockets();
 
             //app.UseMvc();
             app.UseMvc(routes =>

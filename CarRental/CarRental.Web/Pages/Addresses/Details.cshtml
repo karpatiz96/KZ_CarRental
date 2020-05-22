@@ -111,7 +111,7 @@
         var subscriptionKey = '@Model.MapKey';
         var latitude = @Model.Address.Latitude;
         var longitude = @Model.Address.Longitude;
-    var name = '@Model.Address.Name';
+        var name = '@Model.Address.Name';
 
     var map = new atlas.Map('map', {
         center: [longitude, latitude],
@@ -130,7 +130,7 @@
             text: '10',
             position: [longitude, latitude],
             popup: new atlas.Popup({
-                content: '<div style="padding:10px">Hello World</div>',
+                content: '<div style="padding:10px">' + name + '</div>',
                 pixelOffset: [0, -30]
             })
         });
@@ -142,42 +142,4 @@
         });
     });
 
-    /*var map = new atlas.Map('map', {
-        center: [longitude, latitude],
-            zoom: 16,
-            authOptions: {
-                authType: 'subscriptionKey',
-                subscriptionKey: subscriptionKey
-            }
-
-    });
-
-    var centerMarker = new atlas.HtmlMarker({
-        color: 'DodgerBlue',
-        position: [longitude, latitude],
-        popup: new atlas.Popup({
-            content: '<div style="padding:10px">' + name + '</div>',
-            pixelOffset: [0, -30]
-        })
-    });
-
-    map.markers.add(centerMarker);*/
-
-        /*map.events.add('ready', function () {
-
-            var centerMarker = new atlas.HtmlMarker({
-                color: 'DodgerBlue',
-                position: [longitude, latitude],
-                popup: new atlas.Popup({
-                    content: '<div style="padding:10px">' + name + '</div>',
-                    pixelOffset: [0, -30]
-                })
-            });
-
-            map.markers.add(centerMarker);
-
-            map.events.add('click', centerMarker, () => {
-                marker.togglePopup();
-            });
-        });*/
 </script>

@@ -1,0 +1,362 @@
+{
+  "luis_schema_version": "7.0.0",
+  "intents": [
+    {
+      "name": "CarReservation",
+      "features": []
+    },
+    {
+      "name": "GetAddresses",
+      "features": []
+    },
+    {
+      "name": "GetFreeVehicle",
+      "features": []
+    },
+    {
+      "name": "None",
+      "features": []
+    }
+  ],
+  "entities": [],
+  "hierarchicals": [],
+  "composites": [],
+  "closedLists": [
+    {
+      "name": "Model",
+      "subLists": [
+        {
+          "canonicalForm": "Opel Corsa",
+          "list": [
+            "opel corsa"
+          ]
+        },
+        {
+          "canonicalForm": "Kia Picanto MCMN",
+          "list": [
+            "kia picanto mcmn",
+            "picanto mcmn"
+          ]
+        },
+        {
+          "canonicalForm": "Kia Picanto MCMR",
+          "list": [
+            "kia picanto mcmr",
+            "picanto mcmr"
+          ]
+        },
+        {
+          "canonicalForm": "Citroen C3",
+          "list": [
+            "citroen c3",
+            "c3"
+          ]
+        },
+        {
+          "canonicalForm": "Citroen C4",
+          "list": [
+            "citroen c4",
+            "c4"
+          ]
+        },
+        {
+          "canonicalForm": "Toyota Auris Hybrid",
+          "list": [
+            "toyota auris hybrid",
+            "auris hybrid",
+            "auris"
+          ]
+        },
+        {
+          "canonicalForm": "Ford Focus",
+          "list": [
+            "ford focus"
+          ]
+        },
+        {
+          "canonicalForm": "Mini Cooper Countrman",
+          "list": [
+            "mini cooper countrman",
+            "cooper countrman"
+          ]
+        },
+        {
+          "canonicalForm": "BMW 116i",
+          "list": [
+            "bmw 116i",
+            "116i"
+          ]
+        },
+        {
+          "canonicalForm": "Ford Focus SW",
+          "list": [
+            "ford focus sw"
+          ]
+        },
+        {
+          "canonicalForm": "Toyota Corolla Sedan",
+          "list": [
+            "toyota corolla sedan",
+            "corolla sedan"
+          ]
+        },
+        {
+          "canonicalForm": "Ford Mondeo",
+          "list": [
+            "ford mondeo",
+            "mondeo"
+          ]
+        },
+        {
+          "canonicalForm": "Skoda Octavia",
+          "list": [
+            "skoda octavia",
+            "octavia"
+          ]
+        },
+        {
+          "canonicalForm": "Mercedes Benz B Class",
+          "list": [
+            "mercedes benz b class",
+            "benz b class"
+          ]
+        },
+        {
+          "canonicalForm": "BMW 318d",
+          "list": [
+            "bmw 318d",
+            "318d"
+          ]
+        },
+        {
+          "canonicalForm": "BMW X1",
+          "list": [
+            "bmw x1",
+            "x1"
+          ]
+        },
+        {
+          "canonicalForm": "BMW 520d",
+          "list": [
+            "bmw 520d",
+            "520d"
+          ]
+        },
+        {
+          "canonicalForm": "Mercedes-Benz S-Class",
+          "list": [
+            "mercedes-benz-s-class",
+            "benz s class"
+          ]
+        },
+        {
+          "canonicalForm": "Renault Grand Scenic",
+          "list": [
+            "renault grand scenic",
+            "grand scenic"
+          ]
+        },
+        {
+          "canonicalForm": "Ford Tourneo Custom Titanium",
+          "list": [
+            "ford tourneo custom titanium",
+            "tourneo cusom titanium"
+          ]
+        }
+      ],
+      "roles": []
+    }
+  ],
+  "prebuiltEntities": [
+    {
+      "name": "datetimeV2",
+      "roles": [
+        "To",
+        "From"
+      ]
+    }
+  ],
+  "utterances": [
+    {
+      "text": "book a ford tourneo custom titanium from 2020.06.15 to 2020.06.20",
+      "intent": "CarReservation",
+      "entities": [
+        {
+          "entity": "datetimeV2",
+          "role": "From",
+          "startPos": 41,
+          "endPos": 50,
+          "children": []
+        },
+        {
+          "entity": "datetimeV2",
+          "role": "To",
+          "startPos": 55,
+          "endPos": 64,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "book a hotel in new york",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book a restaurant",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "book flight from london to paris",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i would like to reserve a car from 2020.04.15 to 2020.04.19",
+      "intent": "CarReservation",
+      "entities": [
+        {
+          "entity": "datetimeV2",
+          "role": "From",
+          "startPos": 35,
+          "endPos": 44,
+          "children": []
+        },
+        {
+          "entity": "datetimeV2",
+          "role": "To",
+          "startPos": 49,
+          "endPos": 58,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "i would like to reserve an opel corsa from 2020.04.10 to 2020.04.12",
+      "intent": "CarReservation",
+      "entities": [
+        {
+          "entity": "datetimeV2",
+          "role": "From",
+          "startPos": 43,
+          "endPos": 52,
+          "children": []
+        },
+        {
+          "entity": "datetimeV2",
+          "role": "To",
+          "startPos": 57,
+          "endPos": 66,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "is threre any free citroen c3 models between 2020.05.15 and 2020.05.18 ?",
+      "intent": "CarReservation",
+      "entities": [
+        {
+          "entity": "datetimeV2",
+          "role": "From",
+          "startPos": 45,
+          "endPos": 54,
+          "children": []
+        },
+        {
+          "entity": "datetimeV2",
+          "role": "To",
+          "startPos": 60,
+          "endPos": 69,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "is threre any free ford focus sw models?",
+      "intent": "CarReservation",
+      "entities": []
+    },
+    {
+      "text": "reserve a ford focus sw from 2020.05.10 to 2020.05.15",
+      "intent": "CarReservation",
+      "entities": [
+        {
+          "entity": "datetimeV2",
+          "role": "From",
+          "startPos": 29,
+          "endPos": 38,
+          "children": []
+        },
+        {
+          "entity": "datetimeV2",
+          "role": "To",
+          "startPos": 43,
+          "endPos": 52,
+          "children": []
+        }
+      ]
+    },
+    {
+      "text": "show me the available models",
+      "intent": "GetFreeVehicle",
+      "entities": []
+    },
+    {
+      "text": "show me the currently available models",
+      "intent": "GetFreeVehicle",
+      "entities": []
+    },
+    {
+      "text": "show me the free cars",
+      "intent": "GetFreeVehicle",
+      "entities": []
+    },
+    {
+      "text": "show me the rental places",
+      "intent": "GetAddresses",
+      "entities": []
+    },
+    {
+      "text": "where are the rental places?",
+      "intent": "GetAddresses",
+      "entities": []
+    },
+    {
+      "text": "where can i drop off a reserved vehicle?",
+      "intent": "GetAddresses",
+      "entities": []
+    },
+    {
+      "text": "where can i pickup a reserved vehicle?",
+      "intent": "GetAddresses",
+      "entities": []
+    },
+    {
+      "text": "which cars are free currently?",
+      "intent": "GetFreeVehicle",
+      "entities": []
+    },
+    {
+      "text": "which models are available currently ?",
+      "intent": "GetFreeVehicle",
+      "entities": []
+    },
+    {
+      "text": "which vehicle models are free currently?",
+      "intent": "GetFreeVehicle",
+      "entities": []
+    }
+  ],
+  "versionId": "0.1",
+  "name": "carrentalwebkzluis",
+  "desc": "Car Rental Luis.",
+  "culture": "en-us",
+  "tokenizerVersion": "1.0.0",
+  "patternAnyEntities": [],
+  "regex_entities": [],
+  "phraselists": [],
+  "regex_features": [],
+  "patterns": [],
+  "settings": []
+}
