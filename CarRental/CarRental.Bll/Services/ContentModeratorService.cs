@@ -19,7 +19,7 @@ namespace CarRental.Bll.Services
 
         public async Task<string> ModerateText(string input)
         {
-            string subscriptionKey = _configuration.GetValue<String>("ModeratorKey");
+            string subscriptionKey = _configuration.GetValue<String>("ContentModeratorKey");
             string endpoint = _configuration.GetValue<String>("ModeratorEndpoint");
 
             ContentModeratorClient client = new ContentModeratorClient(new ApiKeyServiceClientCredentials(subscriptionKey));

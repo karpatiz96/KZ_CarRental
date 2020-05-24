@@ -1,8 +1,29 @@
 ﻿@page
 @model CarRental.Web.Pages.BotPageModel
-@{
-    ViewData["Title"] = "BotPage";
-}
+@inject PagesLocalizationService PagesLocalizer
 
-<h1>BotPage</h1>
 
+<div class="container">
+    <h4>@PagesLocalizer.GetLocalizedHtmlString("Bot Page")</h4>
+    <hr />
+    <div class="row">
+        <iframe id="chat" style="width: 400px; height: 400px;" src=''></iframe>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var secret = '@Model.Secret';
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "https://webchat.botframework.com/api/tokens", true);
+    xhr.setRequestHeader('Authorization', 'BotConnector ' + secret);
+    xhr.send();
+    xhr.onreadystatechange = processRequest;
+
+    function processRequest(e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            var response = JSON.parse(xhr.responseText);
+            document.getElementById("chat").src = "https://webchat.botframework.com/embed/carrentalwebkzbot?t=" + response
+        }
+    }
+</script>
