@@ -8,7 +8,7 @@ namespace CarRental.Bll.IServices
     {
         Task<IEnumerable<CommentDto>> GetComments();
 
-        CommentDto PostComment(int vehicleModelId, string text, int currentUserId);
+        Task<CommentDto> PostComment(int vehicleModelId, string text, int currentUserId);
 
         CommentDto DeleteComment(int commentId, int currentUserId);
     }

@@ -37,7 +37,7 @@ namespace CarRental.Web.Hubs
 
         public async Task PostComment(int vehicleModelId, string text)
         {
-            var comment = _commentService.PostComment(vehicleModelId, text, CurrentUserId.Value);
+            var comment = await _commentService.PostComment(vehicleModelId, text, CurrentUserId.Value);
 
             var htmlString = ViewRender.Render<CommentDto>("_CommentPartial", comment, false);
 

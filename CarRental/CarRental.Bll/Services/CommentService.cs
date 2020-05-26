@@ -42,21 +42,21 @@ namespace CarRental.Bll.Services
                 .ToListAsync();
         }
 
-        public CommentDto PostComment(int vehicleModelId, string text, int currentUserId)
+        public async Task<CommentDto> PostComment(int vehicleModelId, string text, int currentUserId)
         {
-            //var moderatedText = _contentModeratorService.ModerateText(text);
+            var moderatedText = await _contentModeratorService.ModerateText(text);
 
             var comment = new Comment
             {
-                Text = text,
+                Text = moderatedText,
                 CreationDate = DateTimeOffset.Now,
                 UserId = currentUserId,
                 VehicleModelId = vehicleModelId
             };
 
-            _dbContext.Comments.Add(comment);
+            await _dbContext.Comments.AddAsync(comment);
 
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
 
             return _dbContext.Comments.Where(c => c.Id == comment.Id).Select(CommentDtoSelector).SingleOrDefault();
         }
