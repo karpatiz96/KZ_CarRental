@@ -16,7 +16,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CarRental.Web.Pages.Addresses
 {
-    [Authorize(Roles = "Administrators, Assistant")]
+    //[Authorize(Roles = "Administrators, Assistant, Customer")]
     public class DetailsModel : PageModel
     {
         private readonly IAddressService _addressService;
